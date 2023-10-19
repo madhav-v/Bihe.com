@@ -6,6 +6,11 @@ const ProfileSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  role: {
+    type: String,
+    enum: ["admin", "user"],
+    default: "customer",
+  },
   height: {
     type: String,
     required: true,
@@ -27,7 +32,7 @@ const ProfileSchema = new mongoose.Schema({
     required: true,
   },
   dateOfBirth: {
-    type: Date,
+    type: String,
     required: true,
   },
   physicalDisability: {
@@ -39,7 +44,7 @@ const ProfileSchema = new mongoose.Schema({
     required: true,
   },
   smokeOrDrink: {
-    type: Boolean,
+    type: String,
     required: true,
   },
   image: {
@@ -86,10 +91,6 @@ const ProfileSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  subject: {
-    type: String,
-    required: true,
-  },
   college: {
     type: String,
     required: true,
@@ -112,60 +113,56 @@ const ProfileSchema = new mongoose.Schema({
   },
 
   // User Preferences
-  preference: {
-    minAge: {
-      type: Number,
-      required: true,
-    },
-    maxAge: {
-      type: Number,
-      required: true,
-    },
-    minHeight: {
-      type: String,
-      required: true,
-    },
-    maxHeight: {
-      type: String,
-      required: true,
-    },
-    preferredMaritalStatus: {
-      type: String,
-      required: true,
-    },
-    preferredReligion: {
-      type: String,
-      required: true,
-    },
-    preferredCaste: {
-      type: String,
-      required: true,
-    },
-    preferredEducation: {
-      type: String,
-      required: true,
-    },
-    preferredOccupation: {
-      type: String,
-      required: true,
-    },
-    preferredSubject: {
-      type: String,
-      required: true,
-    },
-    preferredAnnualIncome: {
-      type: String,
-      required: true,
-    },
-    preferredSector: {
-      type: String,
-      required: true,
-    },
-    preferredMotherTongue: {
-      type: String,
-      required: true,
-    },
+
+  minAge: {
+    type: Number,
+    required: true,
   },
+  maxAge: {
+    type: Number,
+    required: true,
+  },
+  minHeight: {
+    type: String,
+    required: true,
+  },
+  maxHeight: {
+    type: String,
+    required: true,
+  },
+  preferredMaritalStatus: {
+    type: String,
+    required: true,
+  },
+  preferredReligion: {
+    type: String,
+    required: true,
+  },
+  preferredCaste: {
+    type: String,
+    required: true,
+  },
+  preferredEducation: {
+    type: String,
+    required: true,
+  },
+  preferredOccupation: {
+    type: String,
+    required: true,
+  },
+  preferredAnnualIncome: {
+    type: String,
+    required: true,
+  },
+  preferredSector: {
+    type: String,
+    required: true,
+  },
+  preferredMotherTongue: {
+    type: String,
+    required: true,
+  },
+
   createdAt: {
     type: Date,
     default: Date.now,

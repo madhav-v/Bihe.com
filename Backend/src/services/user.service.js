@@ -50,6 +50,14 @@ class UserService {
       throw exception;
     }
   };
+  deleteUser = async (id) => {
+    try {
+      let userDetail = await UserModel.findByIdAndDelete(id);
+      return userDetail;
+    } catch (exception) {
+      throw exception;
+    }
+  };
 }
 
 const userSvc = new UserService();

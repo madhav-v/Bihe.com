@@ -1,19 +1,21 @@
 const ProfileModel = require("../model/profile.model");
-const Joi = requure("joi");
+const Joi = require("joi");
 class ProfileService {
   validateProfile = async (data) => {
     try {
       let schema = Joi.object({
         fullName: Joi.string().required(),
+        role: Joi.string().valid("admin", "user").default("user").required(),
         height: Joi.string().required(),
         religion: Joi.string().required(),
         sex: Joi.string().required(),
         caste: Joi.string().required(),
         maritalStatus: Joi.string().required(),
-        dateOfBirth: Joi.date().required(),
+        dateOfBirth: Joi.string().required(),
         physicalDisability: Joi.string().required(),
         address: Joi.string().required(),
-        smokeOrDrink: Joi.boolean().required(),
+        smokeOrDrink: Joi.string().required(),
+        image: Joi.string().required(),
 
         familyType: Joi.string().required(),
         numberOfSiblings: Joi.number().required(),
@@ -25,28 +27,24 @@ class ProfileService {
         motherTongue: Joi.string().required(),
 
         educationalDegree: Joi.string().required(),
-        subject: Joi.string().required(),
         college: Joi.string().required(),
         occupation: Joi.string().required(),
         sector: Joi.string().required(),
-        annualIncome: Joi.number().required(),
+        annualIncome: Joi.string().required(),
         companyName: Joi.string().required(),
 
-        preference: Joi.object({
-          minAge: Joi.number().required(),
-          maxAge: Joi.number().required(),
-          minHeight: Joi.number().required(),
-          maxHeight: Joi.number().required(),
-          preferredMaritalStatus: Joi.string().required(),
-          preferredReligion: Joi.string().required(),
-          preferredCaste: Joi.string().required(),
-          preferredEducation: Joi.string().required(),
-          preferredOccupation: Joi.string().required(),
-          preferredSubject: Joi.string().required(),
-          preferredAnnualIncome: Joi.number().required(),
-          preferredSector: Joi.string().required(),
-          preferredMotherTongue: Joi.string().required(),
-        }).required(),
+        minAge: Joi.number().required(),
+        maxAge: Joi.number().required(),
+        minHeight: Joi.string().required(),
+        maxHeight: Joi.string().required(),
+        preferredMaritalStatus: Joi.string().required(),
+        preferredReligion: Joi.string().required(),
+        preferredCaste: Joi.string().required(),
+        preferredEducation: Joi.string().required(),
+        preferredOccupation: Joi.string().required(),
+        preferredAnnualIncome: Joi.string().required(),
+        preferredSector: Joi.string().required(),
+        preferredMotherTongue: Joi.string().required(),
       });
       let response = schema.validate(data);
       if (response.error) {
@@ -77,7 +75,7 @@ class ProfileService {
     }
   };
 
-  getProfiles = async () => {
+  getAllProfiles = async () => {
     try {
       const profiles = await ProfileModel.find();
       return profiles;
@@ -86,15 +84,11 @@ class ProfileService {
     }
   };
 
-  updateProfile = async (profileId, profile) => {
+  updateProfile = async (profileId, data) => {
     try {
-      const profileModel = new ProfileModel(profile);
       const updatedProfile = await ProfileModel.findByIdAndUpdate(
         profileId,
-        profileModel,
-        {
-          new: true,
-        }
+        { $set: data }
       );
       return updatedProfile;
     } catch (error) {

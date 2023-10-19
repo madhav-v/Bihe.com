@@ -119,6 +119,25 @@ class AuthController {
       next(exception);
     }
   };
+  deleteUser = async (req, res, next) => {
+    try {
+      const id = req.params.id;
+      if (!id) {
+        throw { status: 400, msg: "User id is required" };
+      }
+      const user = await userSvc.getUserById(id);
+      if (!user) {
+        throw { status: 404, msg: "User not found" };
+      }
+      await userSvc.deleteUser(id);
+      res.json({
+        status: 200,
+        msg: "User deleted successfully",
+      });
+    } catch (exception) {
+      next(exception);
+    }
+  };
 }
 
 const authCtrl = new AuthController();
