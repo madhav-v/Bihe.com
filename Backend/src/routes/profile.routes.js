@@ -9,13 +9,24 @@ const uploadPath = (req, res, next) => {
 };
 
 router
-.route("/")
-.get(authCheck,profileCtrl.listAllProfile)
-.post(authCheck, uploadPath,uploader.single("image"), profileCtrl.createProfile)
+  .route("/")
+  .get(authCheck, profileCtrl.listAllProfile)
+  .post(
+    authCheck,
+    uploadPath,
+    uploader.single("image"),
+    profileCtrl.createProfile
+  );
 
-router.route("/:id")
-.put(authCheck, uploadPath, uploader.single("image"), profileCtrl.updateProfile)
-.delete(authCheck, profileCtrl.deleteProfile)
-.get(authCheck, profileCtrl.getProfileById)
+router
+  .route("/:id")
+  .put(
+    authCheck,
+    uploadPath,
+    uploader.single("image"),
+    profileCtrl.updateProfile
+  )
+  .delete(authCheck, profileCtrl.deleteProfile)
+  .get(authCheck, profileCtrl.getProfileById);
 
-module.exports = router
+module.exports = router;
