@@ -33,11 +33,22 @@ app.use((error, req, res, next) => {
   });
 });
 
-server.listen(3005, "localhost", (err) => {
+const serv = server.listen(3005, "localhost", (err) => {
   if (err) {
     console.log("Error listening to the port");
   } else {
     console.log("Server is listening to the port");
     console.log("Press CTRL+C to disconnect the server");
   }
+});
+
+const io = require("socket.io")(server, {
+  pingTimeout: 60000,
+  cors: {
+    origin: "http://localhost:5173",
+  },
+});
+
+io.on("connection", (socket) => {
+  console.log("connected to socket.io");
 });
