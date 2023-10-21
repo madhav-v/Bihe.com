@@ -1,12 +1,9 @@
-import HomePage from "../HomePage";
-
-const HomepageLayout = () => {
+const UserLayout = () => {
   return (
     <>
-      <HomePage />
       <h1>Content</h1>
     </>
   );
 };
 
-export default HomepageLayout;
+export default UserLayout;

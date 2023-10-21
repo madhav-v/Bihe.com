@@ -73,7 +73,7 @@ const RegisterPage = () => {
             </NavLink>
           </div>
         </div>
-        <div className="hidden md:block ml-[-3rem]">
+        <div className="hidden md:block ">
           <img src={login} alt="Login" className="w-[40rem]" />
         </div>
       </div>
