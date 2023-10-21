@@ -2,9 +2,15 @@ import { useFormik } from "formik";
 import login from "/login.png";
 import { NavLink, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import { useState } from "react";
+import TextField from "../../components/TextField";
+import PasswordField from "../../components/PasswordField";
+import Button from "../../components/Button";
 
 const RegisterPage = () => {
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -21,59 +27,44 @@ const RegisterPage = () => {
       console.log(values);
     },
   });
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   return (
     <>
       <div className="flex h-screen justify-center items-center mx-5">
         <div className="bg-white p-8 rounded-lg flex flex-col items-center w-full md:w-3/5 lg:w-1/2 xl:w-1/3">
-          <h1 className="text-4xl font-semibold mb-6">Welcome Back</h1>
+          <h1 className="text-4xl font-semibold mb-6">Create an Account</h1>
           <form className="w-full max-w-sm" onSubmit={formik.handleSubmit}>
-            <div className="mb-4">
-              <label htmlFor="email" className="block text-base mb-2">
-                Full Name
-              </label>
-              <input
-                id="text"
-                name="name"
-                type="text"
-                className="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring focus:border-blue-300"
-                onChange={formik.handleChange}
-              />
-              <span className="text-red-500">{formik.errors?.name}</span>
-            </div>
-            <div className="mb-4">
-              <label htmlFor="email" className="block text-base mb-2">
-                Email Address
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                className="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring focus:border-blue-300"
-                onChange={formik.handleChange}
-              />
-              <span className="text-red-500">{formik.errors?.email}</span>
-            </div>
-            <div className="mb-4">
-              <label htmlFor="password" className="block text-base mb-2">
-                Password
-              </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                className="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring focus:border-blue-300"
-                onChange={formik.handleChange}
-              />
-              <span className="text-red-500">{formik.errors?.password}</span>
-            </div>
-
-            <button
-              type="submit"
-              className="w-full mb-4 bg-red-500 hover:bg-red-600 text-white font-semibold py-2 rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-            >
-              Log In
-            </button>
+            <TextField
+              label="Full Name"
+              id="name"
+              name="name"
+              type="text"
+              value={formik.values.name}
+              onChange={formik.handleChange}
+              error={formik.errors.name}
+            />
+            <TextField
+              label="Email Address"
+              id="email"
+              name="email"
+              type="text"
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              error={formik.errors.email}
+            />
+            <PasswordField
+              id="password"
+              name="password"
+              value={formik.values.password}
+              onChange={formik.handleChange}
+              showPassword={showPassword}
+              onTogglePassword={togglePasswordVisibility}
+              error={formik.errors.password}
+            />
+            <Button text="Register" />
           </form>
           <div>
             Already have an account?{" "}
@@ -82,7 +73,7 @@ const RegisterPage = () => {
             </NavLink>
           </div>
         </div>
-        <div className="hidden md:block ml-4">
+        <div className="hidden md:block ml-[-3rem]">
           <img src={login} alt="Login" className="w-[40rem]" />
         </div>
       </div>
