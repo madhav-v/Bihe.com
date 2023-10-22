@@ -1,30 +1,49 @@
 import { useFormik } from "formik";
 import login from "/login.png";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useState } from "react";
 import TextField from "../../components/TextField";
 import PasswordField from "../../components/PasswordField";
 import Button from "../../components/Button";
+import authSvc from "../../services/auth.service";
+import { toast } from "react-toastify";
 
 const RegisterPage = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-
+  const [isTermsChecked, setIsTermsChecked] = useState(false);
   const formik = useFormik({
     initialValues: {
       name: "",
       email: "",
       password: "",
+      agreeToTerms: false,
     },
     validationSchema: Yup.object({
       name: Yup.string().required("Required"),
       email: Yup.string().email("Invalid email address").required("Required"),
       password: Yup.string().min(6).required("Required"),
+      agreeToTerms: Yup.boolean().oneOf(
+        [true],
+        "You must agree to the terms and conditions"
+      ),
     }),
     onSubmit: async (values) => {
-      console.log(values);
+      try {
+        if (!values.agreeToTerms) {
+          toast.error("You must agree to terms");
+        }
+        const { agreeToTerms, ...requestData } = values;
+        let response = await authSvc.register(requestData);
+        if (response.status) {
+          toast.success("Please Login to continue");
+          navigate("/login");
+        }
+      } catch (exception) {
+        throw exception;
+      }
     },
   });
   const togglePasswordVisibility = () => {
@@ -64,6 +83,22 @@ const RegisterPage = () => {
               onTogglePassword={togglePasswordVisibility}
               error={formik.errors.password}
             />
+            <div className="mb-2">
+              <label>
+                <input
+                  type="checkbox"
+                  id="agreeToTerms"
+                  name="agreeToTerms"
+                  checked={isTermsChecked}
+                  onChange={(e) => {
+                    formik.handleChange(e);
+                    setIsTermsChecked(!isTermsChecked);
+                  }}
+                />{" "}
+                I agree to the <NavLink to="/terms" className="underline">Terms and Conditions</NavLink>
+              </label>
+            </div>
+            <span className="text-red-500">{formik.errors.agreeToTerms}</span>
             <Button text="Register" />
           </form>
           <div>

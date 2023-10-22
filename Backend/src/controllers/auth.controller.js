@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 // const bcrypt = require("bcrpyt");
 const userSvc = require("../services/user.service");
 const mailSvc = require("../services/mailing.service");
+const helpers = require("../utilities/helpers");
 
 class AuthController {
   register = async (req, res, next) => {
@@ -63,36 +64,45 @@ class AuthController {
   };
   forgetPassword = async (req, res, next) => {
     try {
+      console.log("Received forgetPassword request");
       const { email } = req.body;
+
       if (!email) {
         throw { status: 400, msg: "Email is required" };
       }
+
       const user = await userSvc.getUserByEmail(email);
       if (!user) {
         throw { status: 404, msg: "User not found" };
       }
-      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-        expiresIn: 86400,
-      });
-      const mailMsg = `Dear ${user.name},<br/>
-      Please click on the link below to reset your password.<br/>
-      <a href="${process.env.BASE_URL}/reset-password/${token}">Reset Password</a><br/>
-      Regards<br/>
-      No-Reply,Admin
-      `;
-      await mailSvc.sendMail(email, "Reset Password", mailMsg);
+
+      const resetToken = helpers.generateRandomString();
+
+      await userSvc.updateUser({ resetToken }, user._id);
+
+      const mailMsg = `Dear ${user.name},<br/>To reset your password, follow the link:  
+                    <a href="${process.env.BASE_URL}/setPassword/${resetToken}">${process.env.BASE_URL}/set-password/${resetToken}</a>
+                    <br/>
+                    Regards,<br>
+                    No-Reply, Admin
+                    `;
+
+      await mailSvc.sendMail(user.email, "Reset Your Password", mailMsg);
+
       res.json({
-        status: 200,
-        msg: "Reset password link has been sent to your email",
+        result: {},
+        msg: "Reset Password email sent successfully",
+        status: true,
       });
     } catch (exception) {
+      console.log(exception);
       next(exception);
     }
   };
   resetPassword = async (req, res, next) => {
     try {
-      const { password, token } = req.body;
-      if (!password || !token) {
+      const { password, email } = req.body;
+      if (!password || !email) {
         throw { status: 400, msg: "All fields are required" };
       }
       if (password.length < 6) {
@@ -101,16 +111,12 @@ class AuthController {
           msg: "Password should be at least 8 characters long",
         };
       }
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      if (!decoded) {
-        throw { status: 400, msg: "Invalid Token" };
-      }
-      const user = await userSvc.getUserById(decoded.id);
+      const user = await userSvc.getUserByEmail(email);
       if (!user) {
         throw { status: 404, msg: "User not found" };
       }
-      user.password = password;
-      await userSvc.updateUser({ password: password }, user);
+
+      await userSvc.updateUser({ password: password }, user._id);
       res.json({
         status: 200,
         msg: "Password updated successfully",

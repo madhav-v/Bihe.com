@@ -3,10 +3,11 @@ import { NavLink, useNavigate } from "react-router-dom";
 import login from "/login.png";
 import * as Yup from "yup";
 import { useState } from "react";
-import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import TextField from "../../components/TextField";
 import PasswordField from "../../components/PasswordField";
 import Button from "../../components/Button";
+import authSvc from "../../services/auth.service";
+import { toast } from "react-toastify";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -21,7 +22,25 @@ const LoginPage = () => {
       password: Yup.string().min(6).required("Required"),
     }),
     onSubmit: async (values) => {
-      console.log(values);
+      try {
+        let response = await authSvc.login(values);
+        if (response.status) {
+          let formattedData = {
+            id: response.user._id,
+            name: response.user.name,
+            email: response.user.email,
+          };
+          localStorage.setItem("token", response.token);
+          localStorage.setItem("user", JSON.stringify(formattedData));
+          toast.success("Login Successful");
+          navigate("/user");
+        } else {
+          toast.error(response.msg);
+        }
+      } catch (exception) {
+        toast.error("Invalid Credentials");
+        console.log(exception);
+      }
     },
   });
 
@@ -54,13 +73,13 @@ const LoginPage = () => {
           />
           <div className="mt-2">
             <NavLink
-              to="/forget-password"
+              to="/forgetPassword"
               className="text-blue-500 hover:underline"
             >
               Forget Password
             </NavLink>
           </div>
-         <Button text="Login"/>
+          <Button text="Login" />
         </form>
         <div>
           Dont have an account?{" "}

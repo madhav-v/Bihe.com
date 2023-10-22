@@ -11,12 +11,19 @@ app.use(
     extended: false,
   })
 );
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
 
 app.use("/api/v1", routes);
-
+app.use("/", (req, res) => {
+  res.send("Hello World");
+});
 const server = http.createServer(app);
 
-app.use(cors());
 app.use((req, res, next) => {
   next({ status: 404, msg: "Not Found" });
 });
@@ -37,12 +44,12 @@ const serv = server.listen(3005, "localhost", (err) => {
   if (err) {
     console.log("Error listening to the port");
   } else {
-    console.log("Server is listening to the port");
+    console.log("Server is listening to the port 3005");
     console.log("Press CTRL+C to disconnect the server");
   }
 });
 
-const io = require("socket.io")(server, {
+const io = require("socket.io")(serv, {
   pingTimeout: 60000,
   cors: {
     origin: "http://localhost:5173",

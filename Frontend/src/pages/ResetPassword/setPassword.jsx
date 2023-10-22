@@ -5,12 +5,16 @@ import * as Yup from "yup";
 import { useState } from "react";
 import PasswordField from "../../components/PasswordField";
 import Button from "../../components/Button";
+import authSvc from "../../services/auth.service";
+import { toast } from "react-toastify";
 
 const SetPassword = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+
   const formik = useFormik({
     initialValues: {
+      email: localStorage.getItem("email"),
       password: "",
       confirmPassword: "",
     },
@@ -21,7 +25,18 @@ const SetPassword = () => {
         .required("Required"),
     }),
     onSubmit: async (values) => {
-      console.log(values);
+      try {
+        console.log(values);
+        const response = await authSvc.resetPassword(
+          values.email,
+          values.password
+        );
+
+        toast.success("Password reset successfull. Please Login");
+        navigate("/login");
+      } catch (exception) {
+        console.log("Error", exception);
+      }
     },
   });
 

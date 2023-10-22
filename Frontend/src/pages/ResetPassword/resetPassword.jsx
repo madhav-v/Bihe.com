@@ -3,6 +3,8 @@ import login from "/login.png";
 import * as Yup from "yup";
 import TextField from "../../components/TextField";
 import Button from "../../components/Button";
+import authSvc from "../../services/auth.service";
+import { toast } from "react-toastify";
 
 const ResetPassword = () => {
   const formik = useFormik({
@@ -13,7 +15,17 @@ const ResetPassword = () => {
       email: Yup.string().email("Invalid email address").required("Required"),
     }),
     onSubmit: async (values) => {
-      console.log(values);
+      try {
+        const response = await authSvc.forgetPassword(values.email);
+        localStorage.setItem("email", values.email);
+        if (response.status) {
+          toast.success(response.message);
+        } else {
+          toast.error(response.message);
+        }
+      } catch (exception) {
+        toast.error(exception);
+      }
     },
   });
 

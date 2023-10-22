@@ -1,93 +1,87 @@
-import {
-  AiFillDollarCircle,
-  AiFillHome,
-  AiFillNotification,
-  AiOutlineHome,
-} from "react-icons/ai";
-import {
-  BsChatHeart,
-  BsMessenger,
-  BsPersonAdd,
-  BsSearchHeart,
-} from "react-icons/bs";
+import { AiOutlineHome } from "react-icons/ai";
+import { BsPersonAdd } from "react-icons/bs";
 import { MdNotificationsNone } from "react-icons/md";
-import { RiMessengerLine, RiProfileFill } from "react-icons/ri";
+import { RiMessengerLine } from "react-icons/ri";
 import { FaRegUser } from "react-icons/fa";
 import { NavLink, Link } from "react-router-dom";
-import Button from "../Button";
+import logo from "/logo1.png";
+import { useState } from "react";
 
 const NavBar = () => {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
   return (
     <>
-      <header className="Navbar z-50 shadow-sm flex justify-between items-center md:fixed w-full left-0 top-0 bg-white">
+      <header className="Navbar bg-[#e83868] z-50 shadow-sm flex justify-between items-center md:fixed w-full left-0 top-0 h-20">
         <div className="basis-1/2 flex justify-start items-center">
           <NavLink className="navbar-logo basis-1/3" to="/">
-            <img alt="logo" />
+            <img src={logo} alt="logo" className="w-20 ml-7 rounded-[40%]" />
           </NavLink>
-          <div className="basis-1/2"></div>
+          <div className="ml-auto basis-1/2 text-white text-lg font-bold">
+            Love Begins Here
+          </div>
         </div>
         <div className="basis-1/2 xl:basis-1/2  md:flex md:justify-between items-center hidden">
           <ul className="flex md:justify-between w-full md:basis-1/2 mr-3">
-            <li className="navbar-item inline-block mt-2  hover:bg-screen px-3 py-2 rounded-xl">
-              <NavLink className="navbar-link cool-link " aria-current="page">
-                <AiOutlineHome
-                  size={30}
-                  color={
-                    location.pathname == "/user"
-                      ? "var(--primary)"
-                      : "rgba(0,0,0,0.8)"
-                  }
-                />
+            <li className="navbar-item inline-block mt-2 hover:bg-[#e86f6f] px-3 py-2 rounded-xl">
+              <NavLink
+                className="navbar-link cool-link"
+                aria-current="page"
+                to="/user"
+              >
+                <AiOutlineHome size={30} color="white" />
               </NavLink>
             </li>
-            <li className="navbar-item mt-2 hover:bg-screen py-2 px-3 rounded-xl">
-              <NavLink className="navbar-link cool-link" to="/home/connection">
-                <BsPersonAdd
-                  size={30}
-                  color={
-                    location.pathname == "/user/connection"
-                      ? "var(--primary)"
-                      : "rgba(0,0,0,0.8)"
-                  }
-                />
+            <li className="navbar-item mt-2 hover:bg-screen py-2 px-3 rounded-xl hover:bg-[#e86f73]">
+              <NavLink className="navbar-link cool-link" to="/user">
+                <BsPersonAdd size={30} color="white" />
               </NavLink>
             </li>
-            <li className="navbar-item mt-2 hover:bg-screen py-2 px-3 rounded-xl">
-              <NavLink className="navbar-link cool-link">
-                <RiMessengerLine
-                  size={30}
-                  color={
-                    location.pathname == "/user/chat/conversation"
-                      ? "var(--primary)"
-                      : "rgba(0,0,0,0.8)"
-                  }
-                />
+            <li className="navbar-item mt-2 hover:bg-screen py-2 px-3 rounded-xl hover:bg-[#e86f6f]">
+              <NavLink className="navbar-link cool-link" to="/user">
+                <RiMessengerLine size={30} color="white" />
               </NavLink>
             </li>
 
-            <li className="navbar-item mt-2 hover:bg-screen py-2 px-3 rounded-xl">
-              <NavLink className="navbar-link cool-link">
-                <MdNotificationsNone
-                  size={30}
-                  color={
-                    location.pathname == "/user/notification"
-                      ? "var(--primary)"
-                      : "rgba(0,0,0,0.8)"
-                  }
-                />
+            <li className="navbar-item mt-2 hover:bg-screen py-2 px-3 rounded-xl hover:bg-[#e86f6f]">
+              <NavLink className="navbar-link cool-link" to="/user">
+                <MdNotificationsNone size={30} color="white" />
               </NavLink>
             </li>
-            <li className="navbar-item mt-2 hover:bg-screen py-2 px-3 rounded-xl">
-              <NavLink className="navbar-link cool-link " aria-current="page">
-                <FaRegUser
-                  size={25}
-                  color={
-                    location.pathname == ""
-                      ? "var(--primary)"
-                      : "rgba(0,0,0,0.8)"
-                  }
-                />
-              </NavLink>
+            <li className="navbar-item mt-2 hover:bg-screen py-2 px-3 rounded-xl relative hover:bg-[#e86f6f]">
+              <div className="relative">
+                <button
+                  onClick={toggleDropdown}
+                  className="navbar-link cool-link flex items-center"
+                >
+                  <FaRegUser size={25} color="white" />
+                </button>
+                {isDropdownOpen && (
+                  <div className="absolute z-10 top-8 right-0 bg-white shadow-lg rounded-md mt-2 w-40">
+                    <ul>
+                      <li>
+                        <NavLink
+                          to="/my-profile"
+                          className="block px-4 py-2 text-black hover:bg-gray-200"
+                        >
+                          My Profile
+                        </NavLink>
+                      </li>
+                      <li>
+                        <Link
+                          href="/logout"
+                          className="block px-4 py-2 text-black hover:bg-gray-200"
+                        >
+                          Logout
+                        </Link>
+                      </li>
+                    </ul>
+                  </div>
+                )}
+              </div>
             </li>
           </ul>
         </div>
