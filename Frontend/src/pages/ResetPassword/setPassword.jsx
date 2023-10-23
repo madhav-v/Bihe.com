@@ -7,8 +7,10 @@ import PasswordField from "../../components/PasswordField";
 import Button from "../../components/Button";
 import authSvc from "../../services/auth.service";
 import { toast } from "react-toastify";
+import Loading from "../error/loading";
 
 const SetPassword = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
@@ -25,6 +27,7 @@ const SetPassword = () => {
         .required("Required"),
     }),
     onSubmit: async (values) => {
+      setIsLoading(true);
       try {
         console.log(values);
         const response = await authSvc.resetPassword(
@@ -35,6 +38,8 @@ const SetPassword = () => {
         toast.success("Password reset successfull. Please Login");
         navigate("/login");
       } catch (exception) {
+        setIsLoading(false);
+        toast.error("Something Went Wrong");
         console.log("Error", exception);
       }
     },
@@ -46,6 +51,7 @@ const SetPassword = () => {
 
   return (
     <div className="flex h-screen justify-center items-center mx-5">
+      {isLoading && <Loading />}
       <div className="bg-white p-8 rounded-lg flex flex-col items-center w-full md:w-3/5 lg:w-1/2 xl:w-1/3">
         <h1 className="text-3xl font-semibold mb-6">Change your password</h1>
         <form className="w-full max-w-sm" onSubmit={formik.handleSubmit}>

@@ -8,8 +8,10 @@ import PasswordField from "../../components/PasswordField";
 import Button from "../../components/Button";
 import authSvc from "../../services/auth.service";
 import { toast } from "react-toastify";
+import Loading from "../error/loading";
 
 const LoginPage = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const formik = useFormik({
@@ -22,6 +24,7 @@ const LoginPage = () => {
       password: Yup.string().min(6).required("Required"),
     }),
     onSubmit: async (values) => {
+      setIsLoading(true);
       try {
         let response = await authSvc.login(values);
         if (response.status) {
@@ -38,6 +41,7 @@ const LoginPage = () => {
           toast.error(response.msg);
         }
       } catch (exception) {
+        setIsLoading(false);
         toast.error("Invalid Credentials");
         console.log(exception);
       }
@@ -50,6 +54,7 @@ const LoginPage = () => {
 
   return (
     <div className="flex h-screen justify-center items-center mx-5">
+      {isLoading && <Loading />}
       <div className="bg-white p-8 rounded-lg flex flex-col items-center w-full md:w-3/5 lg:w-1/2 xl:w-1/3">
         <h1 className="text-4xl font-semibold mb-6">Welcome Back</h1>
         <form className="w-full max-w-sm" onSubmit={formik.handleSubmit}>

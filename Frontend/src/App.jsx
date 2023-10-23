@@ -9,6 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import TermsAndConditions from "./pages/Terms and Condition";
 import ErrorPage from "./pages/error/index.jsx";
+import Form from "./pages/UserForm";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="/setPassword/:token" element={<SetPassword />} />
         <Route path="/user" element={<UserDashboard />} />
         <Route path="/terms" element={<TermsAndConditions />} />
+        <Route path="/form" element={<Form />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </>

@@ -5,8 +5,11 @@ import TextField from "../../components/TextField";
 import Button from "../../components/Button";
 import authSvc from "../../services/auth.service";
 import { toast } from "react-toastify";
+import Loading from "../error/loading";
+import { useState } from "react";
 
 const ResetPassword = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -15,6 +18,7 @@ const ResetPassword = () => {
       email: Yup.string().email("Invalid email address").required("Required"),
     }),
     onSubmit: async (values) => {
+      setIsLoading(true);
       try {
         const response = await authSvc.forgetPassword(values.email);
         localStorage.setItem("email", values.email);
@@ -24,6 +28,8 @@ const ResetPassword = () => {
           toast.error(response.message);
         }
       } catch (exception) {
+        toast.error("Something Went Wrong");
+        setIsLoading(false);
         toast.error(exception);
       }
     },
@@ -31,6 +37,7 @@ const ResetPassword = () => {
 
   return (
     <div className="flex h-screen justify-center items-center mx-5">
+      {isLoading && <Loading />}
       <div className="bg-white p-8 rounded-lg flex flex-col items-center w-full md:w-3/5 lg:w-1/2 xl:w-1/3">
         <h1 className="text-3xl font-semibold mb-6">Enter your email</h1>
         <form className="w-full max-w-sm" onSubmit={formik.handleSubmit}>
