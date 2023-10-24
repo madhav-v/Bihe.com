@@ -4,8 +4,7 @@ class HttpService {
   headers = {};
   getHeader = (config) => {
     if (config.auth) {
-      this.headers["Authorization"] =
-        "Bearer " + localStorage.getItem("accessToken");
+      this.headers["Authorization"] = "Bearer " + localStorage.getItem("token");
     }
     if (config.file) {
       this.headers["Content-Type"] = "multipart/form-data";

@@ -41,8 +41,8 @@ const RegisterPage = () => {
         const { agreeToTerms, ...requestData } = values;
         let response = await authSvc.register(requestData);
         if (response.status) {
-          toast.success("Please Login to continue");
-          navigate("/login");
+          toast.success("Registration Successful");
+          navigate("/form");
         }
       } catch (exception) {
         setIsLoading(false);

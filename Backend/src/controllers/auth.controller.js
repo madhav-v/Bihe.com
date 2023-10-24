@@ -1,7 +1,6 @@
 const dotenv = require("dotenv");
 dotenv.config();
 const jwt = require("jsonwebtoken");
-// const bcrypt = require("bcrpyt");
 const userSvc = require("../services/user.service");
 const mailSvc = require("../services/mailing.service");
 const helpers = require("../utilities/helpers");
@@ -12,18 +11,18 @@ class AuthController {
       let registerData = req.body;
       userSvc.validateData(registerData);
       let user = await userSvc.registerUser(registerData);
-      if (user) {
-        let mailMsg = `Dear ${registerData.name},<br/>
-        Your account has been successfully registered.<br/>
-        Regards<br/>
-        No-Reply,Admin
-        `;
-        await mailSvc.sendMail(
-          registerData.email,
-          "Registration Success",
-          mailMsg
-        );
-      }
+      // if (user) {
+      //   let mailMsg = `Dear ${registerData.name},<br/>
+      //   Your account has been successfully registered.<br/>
+      //   Regards<br/>
+      //   No-Reply,Admin
+      //   `;
+      //   await mailSvc.sendMail(
+      //     registerData.email,
+      //     "Registration Success",
+      //     mailMsg
+      //   );
+      // }
       res.json({
         status: 200,
         msg: "User Registered Successfully",
@@ -139,6 +138,17 @@ class AuthController {
       res.json({
         status: 200,
         msg: "User deleted successfully",
+      });
+    } catch (exception) {
+      next(exception);
+    }
+  };
+  getLoggedInUser = async (req, res, next) => {
+    try {
+      res.json({
+        result: req.authUser,
+        msg: "Your Detail",
+        status: true,
       });
     } catch (exception) {
       next(exception);

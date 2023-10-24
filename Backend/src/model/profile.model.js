@@ -6,11 +6,7 @@ const ProfileSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  role: {
-    type: String,
-    enum: ["admin", "user"],
-    default: "customer",
-  },
+  
   height: {
     type: String,
     required: true,
@@ -77,7 +73,7 @@ const ProfileSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  nativePlace: {
+  familyValue: {
     type: String,
     required: true,
   },

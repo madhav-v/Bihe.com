@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Input from "../../components/ProfileForm/input";
 import InputSelect from "../../components/ProfileForm/select";
 import { useFormik } from "formik";
@@ -6,51 +6,95 @@ import * as Yup from "yup";
 import { toast } from "react-toastify";
 import profileSvc from "../../services/profile.service";
 import Loading from "../error/loading";
+import { VscDeviceCamera } from "react-icons/vsc";
 
-const Form = () => {
+const Form = ({ submitAction, detail = null }) => {
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  // const handleImageChange = (e) => {
+  //   const file = e.target.files[0];
+  //   const ext = file.name.split(".").pop().toLowerCase();
+  //   const supportedFormats = [
+  //     "jpg",
+  //     "jpeg",
+  //     "png",
+  //     "gif",
+  //     "bmp",
+  //     "webp",
+  //     "svg",
+  //   ];
+
+  //   if (supportedFormats.includes(ext)) {
+  //     setSelectedImage(URL.createObjectURL(file));
+  //   } else {
+  //     console.error("File format not supported");
+  //   }
+  // };
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    const ext = file.name.split(".").pop().toLowerCase();
+    const supportedFormats = [
+      "jpg",
+      "jpeg",
+      "png",
+      "gif",
+      "bmp",
+      "webp",
+      "svg",
+    ];
+
+    if (supportedFormats.includes(ext)) {
+      const imageUrl = URL.createObjectURL(file);
+      setSelectedImage(imageUrl);
+      formik.setFieldValue("image", file);
+    } else {
+      formik.setErrors({ image: "File format not supported" });
+    }
+  };
+
   const [isLoading, setIsLoading] = useState(false);
   const ProfileSchema = Yup.object({
-    fullname: Yup.string().required(),
-    sex: Yup.string().required(),
-    religion: Yup.string().required(),
-    caste: Yup.string().required(),
-    dateOfBirth: Yup.string().required(),
-    maritalStatus: Yup.string().required(),
-    height: Yup.string().required(),
-    physicalDisability: Yup.string().required(),
-    address: Yup.string().required(),
-    smokeOrDrink: Yup.string().required(),
-    familyType: Yup.string().required(),
-    familyValue: Yup.string().required(),
-    parentalStatus: Yup.string().required(),
-    numberOfSiblings: Yup.string().required(),
-    numberOfFamilyMembers: Yup.string().required(),
-    familyAddress: Yup.string().required(),
-    motherTongue: Yup.string().required(),
-    gotra: Yup.string().required(),
-    educationalDegree: Yup.string().required(),
-    college: Yup.string().required(),
-    occupation: Yup.string().required(),
-    sector: Yup.string().required(),
-    annualIncome: Yup.string().required(),
-    companyName: Yup.string().required(),
-    maxAge: Yup.string().required(),
-    minHeight: Yup.string().required(),
-    maxHeight: Yup.string().required(),
-    minAge: Yup.string().required(),
-    preferredReligion: Yup.string().required(),
-    preferredCaste: Yup.string().required(),
-    preferredEducation: Yup.string().required(),
-    preferredOccupation: Yup.string().required(),
-    preferredCaste: Yup.string().required(),
-    preferredSector: Yup.string().required(),
-    preferredAnnualIncome: Yup.string().required(),
-    preferredMaritalStatus: Yup.string().required(),
-    preferredMotherTongue: Yup.string().required(),
+    fullName: Yup.string().required("Required"),
+    sex: Yup.string().required("Required"),
+    religion: Yup.string().required("Required"),
+    caste: Yup.string().required("Required"),
+    dateOfBirth: Yup.string().required("Required"),
+    maritalStatus: Yup.string().required("Required"),
+    height: Yup.string().required("Required"),
+    physicalDisability: Yup.string().required("Required"),
+    address: Yup.string().required("Required"),
+    smokeOrDrink: Yup.string().required("Required"),
+    familyType: Yup.string().required("Required"),
+    familyValue: Yup.string().required("Required"),
+    parentalStatus: Yup.string().required("Required"),
+    numberOfSiblings: Yup.string().required("Required"),
+    numberOfFamilyMembers: Yup.string().required("Required"),
+    familyAddress: Yup.string().required("Required"),
+    motherTongue: Yup.string().required("Required"),
+    gotra: Yup.string().required("Required"),
+    educationalDegree: Yup.string().required("Required"),
+    college: Yup.string().required("Required"),
+    occupation: Yup.string().required("Required"),
+    sector: Yup.string().required("Required"),
+    annualIncome: Yup.string().required("Required"),
+    companyName: Yup.string().required("Required"),
+    maxAge: Yup.string().required("Required"),
+    minHeight: Yup.string().required("Required"),
+    maxHeight: Yup.string().required("Required"),
+    minAge: Yup.string().required("Required"),
+    preferredReligion: Yup.string().required("Required"),
+    preferredCaste: Yup.string().required("Required"),
+    preferredEducation: Yup.string().required("Required"),
+    preferredOccupation: Yup.string().required("Required"),
+    preferredSector: Yup.string().required("Required"),
+    preferredAnnualIncome: Yup.string().required("Required"),
+    preferredMaritalStatus: Yup.string().required("Required"),
+    preferredMotherTongue: Yup.string().required("Required"),
+    image: Yup.mixed().required("Image is required"),
   });
   const formik = useFormik({
     initialValues: {
-      fullname: "",
+      fullName: "",
       sex: "",
       religion: "",
       caste: "",
@@ -82,18 +126,19 @@ const Form = () => {
       preferredCaste: "",
       preferredEducation: "",
       preferredOccupation: "",
-      preferredCaste: "",
       preferredSector: "",
       preferredAnnualIncome: "",
       preferredMotherTongue: "",
       preferredMaritalStatus: "",
+      image: null,
     },
     validationSchema: ProfileSchema,
     onSubmit: async (values) => {
+      console.log(formik.values?.religion);
       console.log(values);
       try {
         const res = await profileSvc.createProfile(values);
-        if (res) {
+        if (res.status) {
           setIsLoading(false);
         }
         toast.success("Profile Created Successfully");
@@ -104,6 +149,17 @@ const Form = () => {
       }
     },
   });
+  const [defaultUrl, setDefaultUrl] = useState(null);
+  // const { width, height } = useWindowSize()
+
+  useEffect(() => {
+    if (!defaultUrl) {
+      setDefaultUrl(
+        "https://www.caltrain.com/files/images/2021-09/default.jpg"
+      );
+    }
+  }, []);
+
   const genderOptions = [
     { value: "male", label: "Male" },
     { value: "female", label: "Female" },
@@ -263,17 +319,17 @@ const Form = () => {
 
           <div className="w-full flex justify-around items-center">
             <Input
-              name="fullname"
+              name="fullName"
               label="Full Name"
               classes3="w-[40%]"
               classes="px-2"
               classes2="block lg:text-lg xl:text-xl"
               type="text"
               placeholder="Enter Full Name"
-              value={formik.values?.fullname}
+              value={formik.values?.fullName}
               onChange={formik.handleChange}
+              error={formik.errors.fullName}
             />
-            <span className="text-red-500">{formik.errors.fullname}</span>
             <InputSelect
               value={formik.values?.sex}
               onChange={(selcOpt) => {
@@ -287,25 +343,22 @@ const Form = () => {
               classes1="block text-xl my-1"
               classes2="xl:w-[40%] basis-[40%]"
               options={genderOptions}
+              error={formik.errors.sex}
             />
-            <span className="text-red-500">{formik.errors.sex}</span>
           </div>
           <div className="w-full flex justify-around items-center">
             <InputSelect
-              value={formik.values?.religion}
-              onChange={(selcOpt) => {
-                formik.setValues({
-                  ...formik.values,
-                  religion: selcOpt,
-                });
-              }}
               name="religion"
               label="Religion"
               classes1="block text-md lg:text-lg xl:text-xl my-2"
               classes2="xl:w-[70%] basis-[40%]"
               options={religionOptions}
+              error={formik.errors.religion}
+              value={formik.values?.religion}
+              onChange={(selcOpt) => {
+                formik.setFieldValue("religion", selcOpt);
+              }}
             />
-            <span className="text-red-500">{formik.errors.religion}</span>
 
             <InputSelect
               value={formik.values?.caste}
@@ -320,8 +373,8 @@ const Form = () => {
               classes1="block text-xl my-2"
               classes2="xl:w-[40%] basis-[40%]"
               options={casteOptions}
+              error={formik.errors.caste}
             />
-            <span className="text-red-500">{formik.errors.caste}</span>
           </div>
           <div className="w-full flex justify-around items-center">
             <Input
@@ -334,8 +387,8 @@ const Form = () => {
               classes2="block lg:text-lg xl:text-xl"
               type="date" // Set the input type to "date"
               placeholder="Select Date of Birth"
+              error={formik.errors.dateOfBirth}
             />
-            <span className="text-red-500">{formik.errors.dateOfBirth}</span>
 
             <InputSelect
               // value={firstFormValues.maritalStatus}
@@ -350,8 +403,8 @@ const Form = () => {
               classes1="block text-md lg:text-lg xl:text-xl my-2"
               classes2="xl:w-[40%] basis-[40%]"
               options={maritalStatusOptions}
+              error={formik.errors.maritalStatus}
             />
-            <span className="text-red-500">{formik.errors.maritalStatus}</span>
           </div>
           <div className="w-full flex justify-around items-center">
             <InputSelect
@@ -367,11 +420,10 @@ const Form = () => {
               classes1="block text-md lg:text-lg xl:text-xl my-2"
               classes2="xl:w-[40%] basis-[40%]"
               options={heightOptions}
+              error={formik.errors.height}
             />
-            <span className="text-red-500">{formik.errors.height}</span>
 
             <InputSelect
-              // value={firstFormValues.physicalDisability}
               onChange={(selcOpt) => {
                 formik.setValues({
                   ...formik.values,
@@ -383,10 +435,8 @@ const Form = () => {
               classes1="block text-md lg:text-lg xl:text-xl my-2"
               classes2="xl:w-[40%] basis-[40%]"
               options={disabilityOptions}
+              error={formik.errors.physicalDisability}
             />
-            <span className="text-red-500">
-              {formik.errors.physicalDisability}
-            </span>
           </div>
           <div className="w-full flex justify-around items-center">
             <Input
@@ -399,8 +449,8 @@ const Form = () => {
               classes2="block xl:text-xl xl:text-xl lg:text-lg"
               type="text"
               placeholder="Enter your current address"
+              error={formik.errors.address}
             />
-            <span className="text-red-500">{formik.errors.address}</span>
 
             <InputSelect
               onChange={(selcOpt) => {
@@ -414,15 +464,14 @@ const Form = () => {
               classes1="block text-md lg:text-lg xl:text-xl my-2"
               classes2="xl:w-[40%] basis-[40%]"
               options={smokeOrDrinkOptions}
+              error={formik.errors.smokeOrDrink}
             />
-            <span className="text-red-500">{formik.errors.smokeOrDrink}</span>
           </div>
           <h1 className="mt-10 text-2xl w-[90%] font-bold mx-auto">
             Family Information
           </h1>
           <div className=" w-full flex justify-around items-center">
             <InputSelect
-              // value={secondFormValues.familyType}
               onChange={(selcOpt) => {
                 formik.setValues({
                   ...formik.values,
@@ -434,11 +483,9 @@ const Form = () => {
               classes1="block text-xl my-2"
               classes2="xl:w-[40%] basis-[40%]"
               options={familytypeOptions}
+              error={formik.errors.familyType}
             />
-            <span className="text-red-500">{formik.errors.familyType}</span>
-
             <InputSelect
-              // value={secondFormValues.familyValue}
               onChange={(selcOpt) => {
                 formik.setValues({
                   ...formik.values,
@@ -450,12 +497,11 @@ const Form = () => {
               classes1="block text-xl my-2"
               classes2="xl:w-[40%] basis-[40%]"
               options={familyValueOptions}
+              error={formik.errors.familyValue}
             />
-            <span className="text-red-500">{formik.errors.familyValue}</span>
           </div>
           <div className="w-full flex justify-around items-center">
             <InputSelect
-              // value={secondFormValues.parentStatus}
               onChange={(selcOpt) => {
                 formik.setValues({
                   ...formik.values,
@@ -467,11 +513,9 @@ const Form = () => {
               classes1="block text-xl my-2"
               classes2="xl:w-[40%] basis-[40%]"
               options={parentStatusOptions}
+              error={formik.errors.parentalStatus}
             />
-            <span className="text-red-500">{formik.errors.parentalStatus}</span>
-
             <Input
-              // value={secondFormValues.numberOfSiblings}
               onChange={formik.handleChange}
               name="numberOfSiblings"
               label="Number of Siblings"
@@ -480,14 +524,11 @@ const Form = () => {
               classes2="block lg:text-lg xl:text-xl"
               type="number"
               placeholder="Enter Number of Siblings"
+              error={formik.errors.numberOfSiblings}
             />
-            <span className="text-red-500">
-              {formik.errors.numberOfSiblings}
-            </span>
           </div>
           <div className="w-full flex justify-around items-center">
             <Input
-              // value={secondFormValues.numberOfFamilyMembers}
               onChange={formik.handleChange}
               name="numberOfFamilyMembers"
               label="Number of Family Members"
@@ -496,13 +537,9 @@ const Form = () => {
               classes2="block lg:text-lg xl:text-xl"
               type="number"
               placeholder="Enter Number of Family Member"
+              error={formik.errors.numberOfFamilyMembers}
             />
-            <span className="text-red-500">
-              {formik.errors.numberOfFamilyMembers}
-            </span>
-
             <Input
-              // value={secondFormValues.familyAddress}
               onChange={formik.handleChange}
               name="familyAddress"
               label="Family Address"
@@ -511,12 +548,11 @@ const Form = () => {
               classes2="block lg:text-lg xl:text-xl"
               type="text"
               placeholder="Enter Family Address"
+              error={formik.errors.familyAddress}
             />
-            <span className="text-red-500">{formik.errors.familyAddress}</span>
           </div>
           <div className="w-full flex justify-around items-center">
             <Input
-              // value={secondFormValues.motherTongue}
               onChange={formik.handleChange}
               name="motherTongue"
               label="Mother Tongue"
@@ -525,11 +561,9 @@ const Form = () => {
               classes2="block lg:text-lg xl:text-xl"
               type="texr"
               placeholder="Enter Your Mother Tongue"
+              error={formik.errors.motherTongue}
             />
-            <span className="text-red-500">{formik.errors.motherTongue}</span>
-
             <InputSelect
-              // value={secondFormValues.gotra}
               onChange={(selcOpt) => {
                 formik.setValues({
                   ...formik.values,
@@ -541,15 +575,14 @@ const Form = () => {
               classes1="block text-xl my-2"
               classes2="xl:w-[40%] basis-[40%]"
               options={gotraOptions}
+              error={formik.errors.gotra}
             />
-            <span className="text-red-500">{formik.errors.gotra}</span>
           </div>
           <h1 className="mt-10 text-2xl w-[90%] font-bold mx-auto">
             Education Information
           </h1>
           <div className="w-full flex justify-around items-center">
             <InputSelect
-              // value={thirdFormValues.educationalDegree}
               onChange={(selcOpt) => {
                 formik.setValues({
                   ...formik.values,
@@ -561,13 +594,9 @@ const Form = () => {
               classes1="block text-md lg:text-lg xl:text-xl my-2"
               classes2="xl:w-[40%] basis-[40%]"
               options={educationQualificationOptions}
+              error={formik.errors.educationalDegree}
             />
-            <span className="text-red-500">
-              {formik.errors.educationalDegree}
-            </span>
-
             <Input
-              // value={thirdFormValues.college}
               onChange={formik.handleChange}
               name="college"
               label="College Name"
@@ -576,12 +605,11 @@ const Form = () => {
               classes2="block lg:text-lg xl:text-xl my-2"
               type="text"
               placeholder="Enter College Name"
+              error={formik.errors.college}
             />
-            <span className="text-red-500">{formik.errors.college}</span>
           </div>
           <div className="w-full flex justify-around items-center">
             <InputSelect
-              // value={thirdFormValues.occupation}
               onChange={(selcOpt) => {
                 formik.setValues({
                   ...formik.values,
@@ -593,11 +621,9 @@ const Form = () => {
               classes1="block text-md lg:text-lg xl:text-xl my-2"
               classes2="xl:w-[40%] basis-[40%]"
               options={occupationOptions}
+              error={formik.errors.occupation}
             />
-            <span className="text-red-500">{formik.errors.occupation}</span>
-
             <InputSelect
-              // value={thirdFormValues.sector}
               onChange={(selcOpt) => {
                 formik.setValues({
                   ...formik.values,
@@ -609,8 +635,8 @@ const Form = () => {
               classes1="block text-md lg:text-lg xl:text-xl my-2"
               classes2="xl:w-[40%] basis-[40%]"
               options={sectorOptions}
+              error={formik.errors.sector}
             />
-            <span className="text-red-500">{formik.errors.sector}</span>
           </div>
           <div className="w-full flex justify-around items-center">
             <InputSelect
@@ -620,17 +646,14 @@ const Form = () => {
                   annualIncome: selcOpt,
                 });
               }}
-              // value={thirdFormValues.annualIncome}
               name="annualIncome"
               label="Annual Income"
               classes1="block text-md lg:text-lg xl:text-xl my-2"
               classes2="xl:w-[40%] basis-[40%]"
               options={annualIncomeOptions}
+              error={formik.errors.annualIncome}
             />
-            <span className="text-red-500">{formik.errors.annualIncome}</span>
-
             <Input
-              // value={thirdFormValues.companyName}
               onChange={formik.handleChange}
               name="companyName"
               label="Company Name"
@@ -639,33 +662,78 @@ const Form = () => {
               classes2="block lg:text-lg xl:text-xl"
               type="text"
               placeholder="Enter Company Name"
+              error={formik.errors.companyName}
             />
-            <span className="text-red-500">{formik.errors.companyName}</span>
           </div>
-          {/* <div className="w-full flex justify-around items-center">
-            <label htmlFor="image" className="text-md lg:text-xl xl:text-2xl ">
-              Profile Image
-            </label>
-            <label
-              htmlFor="image"
-              className="cursor-pointer block w-32  bg-red-500 text-white font-medium py-2 px-4 rounded-lg text-center"
-            >
-              Choose File
-            </label>
-            <input
-              type="file"
-              name="image"
-              className="hidden"
-              required
-              accept="image/*"
-            />
-          </div> */}
+          <div className="w-[35%] mt-7 bg-white mx-auto flex justify-between shadow-md items-center rounded-3xl overflow-hidden">
+            <div className="w-full min-h-[50vh] h-full flex flex-col justify-center items-center bg-white">
+              <h3 className="text-center font-semibold text-2xl mb-3">
+                Upload a profile photo.
+              </h3>
+              <input
+                name="image"
+                type="file"
+                accept="image/*"
+                // onChange={(e) => {
+                //   let file = e.target.files[0];
+                //   let ext = file.name.split(".").pop();
+
+                //   if (
+                //     [
+                //       "jpg",
+                //       "jpeg",
+                //       "png",
+                //       "gif",
+                //       "bmp",
+                //       "webp",
+                //       "svg",
+                //     ].includes(ext.toLowerCase())
+                //   ) {
+                //     formik.setValues({
+                //       ...formik.values,
+                //       image: file,
+                //     });
+                //     formik.setFieldValue("image", file);
+                //   } else {
+                //     formik.setErrors({
+                //       ...formik.errors,
+                //       image: "File format not supported",
+                //     });
+                //   }
+                // }}
+                onChange={handleImageChange}
+                style={{ display: "none" }}
+                id="imageInput"
+              />
+              <label
+                htmlFor="imageInput"
+                className="relative w-[200px] h-[200px] rounded-[50%]"
+              >
+                <img
+                  className="rounded-full object-cover w-full h-full object-center"
+                  src={selectedImage || defaultUrl}
+                  alt=""
+                />
+                <span className="absolute right-0 bottom-0">
+                  <VscDeviceCamera size={30} />
+                </span>
+              </label>
+              <button
+                className="px-4 py-2 bg-red-500 rounded-xl  text-white text-xl my-3"
+                onClick={() => document.getElementById("imageInput").click()}
+              >
+                Add a Photo +
+              </button>
+              <span className="text-red-500">
+                {formik.touched.image && formik.errors?.image}
+              </span>
+            </div>
+          </div>
           <h1 className="mt-10 text-2xl w-[90%] font-bold mx-auto">
             Preference Information
           </h1>
           <div className="w-full flex justify-around items-center">
             <Input
-              // value={fourthFormValues.preferredMinAge}
               onChange={formik.handleChange}
               name="minAge"
               label="Minimun Age"
@@ -674,11 +742,9 @@ const Form = () => {
               classes2="block lg:text-lg xl:text-xl"
               type="number"
               placeholder="Enter Your Preferred Minimun Age"
+              error={formik.errors.minAge}
             />
-            <span className="text-red-500">{formik.errors.minAge}</span>
-
             <Input
-              // value={fourthFormValues.maxAge}
               onChange={formik.handleChange}
               name="maxAge"
               label="Maximun Age"
@@ -687,12 +753,11 @@ const Form = () => {
               classes2="block lg:text-lg xl:text-xl"
               type="number"
               placeholder="Enter Your Preferred Maximun Age"
+              error={formik.errors.maxAge}
             />
-            <span className="text-red-500">{formik.errors.maxAge}</span>
           </div>
           <div className="w-full flex justify-around items-center">
             <InputSelect
-              // value={fourthFormValues.minHeight}
               onChange={(selcOpt) => {
                 formik.setValues({
                   ...formik.values,
@@ -704,11 +769,9 @@ const Form = () => {
               classes1="block text-md lg:text-lg xl:text-xl my-2"
               classes2="xl:w-[40%] basis-[40%]"
               options={heightOptions}
+              error={formik.errors.minHeight}
             />
-            <span className="text-red-500">{formik.errors.minHeight}</span>
-
             <InputSelect
-              // value={fourthFormValues.maxHeight}
               onChange={(selcOpt) => {
                 formik.setValues({
                   ...formik.values,
@@ -720,12 +783,11 @@ const Form = () => {
               classes1="block text-md lg:text-lg xl:text-xl my-2"
               classes2="xl:w-[40%] basis-[40%]"
               options={heightOptions}
+              error={formik.errors.maxHeight}
             />
-            <span className="text-red-500">{formik.errors.maxHeight}</span>
           </div>
           <div className="w-full flex justify-around items-center">
             <InputSelect
-              // value={fourthFormValues.preferredReligion}
               onChange={(selcOpt) => {
                 formik.setValues({
                   ...formik.values,
@@ -737,13 +799,9 @@ const Form = () => {
               classes1="block text-md lg:text-lg xl:text-xl my-2"
               classes2="xl:w-[70%] basis-[40%]"
               options={religionOptions}
+              error={formik.errors.preferredReligion}
             />
-            <span className="text-red-500">
-              {formik.errors.preferredReligion}
-            </span>
-
             <InputSelect
-              // value={fourthFormValues.preferredCaste}
               onChange={(selcOpt) => {
                 formik.setValues({
                   ...formik.values,
@@ -755,12 +813,11 @@ const Form = () => {
               classes1="block text-xl my-2"
               classes2="xl:w-[40%] basis-[40%]"
               options={casteOptions}
+              error={formik.errors.preferredCaste}
             />
-            <span className="text-red-500">{formik.errors.preferredCaste}</span>
           </div>
           <div className="w-full flex justify-around items-center">
             <InputSelect
-              // value={fourthFormValues.preferredEducation_degree}
               onChange={(selcOpt) => {
                 formik.setValues({
                   ...formik.values,
@@ -772,13 +829,9 @@ const Form = () => {
               classes1="block text-md lg:text-lg xl:text-xl my-2"
               classes2="xl:w-[40%] basis-[40%]"
               options={educationQualificationOptions}
+              error={formik.errors.preferredEducation}
             />
-            <span className="text-red-500">
-              {formik.errors.preferredEducation}
-            </span>
-
             <InputSelect
-              // value={fourthFormValues.preferredOccupation}
               onChange={(selcOpt) => {
                 formik.setValues({
                   ...formik.values,
@@ -790,14 +843,11 @@ const Form = () => {
               classes1="block text-md lg:text-lg xl:text-xl my-2"
               classes2="xl:w-[40%] basis-[40%]"
               options={occupationOptions}
+              error={formik.errors.preferredOccupation}
             />
-            <span className="text-red-500">
-              {formik.errors.preferredOccupation}
-            </span>
           </div>
           <div className="w-full flex justify-around items-center">
             <InputSelect
-              // value={fourthFormValues.preferredCasre}
               onChange={(selcOpt) => {
                 formik.setValues({
                   ...formik.values,
@@ -809,11 +859,8 @@ const Form = () => {
               classes1="block text-md lg:text-lg xl:text-xl my-2"
               classes2="xl:w-[40%] basis-[40%]"
               options={sectorOptions}
+              error={formik.errors.preferredSector}
             />
-            <span className="text-red-500">
-              {formik.errors.preferredSector}
-            </span>
-
             <InputSelect
               onChange={(selcOpt) => {
                 formik.setValues({
@@ -821,20 +868,16 @@ const Form = () => {
                   preferredAnnualIncome: selcOpt,
                 });
               }}
-              // value={fourthFormValues.preferredAnnualIncome}
               name="preferredAnnualIncome"
               label="Preffered Annual Income"
               classes1="block text-md lg:text-lg xl:text-xl my-2"
               classes2="xl:w-[40%] basis-[40%]"
               options={annualIncomeOptions}
+              error={formik.errors.preferredAnnualIncome}
             />
-            <span className="text-red-500">
-              {formik.errors.preferredAnnualIncome}
-            </span>
           </div>
           <div className="w-full flex justify-around items-center">
             <InputSelect
-              // value={fourthFormValues.preferredCasre}
               onChange={(selcOpt) => {
                 formik.setValues({
                   ...formik.values,
@@ -846,11 +889,8 @@ const Form = () => {
               classes1="block text-md lg:text-lg xl:text-xl my-2"
               classes2="xl:w-[40%] basis-[40%]"
               options={sectorOptions}
+              error={formik.errors.preferredMaritalStatus}
             />
-            <span className="text-red-500">
-              {formik.errors.preferredMaritalStatus}
-            </span>
-
             <Input
               name="preferredMotherTongue"
               label="Preferred Mother Tongue"
@@ -861,10 +901,8 @@ const Form = () => {
               placeholder="Preferred Mother Tongue"
               value={formik.values?.preferredMotherTongue}
               onChange={formik.handleChange}
+              error={formik.errors.preferredMotherTongue}
             />
-            <span className="text-red-500">
-              {formik.errors.preferredMotherTongue}
-            </span>
           </div>
           <div className="w-full mt-5 flex justify-around items-center">
             <button

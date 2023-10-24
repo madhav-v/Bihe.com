@@ -42,7 +42,7 @@ class AuthService {
 
   getLoggedInUser = async () => {
     try {
-      let token = localStorage.getItem("accessToken");
+      let token = localStorage.getItem("token");
       if (!token) {
         throw "Token not set..";
       }

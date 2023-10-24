@@ -10,6 +10,7 @@ import { ToastContainer } from "react-toastify";
 import TermsAndConditions from "./pages/Terms and Condition";
 import ErrorPage from "./pages/error/index.jsx";
 import Form from "./pages/UserForm";
+import CheckPermission from "./config/rbsc.config";
 
 function App() {
   return (
@@ -22,9 +23,20 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/forgetPassword" element={<ResetPassword />} />
         <Route path="/setPassword/:token" element={<SetPassword />} />
-        <Route path="/user" element={<UserDashboard />} />
         <Route path="/terms" element={<TermsAndConditions />} />
-        <Route path="/form" element={<Form />} />
+        <Route
+          path="/user"
+          element={
+            <CheckPermission accessBy={"user"} Component={<UserDashboard />} />
+          }
+        />
+        <Route
+          path="/form"
+          element={
+            <CheckPermission accessBy={"user"} Component={<Form />} />
+          }
+        />
+
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </>

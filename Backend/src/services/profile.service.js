@@ -23,7 +23,7 @@ class ProfileService {
         gotra: Joi.string().required(),
         parentalStatus: Joi.string().required(),
         familyAddress: Joi.string().required(),
-        nativePlace: Joi.string().required(),
+        familyValue: Joi.string().required(),
         motherTongue: Joi.string().required(),
 
         educationalDegree: Joi.string().required(),

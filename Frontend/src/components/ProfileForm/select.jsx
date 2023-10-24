@@ -41,6 +41,7 @@ const InputSelect = (props) => {
             }),
           }}
         />
+        {props.error && <p className="text-red-500 text-sm">{props.error}</p>}
       </div>
     </>
   );
