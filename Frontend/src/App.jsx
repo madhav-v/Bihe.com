@@ -11,8 +11,16 @@ import TermsAndConditions from "./pages/Terms and Condition";
 import ErrorPage from "./pages/error/index.jsx";
 import Form from "./pages/UserForm";
 import CheckPermission from "./config/rbsc.config";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { getLoggedInUser, setLoggedInUser } from "./reducers/user.reducer";
 
 function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getLoggedInUser());
+    dispatch(setLoggedInUser());
+  }, []);
   return (
     <>
       <ToastContainer />
@@ -32,9 +40,7 @@ function App() {
         />
         <Route
           path="/form"
-          element={
-            <CheckPermission accessBy={"user"} Component={<Form />} />
-          }
+          element={<CheckPermission accessBy={"user"} Component={<Form />} />}
         />
 
         <Route path="*" element={<ErrorPage />} />

@@ -4,6 +4,9 @@ import CreatableSelect from "react-select/creatable";
 const InputSelect = (props) => {
   const animatedComponents = makeAnimated();
 
+  const handleChange = (selectedOption) => {
+    props.onChange(selectedOption.value);
+  };
   return (
     <>
       <div className={`my-1 ${props.classes2 && props.classes2}`}>
@@ -24,10 +27,15 @@ const InputSelect = (props) => {
           // defaultValue={[props.default && props.default]}
           // isMulti={props.isMulti ? true : false}
           options={props.options && props.options}
-          onChange={(selectedOption) => {
-            // Handle the selected option and update the form using Formik's handleChange
-            props.onChange(props.name, selectedOption);
-          }}
+          // onChange={(selectedOption) => {
+          //   // Handle the selected option and update the form using Formik's handleChange
+          //   props.onChange(props.name, selectedOption);
+          // }}
+          value={props.options.find(
+            (option) =>
+              option.value === props.value || option.label === props.value
+          )}
+          onChange={handleChange}
           setValue={{ value: "hello", label: "Hello" }}
           styles={{
             control: (baseStyles, state) => ({

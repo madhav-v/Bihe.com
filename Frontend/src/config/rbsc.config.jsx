@@ -29,7 +29,7 @@ const CheckPermission = ({ Component, accessBy }) => {
     return <Navigate to={"/"} />;
   } else {
     if (loading) {
-      return <>Loading</>;
+      return <><Loading /></>;
     } else if (!loading && userInfo && userInfo.role === accessBy) {
       return Component;
     } else {

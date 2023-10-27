@@ -146,7 +146,7 @@ class AuthController {
   getLoggedInUser = async (req, res, next) => {
     try {
       res.json({
-        result: req.authUser,
+        result: req.user,
         msg: "Your Detail",
         status: true,
       });

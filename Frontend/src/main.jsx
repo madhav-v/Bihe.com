@@ -3,12 +3,15 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App.jsx";
 import "./index.css";
-// import ChatProvider from "./Context/chatProvider";
+import { Provider } from "react-redux";
+import store from "./config/store.js";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  // <ChatProvider>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  // </ChatProvider>
+  <>
+    <Provider store={store}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </Provider>
+  </>
 );

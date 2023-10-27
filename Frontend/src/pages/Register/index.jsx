@@ -1,8 +1,7 @@
 import { useFormik } from "formik";
 import login from "/login.png";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useState } from "react";
 import TextField from "../../components/TextField";
 import PasswordField from "../../components/PasswordField";
@@ -19,6 +18,7 @@ const RegisterPage = () => {
   const formik = useFormik({
     initialValues: {
       name: "",
+      role: "user",
       email: "",
       password: "",
       agreeToTerms: false,
@@ -62,6 +62,7 @@ const RegisterPage = () => {
         <div className="bg-white p-8 rounded-lg flex flex-col items-center w-full md:w-3/5 lg:w-1/2 xl:w-1/3">
           <h1 className="text-4xl font-semibold mb-6">Create an Account</h1>
           <form className="w-full max-w-sm" onSubmit={formik.handleSubmit}>
+            <input value={formik.role} type="hidden" />
             <TextField
               label="Full Name"
               id="name"

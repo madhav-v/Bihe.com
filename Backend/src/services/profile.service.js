@@ -5,7 +5,6 @@ class ProfileService {
     try {
       let schema = Joi.object({
         fullName: Joi.string().required(),
-        role: Joi.string().valid("admin", "user").default("user").required(),
         height: Joi.string().required(),
         religion: Joi.string().required(),
         sex: Joi.string().required(),
@@ -86,10 +85,9 @@ class ProfileService {
 
   updateProfile = async (profileId, data) => {
     try {
-      const updatedProfile = await ProfileModel.findByIdAndUpdate(
-        profileId,
-        { $set: data }
-      );
+      const updatedProfile = await ProfileModel.findByIdAndUpdate(profileId, {
+        $set: data,
+      });
       return updatedProfile;
     } catch (error) {
       throw error;
