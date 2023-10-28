@@ -7,9 +7,13 @@ import { toast } from "react-toastify";
 import profileSvc from "../../services/profile.service";
 import Loading from "../error/loading";
 import { VscDeviceCamera } from "react-icons/vsc";
+import { useNavigate, useParams } from "react-router-dom";
 
-const Form = ({ submitAction, detail = null }) => {
+const FormEdit = () => {
+  const navigate = useNavigate();
+  const params = useParams();
   const [selectedImage, setSelectedImage] = useState(null);
+  const [detail, setDetail] = useState();
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     const ext = file.name.split(".").pop().toLowerCase();
@@ -114,13 +118,13 @@ const Form = ({ submitAction, detail = null }) => {
     },
     validationSchema: ProfileSchema,
     onSubmit: async (values) => {
-      console.log(formik.values?.religion);
-      console.log(values);
       try {
-        const res = await profileSvc.createProfile(values);
-        if (res.status) {
-          setIsLoading(false);
+        if (typeof values.image !== "object") {
+          delete values.image;
         }
+        const response = await profileSvc.updateProfile(values, params.id);
+        toast.success("Profile Updated");
+        navigate("/user");
         toast.success("Profile Created Successfully");
       } catch (exception) {
         setIsLoading(false);
@@ -130,7 +134,17 @@ const Form = ({ submitAction, detail = null }) => {
     },
   });
   const [defaultUrl, setDefaultUrl] = useState(null);
- 
+
+  const getProfileDetails = async () => {
+    try {
+      let response = await profileSvc.getProfileById(params.id);
+      setDetail(response.result);
+    } catch (exception) {
+      toast.error("Something went wrong");
+      navigate("/user");
+    }
+  };
+
   useEffect(() => {
     if (!defaultUrl) {
       setDefaultUrl(
@@ -139,6 +153,53 @@ const Form = ({ submitAction, detail = null }) => {
     }
   }, []);
 
+  useEffect(() => {
+    if (detail) {
+      formik.setValues({
+        fullName: detail.fullName,
+        sex: detail.sex,
+        religion: detail.religion,
+        caste: detail.caste,
+        dateOfBirth: detail.dateOfBirth,
+        maritalStatus: detail.maritalStatus,
+        height: detail.height,
+        physicalDisability: detail.physicalDisability,
+        address: detail.address,
+        smokeOrDrink: detail.smokeOrDrink,
+        familyType: detail.familyType,
+        familyValue: detail.familyValue,
+        parentalStatus: detail.parentalStatus,
+        numberOfSiblings: detail.numberOfSiblings,
+        numberOfFamilyMembers: detail.numberOfFamilyMembers,
+        familyAddress: detail.familyAddress,
+        motherTongue: detail.motherTongue,
+        gotra: detail.gotra,
+        educationalDegree: detail.educationalDegree,
+        college: detail.college,
+        occupation: detail.occupation,
+        sector: detail.sector,
+        annualIncome: detail.annualIncome,
+        companyName: detail.companyName,
+        minAge: detail.minAge,
+        maxAge: detail.maxAge,
+        minHeight: detail.minHeight,
+        maxHeight: detail.maxHeight,
+        preferredReligion: detail.preferredReligion,
+        preferredCaste: detail.preferredCaste,
+        preferredEducation: detail.preferredEducation,
+        preferredOccupation: detail.preferredOccupation,
+        preferredSector: detail.preferredSector,
+        preferredAnnualIncome: detail.preferredAnnualIncome,
+        preferredMotherTongue: detail.preferredMotherTongue,
+        preferredMaritalStatus: detail.preferredMaritalStatus,
+        image: detail.image,
+      });
+    }
+  }, [detail]);
+
+  useEffect(() => {
+    getProfileDetails();
+  }, []);
   const genderOptions = [
     { value: "male", label: "Male" },
     { value: "female", label: "Female" },
@@ -364,13 +425,12 @@ const Form = ({ submitAction, detail = null }) => {
               classes3="w-[40%]"
               classes="px-2"
               classes2="block lg:text-lg xl:text-xl"
-              type="date" // Set the input type to "date"
+              type="date"
               placeholder="Select Date of Birth"
               error={formik.errors.dateOfBirth}
             />
 
             <InputSelect
-              // value={firstFormValues.maritalStatus}
               onChange={(selcOpt) => {
                 formik.setValues({
                   ...formik.values,
@@ -387,7 +447,6 @@ const Form = ({ submitAction, detail = null }) => {
           </div>
           <div className="w-full flex justify-around items-center">
             <InputSelect
-              // value={firstFormValues.height}
               onChange={(selcOpt) => {
                 formik.setValues({
                   ...formik.values,
@@ -419,7 +478,6 @@ const Form = ({ submitAction, detail = null }) => {
           </div>
           <div className="w-full flex justify-around items-center">
             <Input
-              // value={firstFormValues.address}
               onChange={formik.handleChange}
               name="address"
               label="Where do you live ?"
@@ -653,33 +711,6 @@ const Form = ({ submitAction, detail = null }) => {
                 name="image"
                 type="file"
                 accept="image/*"
-                // onChange={(e) => {
-                //   let file = e.target.files[0];
-                //   let ext = file.name.split(".").pop();
-
-                //   if (
-                //     [
-                //       "jpg",
-                //       "jpeg",
-                //       "png",
-                //       "gif",
-                //       "bmp",
-                //       "webp",
-                //       "svg",
-                //     ].includes(ext.toLowerCase())
-                //   ) {
-                //     formik.setValues({
-                //       ...formik.values,
-                //       image: file,
-                //     });
-                //     formik.setFieldValue("image", file);
-                //   } else {
-                //     formik.setErrors({
-                //       ...formik.errors,
-                //       image: "File format not supported",
-                //     });
-                //   }
-                // }}
                 onChange={handleImageChange}
                 style={{ display: "none" }}
                 id="imageInput"
@@ -897,4 +928,4 @@ const Form = ({ submitAction, detail = null }) => {
   );
 };
 
-export default Form;
+export default FormEdit;

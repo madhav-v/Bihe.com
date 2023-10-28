@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const userSvc = require("../services/user.service");
 const mailSvc = require("../services/mailing.service");
 const helpers = require("../utilities/helpers");
+const UserModel = require("../model/user.model");
 
 class AuthController {
   register = async (req, res, next) => {
@@ -148,6 +149,25 @@ class AuthController {
       res.json({
         result: req.user,
         msg: "Your Detail",
+        status: true,
+      });
+    } catch (exception) {
+      next(exception);
+    }
+  };
+
+  getUserWithProfile = async (req, res, next) => {
+    try {
+      const userWithProfile = await UserModel.findById(req.params.id).populate(
+        "profile"
+      );
+      console.log(userWithProfile);
+      if (!userWithProfile) {
+        throw { status: 404, msg: "User not found" };
+      }
+      res.json({
+        result: userWithProfile,
+        msg: "User and Profile Fetched",
         status: true,
       });
     } catch (exception) {

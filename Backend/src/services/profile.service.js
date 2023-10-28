@@ -4,6 +4,7 @@ class ProfileService {
   validateProfile = async (data) => {
     try {
       let schema = Joi.object({
+        user: Joi.string(),
         fullName: Joi.string().required(),
         height: Joi.string().required(),
         religion: Joi.string().required(),
@@ -67,7 +68,7 @@ class ProfileService {
 
   getProfileById = async (profileId) => {
     try {
-      const profile = await ProfileModel.findById(profileId);
+      const profile = await ProfileModel.findById(profileId).populate("user");
       return profile;
     } catch (error) {
       throw error;

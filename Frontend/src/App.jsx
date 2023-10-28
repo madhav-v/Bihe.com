@@ -14,6 +14,7 @@ import CheckPermission from "./config/rbsc.config";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { getLoggedInUser, setLoggedInUser } from "./reducers/user.reducer";
+import FormEdit from "./pages/UserForm/edit";
 
 function App() {
   const dispatch = useDispatch();
@@ -39,8 +40,12 @@ function App() {
           }
         />
         <Route
-          path="/form"
+          path="/user/form"
           element={<CheckPermission accessBy={"user"} Component={<Form />} />}
+        />
+        <Route
+          path="/user/form/:id"
+          element={<CheckPermission accessBy={"user"} Component={<FormEdit />} />}
         />
 
         <Route path="*" element={<ErrorPage />} />

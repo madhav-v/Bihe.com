@@ -6,6 +6,10 @@ const UserSchema = new mongoose.Schema({
     required: [true, "Name is required"],
     min: 3,
   },
+  profile: {
+    type: mongoose.Types.ObjectId,
+    ref: "Profile",
+  },
   role: {
     type: String,
     enum: ["admin", "user"],
