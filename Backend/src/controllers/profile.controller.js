@@ -1,14 +1,22 @@
 const profileSvc = require("../services/profile.service");
-
+const UserModel = require("../model/user.model");
 class ProfileController {
   createProfile = async (req, res, next) => {
     try {
+      const userId = req.user._id;
+      const user = await UserModel.findById(userId).populate("profile");
+      console.log(user);
+      if (user.profile) {
+        throw { status: 400, msg: "User already has a profile." };
+      }
+
       let data = req.body;
       if (req.file) {
         data.image = req.file.filename;
       }
       await profileSvc.validateProfile(data);
       let response = await profileSvc.createProfile(data);
+      await UserModel.findByIdAndUpdate(userId, { profile: response._id });
       res.json({
         result: response,
         msg: "Profile Created",

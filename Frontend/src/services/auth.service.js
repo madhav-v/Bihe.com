@@ -57,6 +57,23 @@ class AuthService {
       throw error;
     }
   };
+  getUserWithProfile = async () => {
+    try {
+      let token = localStorage.getItem("token");
+      if (!token) {
+        throw "Token not set..";
+      }
+      let userInfo = await axiosInstance.get("/v1/auth/me/profile", {
+        headers: {
+          Authorization: "Bearer " + token,
+          "Content-Type": "application/json",
+        },
+      });
+      return userInfo;
+    } catch (error) {
+      throw error;
+    }
+  };
 
   forgetPassword = async (email) => {
     try {

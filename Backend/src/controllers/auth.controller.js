@@ -5,6 +5,7 @@ const userSvc = require("../services/user.service");
 const mailSvc = require("../services/mailing.service");
 const helpers = require("../utilities/helpers");
 const UserModel = require("../model/user.model");
+const ProfileModel = require("../model/profile.model");
 
 class AuthController {
   register = async (req, res, next) => {
@@ -158,17 +159,20 @@ class AuthController {
 
   getUserWithProfile = async (req, res, next) => {
     try {
-      const userWithProfile = await UserModel.findById(req.params.id).populate(
-        "profile"
-      );
-      console.log(userWithProfile);
-      if (!userWithProfile) {
-        throw { status: 404, msg: "User not found" };
+      const userId = req.user._id;
+      const userProfile = await UserModel.findById(userId).populate("profile");
+
+      if (!userProfile) {
+        return res.status(404).json({
+          status: 404,
+          msg: "User not found",
+        });
       }
+
       res.json({
-        result: userWithProfile,
-        msg: "User and Profile Fetched",
-        status: true,
+        status: 200,
+        msg: "User and profile data",
+        result: userProfile,
       });
     } catch (exception) {
       next(exception);
