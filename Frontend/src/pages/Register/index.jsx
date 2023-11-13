@@ -42,7 +42,7 @@ const RegisterPage = () => {
         let response = await authSvc.register(requestData);
         if (response.status) {
           toast.success("Registration Successful");
-          navigate("/form");
+          navigate("/user/form");
         }
       } catch (exception) {
         setIsLoading(false);

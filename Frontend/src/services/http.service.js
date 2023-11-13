@@ -38,6 +38,7 @@ class HttpService {
           ...this.headers,
         },
       });
+      console.log(this.headers);
       return response;
     } catch (exception) {
       throw exception;

@@ -5,10 +5,25 @@ import { RiMessengerLine } from "react-icons/ri";
 import { FaRegUser } from "react-icons/fa";
 import { NavLink, Link } from "react-router-dom";
 import logo from "/logo1.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import authSvc from "../../services/auth.service";
 
 const NavBar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [profileDetails, setProfileDetails] = useState();
+
+  const profileData = async () => {
+    try {
+      let response = await authSvc.getUserWithProfile();
+      setProfileDetails(response.result.profile);
+    } catch (exception) {
+      console.log(exception);
+      throw exception;
+    }
+  };
+  useEffect(() => {
+    profileData();
+  }, []);
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -68,6 +83,14 @@ const NavBar = () => {
                           className="block px-4 py-2 text-black hover:bg-gray-200"
                         >
                           My Profile
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink
+                          to={`/user/form/${profileDetails._id}`}
+                          className="block px-4 py-2 text-black hover:bg-gray-200"
+                        >
+                          Edit Profile
                         </NavLink>
                       </li>
                       <li>

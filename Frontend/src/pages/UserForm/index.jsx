@@ -7,8 +7,10 @@ import { toast } from "react-toastify";
 import profileSvc from "../../services/profile.service";
 import Loading from "../error/loading";
 import { VscDeviceCamera } from "react-icons/vsc";
+import { useNavigate } from "react-router-dom";
 
 const Form = ({ submitAction, detail = null }) => {
+  const navigate = useNavigate();
   const [selectedImage, setSelectedImage] = useState(null);
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -114,14 +116,14 @@ const Form = ({ submitAction, detail = null }) => {
     },
     validationSchema: ProfileSchema,
     onSubmit: async (values) => {
-      console.log(formik.values?.religion);
-      console.log(values);
+      setIsLoading(true);
       try {
         const res = await profileSvc.createProfile(values);
+
         if (res.status) {
-          setIsLoading(false);
+          toast.success("Profile Created Successfully");
+          Navigate("/user");
         }
-        toast.success("Profile Created Successfully");
       } catch (exception) {
         setIsLoading(false);
         toast.error("Cannot Create Profile at this moment");
@@ -130,7 +132,7 @@ const Form = ({ submitAction, detail = null }) => {
     },
   });
   const [defaultUrl, setDefaultUrl] = useState(null);
- 
+
   useEffect(() => {
     if (!defaultUrl) {
       setDefaultUrl(

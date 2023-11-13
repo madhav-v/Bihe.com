@@ -39,13 +39,12 @@ function App() {
             <CheckPermission accessBy={"user"} Component={<UserDashboard />} />
           }
         />
-        <Route
-          path="/user/form"
-          element={<CheckPermission accessBy={"user"} Component={<Form />} />}
-        />
+        <Route path="/user/form" element={<Form />} />
         <Route
           path="/user/form/:id"
-          element={<CheckPermission accessBy={"user"} Component={<FormEdit />} />}
+          element={
+            <CheckPermission accessBy={"user"} Component={<FormEdit />} />
+          }
         />
 
         <Route path="*" element={<ErrorPage />} />

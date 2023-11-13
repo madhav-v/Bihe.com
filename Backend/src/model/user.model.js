@@ -7,7 +7,7 @@ const UserSchema = new mongoose.Schema({
     min: 3,
   },
   profile: {
-    type: mongoose.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: "Profile",
   },
   role: {
@@ -18,7 +18,6 @@ const UserSchema = new mongoose.Schema({
   email: {
     type: String,
     required: [true, "Email is required."],
-    // unique: true,
   },
   password: {
     type: String,

@@ -138,6 +138,7 @@ const FormEdit = () => {
   const getProfileDetails = async () => {
     try {
       let response = await profileSvc.getProfileById(params.id);
+      console.log(response.result);
       setDetail(response.result);
     } catch (exception) {
       toast.error("Something went wrong");
@@ -225,9 +226,9 @@ const FormEdit = () => {
     { value: "newar", label: "Newar" },
   ];
   const maritalStatusOptions = [
-    { value: "unmarried", label: "Unmarried" },
-    { value: "awatingdivorce", label: "Awating Divorce" },
-    { value: "divorced", label: "Divorced" },
+    { value: "Unmarried", label: "Unmarried" },
+    { value: "Awating Divorcee", label: "Awating Divorce" },
+    { value: "Divorced", label: "Divorced" },
   ];
   const smokeOrDrinkOptions = [
     { value: "yes", label: "Yes" },
@@ -396,7 +397,11 @@ const FormEdit = () => {
               error={formik.errors.religion}
               value={formik.values?.religion}
               onChange={(selcOpt) => {
-                formik.setFieldValue("religion", selcOpt);
+                console.log(selcOpt);
+                formik.setValues({
+                  ...formik.values,
+                  religion: selcOpt,
+                });
               }}
             />
 
