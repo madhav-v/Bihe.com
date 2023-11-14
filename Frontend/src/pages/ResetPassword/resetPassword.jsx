@@ -18,8 +18,8 @@ const ResetPassword = () => {
       email: Yup.string().email("Invalid email address").required("Required"),
     }),
     onSubmit: async (values) => {
-      setIsLoading(true);
       try {
+        setIsLoading(true);
         const response = await authSvc.forgetPassword(values.email);
         localStorage.setItem("email", values.email);
         if (response.status) {
@@ -57,6 +57,7 @@ const ResetPassword = () => {
         <img src={login} alt="Login" className="w-[40rem]" />
       </div>
     </div>
+   
   );
 };
 

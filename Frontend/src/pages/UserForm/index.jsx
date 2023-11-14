@@ -122,7 +122,7 @@ const Form = ({ submitAction, detail = null }) => {
 
         if (res.status) {
           toast.success("Profile Created Successfully");
-          Navigate("/user");
+          navigate("/user");
         }
       } catch (exception) {
         setIsLoading(false);
@@ -869,7 +869,7 @@ const Form = ({ submitAction, detail = null }) => {
               label="Preffered Marital Status"
               classes1="block text-md lg:text-lg xl:text-xl my-2"
               classes2="xl:w-[40%] basis-[40%]"
-              options={sectorOptions}
+              options={maritalStatusOptions}
               error={formik.errors.preferredMaritalStatus}
             />
             <Input

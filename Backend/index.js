@@ -18,6 +18,7 @@ app.use(
   })
 );
 
+app.use("/assets/", express.static(process.cwd() + "/public/"));
 app.use("/api/v1", routes);
 app.use("/", (req, res) => {
   res.send("Hello World");

@@ -118,14 +118,15 @@ const FormEdit = () => {
     },
     validationSchema: ProfileSchema,
     onSubmit: async (values) => {
+      console.log(values);
       try {
-        if (typeof values.image !== "object") {
-          delete values.image;
-        }
         const response = await profileSvc.updateProfile(values, params.id);
-        toast.success("Profile Updated");
-        navigate("/user");
-        toast.success("Profile Created Successfully");
+        if (response.status) {
+          toast.success("Profile Updated");
+          navigate("/user");
+        } else {
+          toast.error("Something went wrong");
+        }
       } catch (exception) {
         setIsLoading(false);
         toast.error("Cannot Create Profile at this moment");
@@ -226,9 +227,9 @@ const FormEdit = () => {
     { value: "newar", label: "Newar" },
   ];
   const maritalStatusOptions = [
-    { value: "Unmarried", label: "Unmarried" },
-    { value: "Awating Divorcee", label: "Awating Divorce" },
-    { value: "Divorced", label: "Divorced" },
+    { value: "unmarried", label: "Unmarried" },
+    { value: "awatingDivorcee", label: "Awating Divorce" },
+    { value: "divorced", label: "Divorced" },
   ];
   const smokeOrDrinkOptions = [
     { value: "yes", label: "Yes" },
@@ -350,7 +351,7 @@ const FormEdit = () => {
       <div className="mt-0 min-h-full mb-8 px-2 py-4  w-[90%] md:w-[80%] lg:w-[70%] xl:w-[65%] bg-red-50  rounded-lg mx-auto">
         {isLoading && <Loading />}
         <h1 className="text-2xl w-full text-center font-semibold xl:text-3xl my-4">
-          Let's setup your profile.
+          Let's update your profile.
         </h1>
 
         <form className="mx-auto" onSubmit={formik.handleSubmit}>
@@ -397,7 +398,6 @@ const FormEdit = () => {
               error={formik.errors.religion}
               value={formik.values?.religion}
               onChange={(selcOpt) => {
-                console.log(selcOpt);
                 formik.setValues({
                   ...formik.values,
                   religion: selcOpt,
@@ -447,6 +447,7 @@ const FormEdit = () => {
               classes1="block text-md lg:text-lg xl:text-xl my-2"
               classes2="xl:w-[40%] basis-[40%]"
               options={maritalStatusOptions}
+              value={formik.values?.maritalStatus}
               error={formik.errors.maritalStatus}
             />
           </div>
@@ -462,6 +463,7 @@ const FormEdit = () => {
               label="Your Height "
               classes1="block text-md lg:text-lg xl:text-xl my-2"
               classes2="xl:w-[40%] basis-[40%]"
+              value={formik.values?.height}
               options={heightOptions}
               error={formik.errors.height}
             />
@@ -478,12 +480,14 @@ const FormEdit = () => {
               classes1="block text-md lg:text-lg xl:text-xl my-2"
               classes2="xl:w-[40%] basis-[40%]"
               options={disabilityOptions}
+              value={formik.values?.physicalDisability}
               error={formik.errors.physicalDisability}
             />
           </div>
           <div className="w-full flex justify-around items-center">
             <Input
               onChange={formik.handleChange}
+              value={formik.values?.address}
               name="address"
               label="Where do you live ?"
               classes3="w-[40%]"
@@ -507,6 +511,7 @@ const FormEdit = () => {
               classes2="xl:w-[40%] basis-[40%]"
               options={smokeOrDrinkOptions}
               error={formik.errors.smokeOrDrink}
+              value={formik.values?.smokeOrDrink}
             />
           </div>
           <h1 className="mt-10 text-2xl w-[90%] font-bold mx-auto">
@@ -525,6 +530,7 @@ const FormEdit = () => {
               classes1="block text-xl my-2"
               classes2="xl:w-[40%] basis-[40%]"
               options={familytypeOptions}
+              value={formik.values?.familyType}
               error={formik.errors.familyType}
             />
             <InputSelect
@@ -539,6 +545,7 @@ const FormEdit = () => {
               classes1="block text-xl my-2"
               classes2="xl:w-[40%] basis-[40%]"
               options={familyValueOptions}
+              value={formik.values?.familyValue}
               error={formik.errors.familyValue}
             />
           </div>
@@ -555,6 +562,7 @@ const FormEdit = () => {
               classes1="block text-xl my-2"
               classes2="xl:w-[40%] basis-[40%]"
               options={parentStatusOptions}
+              value={formik.values?.parentalStatus}
               error={formik.errors.parentalStatus}
             />
             <Input
@@ -566,6 +574,7 @@ const FormEdit = () => {
               classes2="block lg:text-lg xl:text-xl"
               type="number"
               placeholder="Enter Number of Siblings"
+              value={formik.values?.numberOfSiblings}
               error={formik.errors.numberOfSiblings}
             />
           </div>
@@ -579,6 +588,7 @@ const FormEdit = () => {
               classes2="block lg:text-lg xl:text-xl"
               type="number"
               placeholder="Enter Number of Family Member"
+              value={formik.values?.numberOfFamilyMembers}
               error={formik.errors.numberOfFamilyMembers}
             />
             <Input
@@ -590,6 +600,7 @@ const FormEdit = () => {
               classes2="block lg:text-lg xl:text-xl"
               type="text"
               placeholder="Enter Family Address"
+              value={formik.values?.familyAddress}
               error={formik.errors.familyAddress}
             />
           </div>
@@ -603,6 +614,7 @@ const FormEdit = () => {
               classes2="block lg:text-lg xl:text-xl"
               type="texr"
               placeholder="Enter Your Mother Tongue"
+              value={formik.values?.motherTongue}
               error={formik.errors.motherTongue}
             />
             <InputSelect
@@ -617,6 +629,7 @@ const FormEdit = () => {
               classes1="block text-xl my-2"
               classes2="xl:w-[40%] basis-[40%]"
               options={gotraOptions}
+              value={formik.values?.gotra}
               error={formik.errors.gotra}
             />
           </div>
@@ -636,6 +649,7 @@ const FormEdit = () => {
               classes1="block text-md lg:text-lg xl:text-xl my-2"
               classes2="xl:w-[40%] basis-[40%]"
               options={educationQualificationOptions}
+              value={formik.values?.educationalDegree}
               error={formik.errors.educationalDegree}
             />
             <Input
@@ -647,6 +661,7 @@ const FormEdit = () => {
               classes2="block lg:text-lg xl:text-xl my-2"
               type="text"
               placeholder="Enter College Name"
+              value={formik.values?.college}
               error={formik.errors.college}
             />
           </div>
@@ -663,6 +678,7 @@ const FormEdit = () => {
               classes1="block text-md lg:text-lg xl:text-xl my-2"
               classes2="xl:w-[40%] basis-[40%]"
               options={occupationOptions}
+              value={formik.values?.occupation}
               error={formik.errors.occupation}
             />
             <InputSelect
@@ -677,6 +693,7 @@ const FormEdit = () => {
               classes1="block text-md lg:text-lg xl:text-xl my-2"
               classes2="xl:w-[40%] basis-[40%]"
               options={sectorOptions}
+              value={formik.values?.sector}
               error={formik.errors.sector}
             />
           </div>
@@ -693,6 +710,7 @@ const FormEdit = () => {
               classes1="block text-md lg:text-lg xl:text-xl my-2"
               classes2="xl:w-[40%] basis-[40%]"
               options={annualIncomeOptions}
+              value={formik.values?.annualIncome}
               error={formik.errors.annualIncome}
             />
             <Input
@@ -704,6 +722,7 @@ const FormEdit = () => {
               classes2="block lg:text-lg xl:text-xl"
               type="text"
               placeholder="Enter Company Name"
+              value={formik.values?.companyName}
               error={formik.errors.companyName}
             />
           </div>
@@ -726,7 +745,9 @@ const FormEdit = () => {
               >
                 <img
                   className="rounded-full object-cover w-full h-full object-center"
-                  src={selectedImage || defaultUrl}
+                  src={
+                    import.meta.env.VITE_IMAGE_URL + "/profile/" + detail?.image
+                  }
                   alt=""
                 />
                 <span className="absolute right-0 bottom-0">
@@ -757,6 +778,7 @@ const FormEdit = () => {
               classes2="block lg:text-lg xl:text-xl"
               type="number"
               placeholder="Enter Your Preferred Minimun Age"
+              value={formik.values?.minAge}
               error={formik.errors.minAge}
             />
             <Input
@@ -768,6 +790,7 @@ const FormEdit = () => {
               classes2="block lg:text-lg xl:text-xl"
               type="number"
               placeholder="Enter Your Preferred Maximun Age"
+              value={formik.values?.maxAge}
               error={formik.errors.maxAge}
             />
           </div>
@@ -784,6 +807,7 @@ const FormEdit = () => {
               classes1="block text-md lg:text-lg xl:text-xl my-2"
               classes2="xl:w-[40%] basis-[40%]"
               options={heightOptions}
+              value={formik.values?.minHeight}
               error={formik.errors.minHeight}
             />
             <InputSelect
@@ -798,6 +822,7 @@ const FormEdit = () => {
               classes1="block text-md lg:text-lg xl:text-xl my-2"
               classes2="xl:w-[40%] basis-[40%]"
               options={heightOptions}
+              value={formik.values?.maxHeight}
               error={formik.errors.maxHeight}
             />
           </div>
@@ -814,6 +839,7 @@ const FormEdit = () => {
               classes1="block text-md lg:text-lg xl:text-xl my-2"
               classes2="xl:w-[70%] basis-[40%]"
               options={religionOptions}
+              value={formik.values?.preferredReligion}
               error={formik.errors.preferredReligion}
             />
             <InputSelect
@@ -828,6 +854,7 @@ const FormEdit = () => {
               classes1="block text-xl my-2"
               classes2="xl:w-[40%] basis-[40%]"
               options={casteOptions}
+              value={formik.values?.preferredCaste}
               error={formik.errors.preferredCaste}
             />
           </div>
@@ -844,6 +871,7 @@ const FormEdit = () => {
               classes1="block text-md lg:text-lg xl:text-xl my-2"
               classes2="xl:w-[40%] basis-[40%]"
               options={educationQualificationOptions}
+              value={formik.values?.preferredEducation}
               error={formik.errors.preferredEducation}
             />
             <InputSelect
@@ -858,6 +886,7 @@ const FormEdit = () => {
               classes1="block text-md lg:text-lg xl:text-xl my-2"
               classes2="xl:w-[40%] basis-[40%]"
               options={occupationOptions}
+              value={formik.values?.preferredOccupation}
               error={formik.errors.preferredOccupation}
             />
           </div>
@@ -874,6 +903,7 @@ const FormEdit = () => {
               classes1="block text-md lg:text-lg xl:text-xl my-2"
               classes2="xl:w-[40%] basis-[40%]"
               options={sectorOptions}
+              value={formik.values?.preferredSector}
               error={formik.errors.preferredSector}
             />
             <InputSelect
@@ -888,6 +918,7 @@ const FormEdit = () => {
               classes1="block text-md lg:text-lg xl:text-xl my-2"
               classes2="xl:w-[40%] basis-[40%]"
               options={annualIncomeOptions}
+              value={formik.values?.preferredAnnualIncome}
               error={formik.errors.preferredAnnualIncome}
             />
           </div>
@@ -903,7 +934,8 @@ const FormEdit = () => {
               label="Preffered Marital Status"
               classes1="block text-md lg:text-lg xl:text-xl my-2"
               classes2="xl:w-[40%] basis-[40%]"
-              options={sectorOptions}
+              options={maritalStatusOptions}
+              value={formik.values?.preferredMaritalStatus}
               error={formik.errors.preferredMaritalStatus}
             />
             <Input
@@ -924,7 +956,7 @@ const FormEdit = () => {
               type="submit"
               className="w-40 mb-4 mt-2 bg-red-500 hover:bg-red-600 text-white font-semibold py-2 rounded-lg focus:outline-none focus:ring focus:border-blue-300"
             >
-              Create Profile
+              Update Profile
             </button>
           </div>
         </form>

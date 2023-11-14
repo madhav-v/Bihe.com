@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Router, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/Login";
 import RegisterPage from "./pages/Register";
@@ -15,6 +15,9 @@ import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { getLoggedInUser, setLoggedInUser } from "./reducers/user.reducer";
 import FormEdit from "./pages/UserForm/edit";
+import ChatProvider from "./Context/chatProvider.jsx";
+import ChatPage from "./pages/chat/index.jsx";
+// import ChatPanel from "./pages/chat/index.jsx";
 
 function App() {
   const dispatch = useDispatch();
@@ -25,30 +28,35 @@ function App() {
   return (
     <>
       <ToastContainer />
+      <ChatProvider>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/forgetPassword" element={<ResetPassword />} />
+          <Route path="/setPassword/:token" element={<SetPassword />} />
+          <Route path="/terms" element={<TermsAndConditions />} />
+          <Route path="/chat" element={<ChatPage />} />
+          <Route
+            path="/user"
+            element={
+              <CheckPermission
+                accessBy={"user"}
+                Component={<UserDashboard />}
+              />
+            }
+          />
+          <Route path="/user/form" element={<Form />} />
+          <Route
+            path="/user/form/:id"
+            element={
+              <CheckPermission accessBy={"user"} Component={<FormEdit />} />
+            }
+          />
 
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/forgetPassword" element={<ResetPassword />} />
-        <Route path="/setPassword/:token" element={<SetPassword />} />
-        <Route path="/terms" element={<TermsAndConditions />} />
-        <Route
-          path="/user"
-          element={
-            <CheckPermission accessBy={"user"} Component={<UserDashboard />} />
-          }
-        />
-        <Route path="/user/form" element={<Form />} />
-        <Route
-          path="/user/form/:id"
-          element={
-            <CheckPermission accessBy={"user"} Component={<FormEdit />} />
-          }
-        />
-
-        <Route path="*" element={<ErrorPage />} />
-      </Routes>
+          <Route path="*" element={<ErrorPage />} />
+        </Routes>
+      </ChatProvider>
     </>
   );
 }

@@ -1,6 +1,5 @@
 import { NavLink } from "react-router-dom";
 import background from "/background.jpg";
-import Button from "../../components/Button";
 const HomePage = () => {
   return (
     <>
