@@ -17,6 +17,7 @@ import { getLoggedInUser, setLoggedInUser } from "./reducers/user.reducer";
 import FormEdit from "./pages/UserForm/edit";
 import ChatProvider from "./Context/chatProvider.jsx";
 import ChatPage from "./pages/chat/index.jsx";
+import FourthForm from "./pages/UserForm/fourthform.jsx";
 // import ChatPanel from "./pages/chat/index.jsx";
 
 function App() {
@@ -46,7 +47,11 @@ function App() {
               />
             }
           />
-          <Route path="/user/form" element={<Form />} />
+          <Route path="/profile/info" element={<Form />} />
+          <Route path="/secondform" element={<Form />} />
+          <Route path="/thirdform" element={<Form />} />
+          <Route path="/fourthform" element={<Form />} />
+          <Route path="/fifthform" element={<Form />} />
           <Route
             path="/user/form/:id"
             element={
