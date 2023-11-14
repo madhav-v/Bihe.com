@@ -7,7 +7,7 @@ export const getLoggedInUser = createAsyncThunk(
     try {
       let userData = await authSvc.getLoggedInUser();
       if (userData.status) {
-        return userData.resuly;
+        return userData.result;
       } else {
         throw userData;
       }

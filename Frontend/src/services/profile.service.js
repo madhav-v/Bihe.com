@@ -23,7 +23,7 @@ class ProfileService extends HttpService {
   };
   updateProfile = async (details, id) => {
     try {
-      let response = await this.putRequest("/v1/profle/" + id, data, {
+      let response = await this.putRequest("/v1/profile/" + id, details, {
         auth: true,
         file: true,
       });
