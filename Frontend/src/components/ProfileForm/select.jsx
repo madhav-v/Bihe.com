@@ -31,10 +31,10 @@ const InputSelect = (props) => {
           //   // Handle the selected option and update the form using Formik's handleChange
           //   props.onChange(props.name, selectedOption);
           // }}
-          value={props.options.find(
-            (option) =>
-              option.value === props.value || option.label === props.value
-          )}
+          // value={props.options.find(
+          //   (option) =>
+          //     option.value === props.value || option.label === props.value
+          // )}
           onChange={handleChange}
           setValue={{ value: "hello", label: "Hello" }}
           styles={{
