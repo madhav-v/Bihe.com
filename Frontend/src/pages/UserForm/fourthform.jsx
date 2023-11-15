@@ -83,54 +83,6 @@ function FourthForm({
     { value: "divorced", label: "Divorced" },
   ];
 
-  const fromAgeOptions = [
-    { value: 22, label: 22 },
-    { value: 23, label: 23 },
-    { value: 24, label: 24 },
-    { value: 25, label: 25 },
-    { value: 26, label: 26 },
-    { value: 27, label: 27 },
-    { value: 28, label: 28 },
-    { value: 29, label: 29 },
-    { value: 30, label: 30 },
-    { value: 31, label: 31 },
-    { value: 32, label: 32 },
-    { value: 33, label: 33 },
-    { value: 34, label: 34 },
-    { value: 35, label: 35 },
-    { value: 36, label: 36 },
-    { value: 37, label: 37 },
-    { value: 38, label: 38 },
-    { value: 39, label: 39 },
-    { value: 40, label: 40 },
-    { value: 41, label: 41 },
-    { value: 42, label: 42 },
-  ];
-
-  const toAgeOptions = [
-    { value: 22, label: 22 },
-    { value: 23, label: 23 },
-    { value: 24, label: 24 },
-    { value: 25, label: 25 },
-    { value: 26, label: 26 },
-    { value: 27, label: 27 },
-    { value: 28, label: 28 },
-    { value: 29, label: 29 },
-    { value: 30, label: 30 },
-    { value: 31, label: 31 },
-    { value: 32, label: 32 },
-    { value: 33, label: 33 },
-    { value: 34, label: 34 },
-    { value: 35, label: 35 },
-    { value: 36, label: 36 },
-    { value: 37, label: 37 },
-    { value: 38, label: 38 },
-    { value: 39, label: 39 },
-    { value: 40, label: 40 },
-    { value: 41, label: 41 },
-    { value: 42, label: 42 },
-  ];
-
   const annualIncomeOptions = [
     { value: "2L", label: "Upto 2L" },
     { value: "3L", label: "Upto 3L" },
@@ -187,19 +139,6 @@ function FourthForm({
     { value: "newar", label: "Newar" },
   ];
 
-  const familyValueOptions = [
-    { value: "traditional", label: "Traditional" },
-    { value: "moderate", label: "Moderate" },
-    { value: "liberal", label: "Liberal" },
-  ];
-
-  const parentStatusOptions = [
-    { value: "bothAlive", label: "Both Alive" },
-    { value: "fatherPassedAway", label: "Father Passed Away" },
-    { value: "motherPassedAway", label: "Mother Passed Away" },
-    { value: "bothPassedAway", label: "Both Passed Away" },
-  ];
-
   const sectorOptions = [
     { value: "private", label: "Private Company" },
     { value: "government", label: "Government" },
@@ -207,14 +146,6 @@ function FourthForm({
     { value: "selfEmployed", label: "Self Employed" },
     { value: "unEmployed", label: "Unemployed" },
   ];
-
-  const handleMinAgeChange = (values) => {
-    setFourthFormValues({ ...fourthFormValues, minAge: values.value });
-  };
-
-  const handleMaxAgeChange = (values) => {
-    setFourthFormValues({ ...fourthFormValues, maxAge: values.value });
-  };
 
   const handleMinHeightChange = (values) => {
     setFourthFormValues({ ...fourthFormValues, minHeight: values.value });
@@ -257,18 +188,12 @@ function FourthForm({
 
   return (
     <div className="mt-16 min-h-full mb-8 px-2 py-4  w-[90%] md:w-[80%] lg:w-[70%] xl:w-[65%] bg-white  rounded-lg mx-auto">
-      {/* <h1 className="text-2xl w-full text-center font-semibold xl:text-4xl my-4">Some Personal details</h1> */}
-
       <form className=" mx-auto">
         <h1 className="text-2xl w-[90%] mx-auto mb-1 font-bold">
           Partner Preferance detail{" "}
         </h1>
 
         <div className="w-[90%] mx-auto flex flex-col justify-start items-center">
-          <h1 className="w-full mx-auto mt-1 text-md lg:text-lg 2xl:text-xl">
-            Age Range
-          </h1>
-
           <div className="flex w-[100%] justify-between mt-0">
             <Input
               name="minAge"
@@ -391,7 +316,7 @@ function FourthForm({
             classes="px-2"
             classes2="block text-md lg:text-lg xl:text-xl"
             type="text"
-            placeholder="Enter your mother tongue"
+            placeholder="Preferred mother tongue"
           />
         </div>
 

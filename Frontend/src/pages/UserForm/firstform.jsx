@@ -105,6 +105,10 @@ function FirstForm({
     { value: "no", label: "No" },
     { value: "physicalDisability", label: "Physical Disability" },
   ];
+  const smokeorDrinkOptions = [
+    { value: "yes", label: "Yes" },
+    { value: "no", label: "No" },
+  ];
 
   const handleNextClick = () => {
     setCurrentFormCount((prev) => prev + 1);
@@ -184,17 +188,6 @@ function FirstForm({
             placeholder="Enter full Name"
           />
           <InputSelect
-            value={firstFormValues.profileCreatedFor}
-            onChange={handleProfileForChange}
-            label="Profile for "
-            classes1="block text-md lg:text:lg xl:text-xl my-2"
-            classes2="xl:w-[40%] basis-[40%]"
-            options={profileOptions}
-          />
-        </div>
-
-        <div className="w-full flex  justify-around items-center">
-          <InputSelect
             value={firstFormValues.sex}
             onChange={handleGenderChange}
             label="Gender "
@@ -202,6 +195,9 @@ function FirstForm({
             classes2="xl:w-[40%] basis-[40%]"
             options={genderOptions}
           />
+        </div>
+
+        <div className="w-full flex  justify-around items-center">
           <InputSelect
             value={firstFormValues.religion}
             onChange={handleReligionChange}
@@ -210,9 +206,6 @@ function FirstForm({
             classes2="xl:w-[70%] basis-[40%]"
             options={religionOptions}
           />
-        </div>
-
-        <div className="w-full flex justify-around  items-center">
           <InputSelect
             value={firstFormValues.caste}
             onChange={handleCasteChange}
@@ -221,6 +214,9 @@ function FirstForm({
             classes2="xl:w-[40%] basis-[40%]"
             options={casteOptions}
           />
+        </div>
+
+        <div className="w-full flex justify-around  items-center">
           <Input
             // onChange={formik.handleChange}
             // value={formik.values?.dateOfBirth}
@@ -233,9 +229,6 @@ function FirstForm({
             placeholder="Select Date of Birth"
             // error={formik.errors.dateOfBirth}
           />
-        </div>
-
-        <div className="w-full flex justify-around  items-center">
           <Input
             value={firstFormValues.address}
             onChange={handleInputChange}
@@ -247,6 +240,9 @@ function FirstForm({
             type="text"
             placeholder="Enter your current address"
           />
+        </div>
+
+        <div className="w-full flex justify-around  items-center">
           <InputSelect
             value={firstFormValues.marital_status}
             onChange={handleMaritalStatusChange}
@@ -255,9 +251,6 @@ function FirstForm({
             classes2="xl:w-[40%] basis-[40%]"
             options={maritalStatusOptions}
           />
-        </div>
-
-        <div className="w-full flex justify-around  items-center">
           <InputSelect
             value={firstFormValues.height}
             onChange={handleHeightChange}
@@ -266,6 +259,9 @@ function FirstForm({
             classes2="xl:w-[40%] basis-[40%]"
             options={heightOptions}
           />
+        </div>
+
+        <div className="w-full flex justify-around  items-center">
           <InputSelect
             value={firstFormValues.physicalDisability}
             onChange={handlePhysicalDisabilityChange}
@@ -273,6 +269,14 @@ function FirstForm({
             classes1="block text-md lg:text-lg xl:text-xl my-2"
             classes2="xl:w-[40%] basis-[40%]"
             options={disabilityOptions}
+          />
+          <InputSelect
+            value={firstFormValues.smokeOrDrink}
+            onChange={handlePhysicalDisabilityChange}
+            label="Smoke or Drink"
+            classes1="block text-md lg:text-lg xl:text-xl my-2"
+            classes2="xl:w-[40%] basis-[40%]"
+            options={smokeorDrinkOptions}
           />
         </div>
         <h3 className="text-center font-semibold text-2xl mb-3 mt-5">
