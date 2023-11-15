@@ -966,7 +966,7 @@ const Form = () => {
     sector: "",
     motherTongue: "",
   });
-  const [fifthFormValues, setfifthFormValues] = useState({
+  const [fifthFormValues, setFifthFormValues] = useState({
     minAge: "",
     maxAge: "",
     minHeight: "",
@@ -1010,7 +1010,7 @@ const Form = () => {
     />,
     <FifthForm
       fifthFormValues={fifthFormValues}
-      setFifthFormValues={setFourthFormValues}
+      setFifthFormValues={setFifthFormValues}
       currentFormCount={currentFormCount}
       setCurrentFormCount={setCurrentFormCount}
     />,

@@ -48,15 +48,9 @@ function App() {
             }
           />
           <Route path="/profile/info" element={<Form />} />
-          <Route path="/secondform" element={<Form />} />
-          <Route path="/thirdform" element={<Form />} />
-          <Route path="/fourthform" element={<Form />} />
-          <Route path="/fifthform" element={<Form />} />
           <Route
-            path="/user/form/:id"
-            element={
-              <CheckPermission accessBy={"user"} Component={<FormEdit />} />
-            }
+            path="/profile/info/:id"
+            element={<CheckPermission accessBy={"user"} Component={<Form />} />}
           />
 
           <Route path="*" element={<ErrorPage />} />
