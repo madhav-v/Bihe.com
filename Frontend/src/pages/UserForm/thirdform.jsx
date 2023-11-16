@@ -146,17 +146,6 @@ function ThirdForm({
             classes2="xl:w-[40%] basis-[40%]"
             options={educationQualificationOptions}
           />
-          <InputSelect
-            value={thirdFormValues.subject}
-            onChange={handleSubjectChange}
-            label="Field/Subject/Program"
-            classes1="block text-md lg:text-lg xl:text-xl my-2"
-            classes2="xl:w-[40%] basis-[40%]"
-            options={subjectOptions}
-          />
-        </div>
-
-        <div className="w-full flex justify-around items-center">
           <Input
             value={thirdFormValues.college}
             name="college"
@@ -168,6 +157,9 @@ function ThirdForm({
             type="text"
             placeholder="College/University"
           />
+        </div>
+
+        <div className="w-full flex justify-around items-center">
           <InputSelect
             value={thirdFormValues.occupation}
             onChange={handleOccupationChange}
@@ -175,9 +167,6 @@ function ThirdForm({
             classes1="block text-md lg:text-lg xl:text-xl my-2"
             classes2="xl:w-[40%] basis-[40%]"
           />
-        </div>
-
-        <div className="w-full flex justify-around items-center">
           <InputSelect
             value={thirdFormValues.sector}
             onChange={handleSectorChange}
@@ -186,6 +175,9 @@ function ThirdForm({
             classes2="xl:w-[40%] basis-[40%]"
             options={casteOptions}
           />
+        </div>
+
+        <div className="w-full flex justify-around items-center">
           <Input
             name="companyName"
             value={thirdFormValues.companyName}
@@ -197,9 +189,6 @@ function ThirdForm({
             type="text"
             placeholder="Name of Employer"
           />
-        </div>
-
-        <div className="w-[90%] mx-auto flex justify-start items-center">
           <InputSelect
             onChange={handleAnnualIncomeChange}
             value={thirdFormValues.annualIncome}

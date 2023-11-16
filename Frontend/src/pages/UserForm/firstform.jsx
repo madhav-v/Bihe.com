@@ -118,11 +118,6 @@ function FirstForm({
     setFirstFormValues({ ...firstFormValues, [e.target.name]: e.target.value });
   };
 
-  const handleProfileForChange = (values) => {
-    console.log(values);
-    setFirstFormValues({ ...firstFormValues, profileCreatedFor: values.value });
-  };
-
   const handleGenderChange = (values) => {
     setFirstFormValues({ ...firstFormValues, sex: values.value });
   };
@@ -135,17 +130,13 @@ function FirstForm({
     setFirstFormValues({ ...firstFormValues, caste: values.value });
   };
 
-  const handleSubCasteChange = (values) => {
-    setFirstFormValues({ ...firstFormValues, subcaste: values.value });
-  };
-
   const handleMaritalStatusChange = (values) => {
     setFirstFormValues({ ...firstFormValues, marital_status: values.value });
   };
 
-  const handleHeightChange = (values) => [
-    setFirstFormValues({ ...firstFormValues, height: values.value }),
-  ];
+  const handleHeightChange = (values) => {
+    setFirstFormValues({ ...firstFormValues, height: values.value });
+  };
 
   const handlePhysicalDisabilityChange = (values) => {
     setFirstFormValues({
