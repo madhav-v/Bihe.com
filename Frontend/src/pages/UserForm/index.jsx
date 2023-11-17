@@ -912,18 +912,14 @@ const Form = () => {
   const [firstFormValues, setFirstFormValues] = useState({
     fullname: "",
     height: "",
-    profileCreatedFor: "",
     religion: "",
     sex: "",
     caste: "",
-    subcaste: "",
     marital_status: "",
-    day: "",
-    month: "",
-    year: "",
+    dateOfBirth: "",
     physicalDisability: "",
     address: "",
-    // smokeOrDrink: '',
+    smokeOrDrink: '',
   });
 
   const [secondFormValues, setSecondFormValues] = useState({

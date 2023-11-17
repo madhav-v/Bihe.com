@@ -30,16 +30,6 @@ function FirstForm({
   //   }
   // }, [personalDetail]);
 
-  const profileOptions = [
-    { value: "myself", label: "MySelf" },
-    { value: "brother", label: "Brother" },
-    { value: "sister", label: "Sister" },
-    { value: "son", label: "Son" },
-    { value: "daughter", label: "Daughter" },
-    { value: "friend", label: "Friend" },
-    { value: "relative", label: "Relative" },
-  ];
-
   const religionOptions = [
     { value: "hindu", label: "Hinduism" },
     { value: "buddhist", label: "Buddhism" },
@@ -118,11 +108,6 @@ function FirstForm({
     setFirstFormValues({ ...firstFormValues, [e.target.name]: e.target.value });
   };
 
-  const handleProfileForChange = (values) => {
-    console.log(values);
-    setFirstFormValues({ ...firstFormValues, profileCreatedFor: values.value });
-  };
-
   const handleGenderChange = (values) => {
     setFirstFormValues({ ...firstFormValues, sex: values.value });
   };
@@ -135,17 +120,13 @@ function FirstForm({
     setFirstFormValues({ ...firstFormValues, caste: values.value });
   };
 
-  const handleSubCasteChange = (values) => {
-    setFirstFormValues({ ...firstFormValues, subcaste: values.value });
-  };
-
   const handleMaritalStatusChange = (values) => {
     setFirstFormValues({ ...firstFormValues, marital_status: values.value });
   };
 
-  const handleHeightChange = (values) => [
-    setFirstFormValues({ ...firstFormValues, height: values.value }),
-  ];
+  const handleHeightChange = (values) => {
+    setFirstFormValues({ ...firstFormValues, height: values.value });
+  };
 
   const handlePhysicalDisabilityChange = (values) => {
     setFirstFormValues({
@@ -165,12 +146,12 @@ function FirstForm({
   };
 
   return (
-    <div className="mt-16 min-h-full mb-8 px-2 py-4  w-[90%] md:w-[80%] lg:w-[70%] xl:w-[65%] bg-white  rounded-lg mx-auto">
+    <div className="mt-16 min-h-full mb-8 px-2 py-4 border w-[90%] md:w-[80%] lg:w-[70%] xl:w-[65%] bg-white  rounded-lg mx-auto">
       <h1 className="text-2xl w-full text-center font-semibold xl:text-3xl my-4">
         Let's setup your account.
       </h1>
 
-      <form className=" mx-auto">
+      <form className=" mx-auto" >
         <h1 className="text-2xl w-[90%] font-bold mx-auto">
           Basic Information
         </h1>
@@ -219,7 +200,7 @@ function FirstForm({
         <div className="w-full flex justify-around  items-center">
           <Input
             // onChange={formik.handleChange}
-            // value={formik.values?.dateOfBirth}
+            value={firstFormValues.dateOfBirth}
             name="dateOfBirth"
             label="Date of Birth"
             classes3="w-[40%]"
