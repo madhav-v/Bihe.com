@@ -21,32 +21,27 @@ const InputSelect = (props) => {
           </label>
         )}
         <CreatableSelect
-          // placeholder={props.placeholder && props.placeholder}
           closeMenuOnSelect={true}
           components={animatedComponents}
-          defaultValue={[props.default && props.default]}
-          // isMulti={props.isMulti ? true : false}
+          // defaultValue={[props.default && props.default]}
           options={props.options && props.options}
-          onChange={props.onChange && props.onChange}
           // onChange={(selectedOption) => {
           //   // Handle the selected option and update the form using Formik's handleChange
-          //   props.onChange(props.name, selectedOption);
+          //   const value = selectedOption ? selectedOption.value : ""; // Extract the value
+          //   props.onChange &&
+          //     props.onChange({ target: { name: props.name, value } });
           // }}
-          // value={props.options.find(
-          //   (option) =>
-          //     option.value === props.value || option.label === props.value
-          // )}
+          onChange={props.onChange && props.onChange}
+          // setValue={{ value: "hello", label: "Hello" }}
+          value={props.options.find(
+            (option) =>
+              option.value === props.value || option.label === props.value
+          )}
           // onChange={handleChange}
-          setValue={{ value: "hello", label: "Hello" }}
           styles={{
             control: (baseStyles, state) => ({
               ...baseStyles,
-              // border: 'none',
-              // backgroundColor: '#f0efef',
               padding: "2px 5px",
-              //   border: state.isFocused ? "none" : "none !important",
-              // outline: state.isFocused ? 'none !important' : 'none',
-              // borderBottom: '4px solid red',
             }),
           }}
         />

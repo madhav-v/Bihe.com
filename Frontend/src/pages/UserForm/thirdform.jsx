@@ -194,7 +194,7 @@ function ThirdForm({
             value={thirdFormValues.annualIncome}
             label="Annual Income"
             classes1="block text-md lg:text-lg xl:text-xl my-2"
-            classes2="xl:w-[45%] basis-[45%]"
+            classes2="xl:w-[40%] basis-[40%]"
             options={annualIncomeOptions}
           />
         </div>
@@ -214,14 +214,6 @@ function ThirdForm({
             classes2="w-full flex justify-center py-4"
           />
         </div>
-
-        {/* <button className="btnprev" onClick={() => handlePrevClick()}>
-            <HiChevronDoubleLeft /> Prev
-          </button>
-    
-          <button type="submit" className="btnnext">
-            Next <HiChevronDoubleRight /> */}
-        {/* </button> */}
       </form>
     </div>
   );
