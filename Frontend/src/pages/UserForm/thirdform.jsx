@@ -13,7 +13,7 @@ function ThirdForm({
   currentFromCount,
 }) {
   // const { educationDetail } = useSelector((state) => state.educationDetail);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const handlePrevClick = () => {
     setCurrentFormCount((prev) => prev - 1);
@@ -23,44 +23,6 @@ function ThirdForm({
     setCurrentFormCount((prev) => prev + 1);
   };
 
-  const profileOptions = [
-    { value: "myself", label: "MySelf" },
-    { value: "brother", label: "Brother" },
-    { value: "sister", label: "Sister" },
-    { value: "son", label: "Son" },
-    { value: "daughter", label: "Daughter" },
-    { value: "friend", label: "Friend" },
-    { value: "relative", label: "Relative" },
-  ];
-
-  const religionOptions = [
-    { value: "hindu", label: "Hinduism" },
-    { value: "buddhist", label: "Buddhism" },
-    { value: "islam", label: "Islam" },
-    { value: "christianity", label: "Christianity" },
-    { value: "sikh", label: "Sikhism" },
-    { value: "Jain", label: "Jainism" },
-    { value: "kirat", label: "Kirat" },
-    { value: "no", label: "Non-Religious" },
-    { value: "other", label: "Other" },
-  ];
-
-  const genderOptions = [
-    { value: "Man", label: "Man" },
-    { value: "woman", label: "Woman" },
-    { value: "other", label: "Other" },
-  ];
-
-  const casteOptions = [
-    { value: "brahmin", label: "Brahmin" },
-    { value: "chhetri", label: "chhetri" },
-    { value: "thakuri", label: "Thakuri" },
-    { value: "magar", label: "Magar" },
-    { value: "tamang", label: "Tamang" },
-    { value: "sherpa", label: "Sherpa" },
-    { value: "newar", label: "Newar" },
-  ];
-
   const educationQualificationOptions = [
     { value: "undergraduate", label: "Undergraduate" },
     { value: "graduate", label: "Graduate" },
@@ -68,24 +30,6 @@ function ThirdForm({
     { value: "highSchool", label: "High School" },
     { value: "literate", label: "Literate" },
     { value: "illiterate", label: "Illiterate" },
-  ];
-
-  const subjectOptions = [
-    { value: "engineering", label: "Engineering/" },
-    { value: "medical", label: "Medical" },
-    { value: "business", label: "Business" },
-    { value: "law", label: "Law" },
-    { value: "socialScience", label: "Social Science" },
-    { value: "commerce", label: "Commerce/Finance" },
-    { value: "agriculture", label: "Agriculture" },
-  ];
-
-  const sectorOptions = [
-    { value: "private", label: "Private Company" },
-    { value: "government", label: "Government" },
-    { value: "ngo", label: "NGO's/INGO's" },
-    { value: "selfEmployed", label: "Self Employed" },
-    { value: "unEmployed", label: "Unemployed" },
   ];
 
   const annualIncomeOptions = [
@@ -103,6 +47,23 @@ function ThirdForm({
     { value: "20L-30L", label: "20L-30L" },
     { value: "abover30L", label: "Above 30L" },
   ];
+  const occupationOptions = [
+    { value: "student", label: "Student" },
+    { value: "employed", label: "Employed" },
+    { value: "business", label: "Business Owner" },
+    { value: "freelancer", label: "Freelancer" },
+    { value: "homemaker", label: "Homemaker" },
+    { value: "unemployed", label: "Unemployed" },
+    { value: "retired", label: "Retired" },
+    { value: "other", label: "Other" },
+  ];
+  const sectorOptions = [
+    { value: "private", label: "Private Company" },
+    { value: "government", label: "Government" },
+    { value: "ngo", label: "NGO's/INGO's" },
+    { value: "selfEmployed", label: "Self Employed" },
+    { value: "unEmployed", label: "Unemployed" },
+  ];
 
   const handleInputChange = (e) => {
     setThirdFormValues({ ...thirdFormValues, [e.target.name]: e.target.value });
@@ -110,10 +71,6 @@ function ThirdForm({
 
   const handleEducationalQualification = (values) => {
     setThirdFormValues({ ...thirdFormValues, education_degree: values.value });
-  };
-
-  const handleSubjectChange = (values) => {
-    setThirdFormValues({ ...thirdFormValues, subject: values.value });
   };
 
   const handleOccupationChange = (values) => {
@@ -130,8 +87,6 @@ function ThirdForm({
 
   return (
     <div className="mt-16 min-h-full mb-8 px-2 py-4  w-[90%] md:w-[80%] lg:w-[70%] xl:w-[65%] bg-white rounded-lg mx-auto">
-      {/* <h1 className="text-2xl w-full text-center font-semibold xl:text-4xl my-4">Let's setup your account.</h1> */}
-
       <form className=" mx-auto">
         <h1 className="text-2xl font-semibold w-[90%] mx-auto">
           Education and Profession Information
@@ -166,6 +121,7 @@ function ThirdForm({
             label="Current Profession and Position"
             classes1="block text-md lg:text-lg xl:text-xl my-2"
             classes2="xl:w-[40%] basis-[40%]"
+            options={occupationOptions}
           />
           <InputSelect
             value={thirdFormValues.sector}
@@ -173,7 +129,7 @@ function ThirdForm({
             label="Sector You are working in"
             classes1="block text-md lg:text-lg xl:text-xl my-2"
             classes2="xl:w-[40%] basis-[40%]"
-            options={casteOptions}
+            options={sectorOptions}
           />
         </div>
 

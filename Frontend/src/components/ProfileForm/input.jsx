@@ -1,4 +1,9 @@
 const Input = (props) => {
+  const handleChange = (e) => {
+    if (props.onChange) {
+      props.onChange(e);
+    }
+  };
   return (
     <>
       <div className={`my-2 ${props.classes3 && props.classes3}`}>
@@ -17,7 +22,7 @@ const Input = (props) => {
           }`}
           type={props.type && props.type}
           placeholder={props.placeholder && props.placeholder}
-          onChange={props.onChange && props.onChange}
+          onChange={handleChange}
           value={props.value && props.value}
         />
         {props.error && <p className="text-red-500 text-sm">{props.error}</p>}
