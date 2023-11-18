@@ -13,9 +13,6 @@ function SecondForm({
   setCurrentFormCount,
   currentFromCount,
 }) {
-  // const { familyDetail } = useSelector((state) => state.familyDetail);
-
-  const dispatch = useDispatch();
 
   const handlePrevClick = () => {
     setCurrentFormCount((prev) => prev - 1);

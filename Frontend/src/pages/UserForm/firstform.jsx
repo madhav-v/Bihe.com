@@ -16,19 +16,9 @@ function FirstForm({
   currentFormCount,
   setCurrentFormCount,
 }) {
+  console.log(firstFormValues);
   const [selectedImage, setSelectedImage] = useState(null);
   const fileInputRef = useRef(null);
-  const navigate = useNavigate();
-  // const { personalDetail } = useSelector((state) => state.personalDetail);
-
-  const dispatch = useDispatch();
-
-  // useEffect(() => {
-  //   console.log(personalDetail);
-  //   if (personalDetail) {
-  //     setFirstFormValues(personalDetail);
-  //   }
-  // }, [personalDetail]);
 
   const religionOptions = [
     { value: "hindu", label: "Hinduism" },
@@ -104,6 +94,11 @@ function FirstForm({
     setCurrentFormCount((prev) => prev + 1);
   };
 
+  const handleSubmit = (values) => {
+    console.log("hi");
+    console.log(values);
+  };
+
   const handleInputChange = (e) => {
     setFirstFormValues({ ...firstFormValues, [e.target.name]: e.target.value });
   };
@@ -134,6 +129,12 @@ function FirstForm({
       physicalDisability: values.value,
     });
   };
+  const handleSmokeOrDrinkChange = (values) => {
+    setFirstFormValues({
+      ...firstFormValues,
+      smokeOrDrink: values.value,
+    });
+  };
   const handleProfileClick = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
@@ -151,7 +152,7 @@ function FirstForm({
         Let's setup your account.
       </h1>
 
-      <form className=" mx-auto">
+      <form className=" mx-auto" onSubmit={handleSubmit}>
         <h1 className="text-2xl w-[90%] font-bold mx-auto">
           Basic Information
         </h1>
@@ -172,6 +173,7 @@ function FirstForm({
             value={firstFormValues.sex}
             onChange={handleGenderChange}
             label="Gender "
+            name="sex"
             classes1="block text-xl my-2"
             classes2="xl:w-[40%] basis-[40%]"
             options={genderOptions}
@@ -183,6 +185,7 @@ function FirstForm({
             value={firstFormValues.religion}
             onChange={handleReligionChange}
             label="Religion "
+            name="religion"
             classes1="block text-md lg:text-lg xl:text-xl my-2"
             classes2="xl:w-[70%] basis-[40%]"
             options={religionOptions}
@@ -191,6 +194,7 @@ function FirstForm({
             value={firstFormValues.caste}
             onChange={handleCasteChange}
             label="Caste"
+            name="caste"
             classes1="block text-xl my-2"
             classes2="xl:w-[40%] basis-[40%]"
             options={casteOptions}
@@ -208,7 +212,6 @@ function FirstForm({
             classes2="block lg:text-lg xl:text-xl"
             type="date"
             placeholder="Select Date of Birth"
-            // error={formik.errors.dateOfBirth}
           />
           <Input
             value={firstFormValues.address}
@@ -228,6 +231,7 @@ function FirstForm({
             value={firstFormValues.marital_status}
             onChange={handleMaritalStatusChange}
             label="Marital Status"
+            name="marital_status"
             classes1="block text-md lg:text-lg xl:text-xl my-2"
             classes2="xl:w-[40%] basis-[40%]"
             options={maritalStatusOptions}
@@ -236,6 +240,7 @@ function FirstForm({
             value={firstFormValues.height}
             onChange={handleHeightChange}
             label="Your Height "
+            name="height"
             classes1="block text-md lg:text-lg xl:text-xl my-2"
             classes2="xl:w-[40%] basis-[40%]"
             options={heightOptions}
@@ -247,14 +252,16 @@ function FirstForm({
             value={firstFormValues.physicalDisability}
             onChange={handlePhysicalDisabilityChange}
             label="Any Disability"
+            name="physicalDisability"
             classes1="block text-md lg:text-lg xl:text-xl my-2"
             classes2="xl:w-[40%] basis-[40%]"
             options={disabilityOptions}
           />
           <InputSelect
             value={firstFormValues.smokeOrDrink}
-            onChange={handlePhysicalDisabilityChange}
+            onChange={handleSmokeOrDrinkChange}
             label="Smoke or Drink"
+            name="smokeOrDrink"
             classes1="block text-md lg:text-lg xl:text-xl my-2"
             classes2="xl:w-[40%] basis-[40%]"
             options={smokeorDrinkOptions}
@@ -285,13 +292,14 @@ function FirstForm({
           </span>
         </div>
         <button
-          className="px-4 py-2 bg-primary rounded-xl text-white text-xl my-3 mx-auto"
+          className="px-4 py-2 bg-red-500 flex justify-around  items-center rounded-xl text-white text-xl my-3 mx-auto"
           onClick={handleProfileClick}
         >
           Add a Photo +
         </button>
         <div>
           <input
+            name="image"
             type="file"
             ref={fileInputRef}
             className="hidden"
@@ -301,7 +309,6 @@ function FirstForm({
         </div>
 
         <div className="w-full flex justify-center">
-          {/* <Button label="Previous" classes="px-16 py-3 rounded-xl btnnext text-white" classes2="w-full flex justify-center py-4" onClick={() => handlePrevClick()} /> */}
           <Button
             type="submit"
             onClick={handleNextClick}
@@ -310,14 +317,6 @@ function FirstForm({
             classes2="w-full flex justify-center py-4"
           />
         </div>
-
-        {/* <button className="btnprev" onClick={() => handlePrevClick()}>
-            <HiChevronDoubleLeft /> Prev
-          </button>
-    
-          <button type="submit" className="btnnext">
-            Next <HiChevronDoubleRight /> */}
-        {/* </button> */}
       </form>
     </div>
   );

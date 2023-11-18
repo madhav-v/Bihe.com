@@ -162,7 +162,7 @@ function FifthForm({
               onClick={() => handlePrevClick()}
             />
             <Button
-              type="submit"
+              type="button"
               label="Submit"
               onClick={() => handleSubmit()}
               classes="px-16 py-3 rounded-xl btnnext text-white"

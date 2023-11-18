@@ -16,10 +16,71 @@ import FifthForm from "./fifthform";
 import NewHeader from "../../components/ProfileFormComp/NewHeader";
 import NewProgressBar from "../../components/ProfileFormComp/progressbar";
 
-
 const Form = () => {
   const [currentFormCount, setCurrentFormCount] = useState(0);
-
+  // const [formValues, setFormValues] = useState({
+  //   firstFormValues: {
+  //     fullname: "",
+  //     height: "",
+  //     religion: "",
+  //     sex: "",
+  //     caste: "",
+  //     marital_status: "",
+  //     dateOfBirth: "",
+  //     physicalDisability: "",
+  //     address: "",
+  //     smokeOrDrink: "",
+  //     image: "",
+  //   },
+  //   secondFormValues: {
+  //     familyType: "",
+  //     noOfSiblings: "",
+  //     noOfFamilyMember: "",
+  //     noOfUnmarried: "",
+  //     liveWithFamily: "",
+  //     familyValues: "",
+  //     gotra: "",
+  //     parentStatus: "",
+  //     familyAddress: "",
+  //     nativePlace: "",
+  //     motherTongue: "",
+  //   },
+  //   thirdFormValues: {
+  //     education_degree: "",
+  //     subject: "",
+  //     college: "",
+  //     occupation: "",
+  //     sector: "",
+  //     annualIncome: "",
+  //     companyName: "",
+  //   },
+  //   fourthFormValues: {
+  //     minAge: "",
+  //     maxAge: "",
+  //     minHeight: "",
+  //     maxHeight: "",
+  //     maritalStatus: "",
+  //     religion: "",
+  //     caste: "",
+  //     subcaste: "",
+  //     education: "",
+  //     // occupation: '',
+  //     subject: "",
+  //     annualIncome: "",
+  //     sector: "",
+  //     motherTongue: "",
+  //   },
+  //   fifthFormValues: {
+  //     ageWight: "",
+  //     heightWeight: "",
+  //     religionWeight: "",
+  //     casteWeight: "",
+  //     educational_degreeWeight: "",
+  //     annualIncomeWeight: "",
+  //     marital_statusWeight: "",
+  //     motherTongeWeight: "",
+  //   },
+  // });
   const [firstFormValues, setFirstFormValues] = useState({
     fullname: "",
     height: "",
@@ -30,7 +91,8 @@ const Form = () => {
     dateOfBirth: "",
     physicalDisability: "",
     address: "",
-    smokeOrDrink: '',
+    smokeOrDrink: "",
+    image: "",
   });
 
   const [secondFormValues, setSecondFormValues] = useState({
@@ -74,20 +136,14 @@ const Form = () => {
     motherTongue: "",
   });
   const [fifthFormValues, setFifthFormValues] = useState({
-    minAge: "",
-    maxAge: "",
-    minHeight: "",
-    maxHeight: "",
-    maritalStatus: "",
-    religion: "",
-    caste: "",
-    subcaste: "",
-    education: "",
-    // occupation: '',
-    subject: "",
-    annualIncome: "",
-    sector: "",
-    motherTongue: "",
+    ageWight: "",
+    heightWeight: "",
+    religionWeight: "",
+    casteWeight: "",
+    educational_degreeWeight: "",
+    annualIncomeWeight: "",
+    marital_statusWeight: "",
+    motherTongeWeight: "",
   });
 
   const allForms = [
@@ -105,19 +161,19 @@ const Form = () => {
     />,
     <ThirdForm
       thirdFormValues={thirdFormValues}
-      setThirdFormValues={setThirdFormValues}
+      setThirdFormValues={thirdFormValues}
       currentFormCount={currentFormCount}
       setCurrentFormCount={setCurrentFormCount}
     />,
     <FourthForm
       fourthFormValues={fourthFormValues}
-      setFourthFormValues={setFourthFormValues}
+      setFormValues={setFourthFormValues}
       currentFormCount={currentFormCount}
       setCurrentFormCount={setCurrentFormCount}
     />,
     <FifthForm
       fifthFormValues={fifthFormValues}
-      setFifthFormValues={setFifthFormValues}
+      setFormValues={setFifthFormValues}
       currentFormCount={currentFormCount}
       setCurrentFormCount={setCurrentFormCount}
     />,
