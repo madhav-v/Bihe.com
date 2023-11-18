@@ -147,6 +147,13 @@ function FourthForm({
     { value: "unEmployed", label: "Unemployed" },
   ];
 
+  const handleInputChange = (e) => {
+    setFourthFormValues({
+      ...fourthFormValues,
+      [e.target.name]: e.target.value,
+    });
+  };
+
   const handleMinHeightChange = (values) => {
     setFourthFormValues({ ...fourthFormValues, minHeight: values.value });
   };
@@ -198,7 +205,7 @@ function FourthForm({
             <Input
               name="minAge"
               value={fourthFormValues.minAge}
-              // onChange={handleInputChange}
+              onChange={handleInputChange}
               label="Minimum Age"
               classes3="w-[45%]"
               classes="px-2"
@@ -207,9 +214,9 @@ function FourthForm({
               placeholder="Preferred Minimun Age"
             />
             <Input
-              name="minAge"
+              name="maxAge"
               value={fourthFormValues.maxAge}
-              // onChange={handleInputChange}
+              onChange={handleInputChange}
               label="Maximum Age"
               classes3="w-[45%]"
               classes="px-2"

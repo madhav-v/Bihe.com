@@ -151,7 +151,7 @@ function FirstForm({
         Let's setup your account.
       </h1>
 
-      <form className=" mx-auto" >
+      <form className=" mx-auto">
         <h1 className="text-2xl w-[90%] font-bold mx-auto">
           Basic Information
         </h1>
@@ -199,14 +199,14 @@ function FirstForm({
 
         <div className="w-full flex justify-around  items-center">
           <Input
-            // onChange={formik.handleChange}
+            onChange={(e) => handleInputChange(e)}
             value={firstFormValues.dateOfBirth}
             name="dateOfBirth"
             label="Date of Birth"
             classes3="w-[40%]"
             classes="px-2"
             classes2="block lg:text-lg xl:text-xl"
-            type="date" // Set the input type to "date"
+            type="date"
             placeholder="Select Date of Birth"
             // error={formik.errors.dateOfBirth}
           />

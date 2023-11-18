@@ -73,7 +73,7 @@ function SecondForm({
             onChange={handleFamilyValuesChange}
             label="Family Values"
             classes1="block text-md lg:text-lg xl:text-xl my-2"
-            classes2="xl:w-[40%] basis-40%]"
+            classes2="xl:w-[40%] basis-[40%]"
             options={familyValueOptions}
           />
         </div>

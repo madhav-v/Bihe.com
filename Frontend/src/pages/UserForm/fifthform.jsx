@@ -2,20 +2,59 @@ import Input from "../../components/ProfileForm/input";
 import InputSelect from "../../components/ProfileForm/select";
 import Button from "../../components/ProfileForm/profilebutton";
 
-const FifthForm = (
+function FifthForm({
   fifthFormValues,
   setFifthFormValues,
   setCurrentFormCount,
-  currentFromCount
-) => {
+  currentFromCount,
+}) {
   const handlePrevClick = () => {
     setCurrentFormCount((prev) => prev - 1);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    console.log(fifthFormValues);
+  };
+
+  const handleAgeWeightChange = (values) => {
+    setFifthFormValues({ ...fifthFormValues, ageWeight: values.value });
+  };
+  const handleHeightWeightChange = (values) => {
+    setFifthFormValues({ ...fifthFormValues, heightWeight: values.value });
+  };
+  const handleReligionChange = (values) => {
+    setFifthFormValues({ ...fifthFormValues, religionWeight: values.value });
+  };
+  const handleCasteChange = (values) => {
+    setFifthFormValues({ ...fifthFormValues, casteWeight: values.value });
+  };
+  const handleEducationalQualificationChange = (values) => {
+    setFifthFormValues({
+      ...fifthFormValues,
+      educational_degreeWeight: values.value,
+    });
+  };
+  const handleAnnualIncomeChange = (values) => {
+    setFifthFormValues({
+      ...fifthFormValues,
+      annualIncomeWeight: values.value,
+    });
+  };
+  const handleMaritalStatusChange = (values) => {
+    setFifthFormValues({
+      ...fifthFormValues,
+      marital_statusWeight: values.value,
+    });
+  };
+  const handleMotherTongueChange = (values) => {
+    setFifthFormValues({ ...fifthFormValues, motherTongeWeight: values.value });
   };
 
   const weightOptions = [
     { value: "0.5", label: "Very Important" },
     { value: "0.2", label: "Least Important" },
-    { value: "0.01", label: "Not Important" },
+    { value: "0", label: "Not Important" },
   ];
   return (
     <>
@@ -28,19 +67,19 @@ const FifthForm = (
           <div className="w-[90%] mx-auto flex flex-col justify-start items-center">
             <div className="flex w-[100%] justify-between mt-0">
               <InputSelect
-                value={fifthFormValues.religionWeight}
-                // onChange={handleMinHeightChange}
-                placeholder="From"
-                label="Religion"
+                value={fifthFormValues.ageWeight}
+                onChange={handleAgeWeightChange}
+                name="ageWeight"
+                label="Age"
                 classes1="block text-md lg:text-lg 2xl:text-xl my-1"
                 classes2="xl:w-[45%] basis-[45%] "
                 options={weightOptions}
               />
               <InputSelect
-                value={fifthFormValues.casteWeight}
-                // onChange={handleMinHeightChange}
+                value={fifthFormValues.heightWeight}
+                onChange={handleHeightWeightChange}
                 placeholder="From"
-                label="Caste"
+                label="Height"
                 classes1="block text-md lg:text-lg 2xl:text-xl my-1"
                 classes2="xl:w-[45%] basis-[45%] "
                 options={weightOptions}
@@ -49,14 +88,71 @@ const FifthForm = (
           </div>
 
           <div className="w-[90%] mx-auto flex flex-col justify-start items-center">
-            <div className="flex w-full justify-between"></div>
+            <div className="flex w-full justify-between">
+              <InputSelect
+                value={fifthFormValues.religionWeight}
+                onChange={handleReligionChange}
+                placeholder="From"
+                label="Religion"
+                classes1="block text-md lg:text-lg 2xl:text-xl my-1"
+                classes2="xl:w-[45%] basis-[45%] "
+                options={weightOptions}
+              />
+              <InputSelect
+                value={fifthFormValues.casteWeight}
+                onChange={handleCasteChange}
+                placeholder="From"
+                label="Caste"
+                classes1="block text-md lg:text-lg 2xl:text-xl my-1"
+                classes2="xl:w-[45%] basis-[45%] "
+                options={weightOptions}
+              />
+            </div>
           </div>
-          <div className="w-full flex justify-around items-center"></div>
-          <div className="w-full flex justify-around items-center"></div>
-
-          <div className="w-full flex justify-around items-center"></div>
-
-          <div className="w-full flex justify-around items-center"></div>
+          <div className="w-[90%] mx-auto flex flex-col justify-start items-center">
+            <div className="flex w-full justify-between">
+              <InputSelect
+                value={fifthFormValues.educational_degreeWeight}
+                onChange={handleEducationalQualificationChange}
+                placeholder="From"
+                label="Education Qualification"
+                classes1="block text-md lg:text-lg 2xl:text-xl my-1"
+                classes2="xl:w-[45%] basis-[45%] "
+                options={weightOptions}
+              />
+              <InputSelect
+                value={fifthFormValues.annualIncomeWeight}
+                onChange={handleAnnualIncomeChange}
+                placeholder="From"
+                label="Annual Income"
+                classes1="block text-md lg:text-lg 2xl:text-xl my-1"
+                classes2="xl:w-[45%] basis-[45%] "
+                options={weightOptions}
+              />
+            </div>
+          </div>
+          <div className="w-[90%] mx-auto flex flex-col justify-start items-center">
+            <div className="flex w-full justify-between">
+              <InputSelect
+                value={fifthFormValues.marital_statusWeight}
+                onChange={handleMaritalStatusChange}
+                placeholder="From"
+                label="Marital Status"
+                classes1="block text-md lg:text-lg 2xl:text-xl my-1"
+                classes2="xl:w-[45%] basis-[45%] "
+                options={weightOptions}
+              />
+              <InputSelect
+                value={fifthFormValues.motherTongeWeight}
+                onChange={handleMotherTongueChange}
+                placeholder="From"
+                label="Mother Tongue"
+                classes1="block text-md lg:text-lg 2xl:text-xl my-1"
+                classes2="xl:w-[45%] basis-[45%] "
+                options={weightOptions}
+              />
+            </div>
+          </div>
 
           <div className="w-full flex justify-around">
             <Button
@@ -68,7 +164,7 @@ const FifthForm = (
             <Button
               type="submit"
               label="Submit"
-              onClick={() => handleNextClick()}
+              onClick={() => handleSubmit()}
               classes="px-16 py-3 rounded-xl btnnext text-white"
               classes2="w-full flex justify-center py-4"
             />
@@ -77,6 +173,6 @@ const FifthForm = (
       </div>
     </>
   );
-};
+}
 
 export default FifthForm;
