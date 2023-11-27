@@ -1,25 +1,19 @@
-import React, { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { AiOutlineConsoleSql } from "react-icons/ai";
-// import { axiosInstance } from "../../http";
-import { setPersonalDetail } from "../../config/personalDetailSlice";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
+import { useForm, Controller } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
 import Input from "../../components/ProfileForm/input";
 import InputSelect from "../../components/ProfileForm/select";
 import Button from "../../components/ProfileForm/profilebutton";
 import "./css/PersonaldetailForm.css";
-import { VscDeviceCamera } from "react-icons/vsc";
+import { format } from "date-fns";
 
-function FirstForm({
+const FirstForm = ({
   firstFormValues,
   setFirstFormValues,
   currentFormCount,
   setCurrentFormCount,
-}) {
-  console.log(firstFormValues);
-  const [selectedImage, setSelectedImage] = useState(null);
-  const fileInputRef = useRef(null);
-
+}) => {
   const religionOptions = [
     { value: "hindu", label: "Hinduism" },
     { value: "buddhist", label: "Buddhism" },
@@ -36,16 +30,6 @@ function FirstForm({
     { value: "Man", label: "Man" },
     { value: "woman", label: "Woman" },
     { value: "other", label: "Other" },
-  ];
-
-  const casteOptions = [
-    { value: "brahmin", label: "Brahmin" },
-    { value: "chhetri", label: "chhetri" },
-    { value: "thakuri", label: "Thakuri" },
-    { value: "magar", label: "Magar" },
-    { value: "tamang", label: "Tamang" },
-    { value: "sherpa", label: "Sherpa" },
-    { value: "newar", label: "Newar" },
   ];
 
   const maritalStatusOptions = [
@@ -81,237 +65,187 @@ function FirstForm({
     { value: "6ft 4in - 192cm", label: "6ft 4in - 192cm" },
   ];
 
-  const disabilityOptions = [
-    { value: "no", label: "No" },
-    { value: "physicalDisability", label: "Physical Disability" },
-  ];
-  const smokeorDrinkOptions = [
-    { value: "yes", label: "Yes" },
-    { value: "no", label: "No" },
-  ];
+  const FORM_VALIDATION = Yup.object().shape({
+    fullname: Yup.string().required("Full Name is required"),
+    sex: Yup.string().required("Gender is required"),
+    religion: Yup.string().required("Religion is required"),
+    motherTongue: Yup.string().required("Mother Tongue is required"),
+    dateOfBirth: Yup.date().required("Date of Birth is required"),
+    address: Yup.string().required("Address is required"),
+    marital_status: Yup.string().required("Marital Status is required"),
+    height: Yup.string().required("Height is required"),
+  });
 
-  const handleNextClick = () => {
+  const {
+    handleSubmit,
+    control,
+    setValue,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(FORM_VALIDATION),
+    defaultValues: firstFormValues,
+  });
+
+  const handleNextClick = async (data) => {
+    const formattedData = {
+      ...data,
+      dateOfBirth: format(data.dateOfBirth, "dd/MM/yyyy"),
+    };
+    setFirstFormValues(formattedData);
+    console.log("Form submitted with values:", formattedData);
     setCurrentFormCount((prev) => prev + 1);
   };
 
-  const handleSubmit = (values) => {
-    console.log("hi");
-    console.log(values);
-  };
-
-  const handleInputChange = (e) => {
-    setFirstFormValues({ ...firstFormValues, [e.target.name]: e.target.value });
-  };
-
-  const handleGenderChange = (values) => {
-    setFirstFormValues({ ...firstFormValues, sex: values.value });
-  };
-
-  const handleReligionChange = (values) => {
-    setFirstFormValues({ ...firstFormValues, religion: values.value });
-  };
-
-  const handleCasteChange = (values) => {
-    setFirstFormValues({ ...firstFormValues, caste: values.value });
-  };
-
-  const handleMaritalStatusChange = (values) => {
-    setFirstFormValues({ ...firstFormValues, marital_status: values.value });
-  };
-
-  const handleHeightChange = (values) => {
-    setFirstFormValues({ ...firstFormValues, height: values.value });
-  };
-
-  const handlePhysicalDisabilityChange = (values) => {
-    setFirstFormValues({
-      ...firstFormValues,
-      physicalDisability: values.value,
-    });
-  };
-  const handleSmokeOrDrinkChange = (values) => {
-    setFirstFormValues({
-      ...firstFormValues,
-      smokeOrDrink: values.value,
-    });
-  };
-  const handleProfileClick = () => {
-    if (fileInputRef.current) {
-      fileInputRef.current.click();
-    }
-  };
-
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    setSelectedImage(file);
-  };
-
   return (
-    <div className="mt-16 min-h-full mb-8 px-2 py-4 border w-[90%] md:w-[80%] lg:w-[70%] xl:w-[65%] bg-white  rounded-lg mx-auto">
+    <div className="mt-16 min-h-full mb-8 px-2 py-4 border w-[90%] md:w-[80%] lg:w-[70%] xl:w-[65%] bg-white rounded-lg mx-auto">
       <h1 className="text-2xl w-full text-center font-semibold xl:text-3xl my-4">
-        Let's setup your account.
+        Let's set up your account.
       </h1>
 
-      <form className=" mx-auto" onSubmit={handleSubmit}>
+      <form className="mx-auto" onSubmit={handleSubmit(handleNextClick)}>
         <h1 className="text-2xl w-[90%] font-bold mx-auto">
           Basic Information
         </h1>
 
         <div className="w-full flex  justify-around items-center">
-          <Input
-            value={firstFormValues.fullname}
-            onChange={(e) => handleInputChange(e)}
+          <Controller
             name="fullname"
-            label="Full Name"
-            classes3="w-[40%]"
-            classes="px-2"
-            classes2="block lg:text-lg xl:text-xl"
-            type="text"
-            placeholder="Enter full Name"
+            control={control}
+            render={({ field }) => (
+              <Input
+                {...field}
+                label="Full Name"
+                classes3="w-[40%]"
+                classes="px-2"
+                classes2="block lg:text-lg xl:text-xl"
+                type="text"
+                placeholder="Enter full Name"
+                error={errors.fullname?.message}
+              />
+            )}
           />
-          <InputSelect
-            value={firstFormValues.sex}
-            onChange={handleGenderChange}
-            label="Gender "
+          <Controller
             name="sex"
-            classes1="block text-xl my-2"
-            classes2="xl:w-[40%] basis-[40%]"
-            options={genderOptions}
+            control={control}
+            render={({ field }) => (
+              <InputSelect
+                {...field}
+                label="Gender "
+                classes1="block text-xl my-2"
+                classes2="xl:w-[40%] basis-[40%]"
+                options={genderOptions}
+                error={errors.sex?.message}
+                setValue={setValue}
+              />
+            )}
           />
         </div>
 
         <div className="w-full flex  justify-around items-center">
-          <InputSelect
-            value={firstFormValues.religion}
-            onChange={handleReligionChange}
-            label="Religion "
+          <Controller
             name="religion"
-            classes1="block text-md lg:text-lg xl:text-xl my-2"
-            classes2="xl:w-[70%] basis-[40%]"
-            options={religionOptions}
+            control={control}
+            render={({ field }) => (
+              <InputSelect
+                {...field}
+                label="Religion "
+                classes1="block text-md lg:text-lg xl:text-xl my-2"
+                classes2="xl:w-[70%] basis-[40%]"
+                options={religionOptions}
+                error={errors.religion?.message}
+                setValue={setValue}
+              />
+            )}
           />
-          <InputSelect
-            value={firstFormValues.caste}
-            onChange={handleCasteChange}
-            label="Caste"
-            name="caste"
-            classes1="block text-xl my-2"
-            classes2="xl:w-[40%] basis-[40%]"
-            options={casteOptions}
+          <Controller
+            name="motherTongue"
+            control={control}
+            render={({ field }) => (
+              <Input
+                {...field}
+                label="Mother Tongue"
+                classes3="w-[40%]"
+                classes="px-2"
+                classes2="block lg:text-lg xl:text-xl"
+                type="text"
+                placeholder="Enter your mother tongue"
+                error={errors.motherTongue?.message}
+              />
+            )}
           />
         </div>
 
         <div className="w-full flex justify-around  items-center">
-          <Input
-            onChange={(e) => handleInputChange(e)}
-            value={firstFormValues.dateOfBirth}
+          <Controller
             name="dateOfBirth"
-            label="Date of Birth"
-            classes3="w-[40%]"
-            classes="px-2"
-            classes2="block lg:text-lg xl:text-xl"
-            type="date"
-            placeholder="Select Date of Birth"
+            control={control}
+            render={({ field }) => (
+              <Input
+                {...field}
+                label="Date of Birth"
+                classes3="w-[40%]"
+                classes="px-2"
+                classes2="block lg:text-lg xl:text-xl"
+                type="date"
+                placeholder="Select Date of Birth"
+                error={errors.dateOfBirth?.message}
+              />
+            )}
           />
-          <Input
-            value={firstFormValues.address}
-            onChange={handleInputChange}
+          <Controller
             name="address"
-            label="Where do you live ?"
-            classes3="w-[40%]"
-            classes="px-2"
-            classes2="block xl:text-xl xl:text-xl lg:text-lg"
-            type="text"
-            placeholder="Enter your current address"
+            control={control}
+            render={({ field }) => (
+              <Input
+                {...field}
+                label="Where do you live ?"
+                classes3="w-[40%]"
+                classes="px-2"
+                classes2="block xl:text-xl xl:text-xl lg:text-lg"
+                type="text"
+                placeholder="Enter your current address"
+                error={errors.address?.message}
+              />
+            )}
           />
         </div>
 
         <div className="w-full flex justify-around  items-center">
-          <InputSelect
-            value={firstFormValues.marital_status}
-            onChange={handleMaritalStatusChange}
-            label="Marital Status"
+          <Controller
             name="marital_status"
-            classes1="block text-md lg:text-lg xl:text-xl my-2"
-            classes2="xl:w-[40%] basis-[40%]"
-            options={maritalStatusOptions}
+            control={control}
+            render={({ field }) => (
+              <InputSelect
+                {...field}
+                label="Marital Status"
+                classes1="block text-md lg:text-lg xl:text-xl my-2"
+                classes2="xl:w-[40%] basis-[40%]"
+                options={maritalStatusOptions}
+                error={errors.marital_status?.message}
+                setValue={setValue}
+              />
+            )}
           />
-          <InputSelect
-            value={firstFormValues.height}
-            onChange={handleHeightChange}
-            label="Your Height "
+          <Controller
             name="height"
-            classes1="block text-md lg:text-lg xl:text-xl my-2"
-            classes2="xl:w-[40%] basis-[40%]"
-            options={heightOptions}
-          />
-        </div>
-
-        <div className="w-full flex justify-around  items-center">
-          <InputSelect
-            value={firstFormValues.physicalDisability}
-            onChange={handlePhysicalDisabilityChange}
-            label="Any Disability"
-            name="physicalDisability"
-            classes1="block text-md lg:text-lg xl:text-xl my-2"
-            classes2="xl:w-[40%] basis-[40%]"
-            options={disabilityOptions}
-          />
-          <InputSelect
-            value={firstFormValues.smokeOrDrink}
-            onChange={handleSmokeOrDrinkChange}
-            label="Smoke or Drink"
-            name="smokeOrDrink"
-            classes1="block text-md lg:text-lg xl:text-xl my-2"
-            classes2="xl:w-[40%] basis-[40%]"
-            options={smokeorDrinkOptions}
-          />
-        </div>
-        <h3 className="text-center font-semibold text-2xl mb-3 mt-5">
-          Upload a profile photo.
-        </h3>
-        <div
-          className="relative w-[200px] h-[200px] rounded-[50%] cursor-pointer mx-auto"
-          onClick={handleProfileClick}
-        >
-          {selectedImage ? (
-            <img
-              className="rounded-full object-cover w-full h-full object-center"
-              src={URL.createObjectURL(selectedImage)}
-              alt=""
-            />
-          ) : (
-            <img
-              className="rounded-full object-cover w-full h-full object-center"
-              src="https://www.caltrain.com/files/images/2021-09/default.jpg"
-              alt=""
-            />
-          )}
-          <span className="absolute right-0 bottom-0">
-            <VscDeviceCamera size={30} />
-          </span>
-        </div>
-        <button
-          className="px-4 py-2 bg-red-500 flex justify-around  items-center rounded-xl text-white text-xl my-3 mx-auto"
-          onClick={handleProfileClick}
-        >
-          Add a Photo +
-        </button>
-        <div>
-          <input
-            name="image"
-            type="file"
-            ref={fileInputRef}
-            className="hidden"
-            accept="image/*"
-            onChange={handleImageChange}
+            control={control}
+            render={({ field }) => (
+              <InputSelect
+                {...field}
+                label="Your Height "
+                classes1="block text-md lg:text-lg xl:text-xl my-2"
+                classes2="xl:w-[40%] basis-[40%]"
+                options={heightOptions}
+                error={errors.height?.message}
+                setValue={setValue}
+              />
+            )}
           />
         </div>
 
         <div className="w-full flex justify-center">
           <Button
             type="submit"
-            onClick={handleNextClick}
             label="Next"
             classes="px-16 py-3 rounded-xl btnnext text-white"
             classes2="w-full flex justify-center py-4"
@@ -320,6 +254,6 @@ function FirstForm({
       </form>
     </div>
   );
-}
+};
 
 export default FirstForm;

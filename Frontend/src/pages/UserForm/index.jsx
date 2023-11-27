@@ -18,122 +18,48 @@ import NewProgressBar from "../../components/ProfileFormComp/progressbar";
 
 const Form = () => {
   const [currentFormCount, setCurrentFormCount] = useState(0);
-  // const [formValues, setFormValues] = useState({
-  //   firstFormValues: {
-  //     fullname: "",
-  //     height: "",
-  //     religion: "",
-  //     sex: "",
-  //     caste: "",
-  //     marital_status: "",
-  //     dateOfBirth: "",
-  //     physicalDisability: "",
-  //     address: "",
-  //     smokeOrDrink: "",
-  //     image: "",
-  //   },
-  //   secondFormValues: {
-  //     familyType: "",
-  //     noOfSiblings: "",
-  //     noOfFamilyMember: "",
-  //     noOfUnmarried: "",
-  //     liveWithFamily: "",
-  //     familyValues: "",
-  //     gotra: "",
-  //     parentStatus: "",
-  //     familyAddress: "",
-  //     nativePlace: "",
-  //     motherTongue: "",
-  //   },
-  //   thirdFormValues: {
-  //     education_degree: "",
-  //     subject: "",
-  //     college: "",
-  //     occupation: "",
-  //     sector: "",
-  //     annualIncome: "",
-  //     companyName: "",
-  //   },
-  //   fourthFormValues: {
-  //     minAge: "",
-  //     maxAge: "",
-  //     minHeight: "",
-  //     maxHeight: "",
-  //     maritalStatus: "",
-  //     religion: "",
-  //     caste: "",
-  //     subcaste: "",
-  //     education: "",
-  //     // occupation: '',
-  //     subject: "",
-  //     annualIncome: "",
-  //     sector: "",
-  //     motherTongue: "",
-  //   },
-  //   fifthFormValues: {
-  //     ageWight: "",
-  //     heightWeight: "",
-  //     religionWeight: "",
-  //     casteWeight: "",
-  //     educational_degreeWeight: "",
-  //     annualIncomeWeight: "",
-  //     marital_statusWeight: "",
-  //     motherTongeWeight: "",
-  //   },
-  // });
+
   const [firstFormValues, setFirstFormValues] = useState({
     fullname: "",
     height: "",
     religion: "",
     sex: "",
-    caste: "",
     marital_status: "",
     dateOfBirth: "",
-    physicalDisability: "",
     address: "",
-    smokeOrDrink: "",
-    image: "",
   });
 
   const [secondFormValues, setSecondFormValues] = useState({
     familyType: "",
-    noOfSiblings: "",
-    noOfFamilyMember: "",
-    noOfUnmarried: "",
-    liveWithFamily: "",
+    physicalDisability: "",
     familyValues: "",
     gotra: "",
-    parentStatus: "",
-    familyAddress: "",
-    nativePlace: "",
-    motherTongue: "",
+    occupation: "",
+    highestEducation: "",
+    employedIn: "",
+    income: "",
   });
 
   const [thirdFormValues, setThirdFormValues] = useState({
-    education_degree: "",
-    subject: "",
-    college: "",
-    occupation: "",
-    sector: "",
-    annualIncome: "",
-    companyName: "",
+    preferredAge: "",
+    preferredEducation: "",
+    preferredFamilyValues: "",
+    preferredHeight: "",
+    preferredIncome: "",
+    preferredMaritalStatus: "",
+    preferredOccupation: "",
+    preferredReligion: "",
   });
 
   const [fourthFormValues, setFourthFormValues] = useState({
-    minAge: "",
-    maxAge: "",
-    minHeight: "",
-    maxHeight: "",
-    maritalStatus: "",
-    religion: "",
-    caste: "",
-    subcaste: "",
-    education: "",
-    // occupation: '',
-    subject: "",
-    annualIncome: "",
-    sector: "",
-    motherTongue: "",
+    ageWight: "",
+    heightWeight: "",
+    religionWeight: "",
+    casteWeight: "",
+    educational_degreeWeight: "",
+    annualIncomeWeight: "",
+    marital_statusWeight: "",
+    motherTongeWeight: "",
   });
   const [fifthFormValues, setFifthFormValues] = useState({
     ageWight: "",
@@ -161,7 +87,7 @@ const Form = () => {
     />,
     <ThirdForm
       thirdFormValues={thirdFormValues}
-      setThirdFormValues={thirdFormValues}
+      setThirdFormValues={setThirdFormValues}
       currentFormCount={currentFormCount}
       setCurrentFormCount={setCurrentFormCount}
     />,
@@ -195,5 +121,3 @@ const Form = () => {
 };
 
 export default Form;
-
-

@@ -87,7 +87,7 @@ const NavBar = () => {
                       </li>
                       <li>
                         <NavLink
-                          to={`/user/form/${profileDetails._id}`}
+                          to={`/profile/info/${profileDetails._id}`}
                           className="block px-4 py-2 text-black hover:bg-gray-200"
                         >
                           Edit Profile

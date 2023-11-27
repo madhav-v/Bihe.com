@@ -1,43 +1,39 @@
+import React from "react";
 import makeAnimated from "react-select/animated";
 import CreatableSelect from "react-select/creatable";
 
-const InputSelect = (props) => {
+const InputSelect = ({
+  label,
+  name,
+  options,
+  setValue,
+  error,
+  classes1,
+  classes2,
+}) => {
   const animatedComponents = makeAnimated();
 
-  // const handleChange = (selectedOption) => {
-  //   props.onChange(selectedOption.value);
-  // };
+  const handleChange = (selectedOption) => {
+    const selectedValue = selectedOption ? selectedOption.value : "";
+    setValue(name, selectedValue);
+  };
+
   return (
     <>
-      <div className={`my-1 ${props.classes2 && props.classes2}`}>
-        {props.label && (
+      <div className={`my-1 ${classes2 && classes2}`}>
+        {label && (
           <label
-            className={`text-md lg:text-xl xl:text-2xl ${
-              props.classes1 && props.classes1
-            }`}
-            htmlFor=""
+            className={`text-md lg:text-xl xl:text-2xl ${classes1 && classes1}`}
+            htmlFor={name}
           >
-            {props.label && props.label}
+            {label}
           </label>
         )}
         <CreatableSelect
           closeMenuOnSelect={true}
           components={animatedComponents}
-          // defaultValue={[props.default && props.default]}
-          options={props.options && props.options}
-          // onChange={(selectedOption) => {
-          //   // Handle the selected option and update the form using Formik's handleChange
-          //   const value = selectedOption ? selectedOption.value : ""; // Extract the value
-          //   props.onChange &&
-          //     props.onChange({ target: { name: props.name, value } });
-          // }}
-          onChange={props.onChange && props.onChange}
-          // setValue={{ value: "hello", label: "Hello" }}
-          value={props.options.find(
-            (option) =>
-              option.value === props.value || option.label === props.value
-          )}
-          // onChange={handleChange}
+          options={options}
+          onChange={handleChange}
           styles={{
             control: (baseStyles, state) => ({
               ...baseStyles,
@@ -45,7 +41,7 @@ const InputSelect = (props) => {
             }),
           }}
         />
-        {props.error && <p className="text-red-500 text-sm">{props.error}</p>}
+        {error && <p className="text-red-500 text-sm">{error}</p>}
       </div>
     </>
   );
