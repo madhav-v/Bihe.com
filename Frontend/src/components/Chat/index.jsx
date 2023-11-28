@@ -14,7 +14,7 @@ const Chat = () => {
                     {/* <div className='w-1/4 p-4  '>
                     
                 </div> */}
-                    <div className='  w-[25%] p-4 border-r border-r-gray-300'>
+                    <div className='  w-[25%] p-4 pr-2 border-r border-r-gray-300'>
                         <div className=' z-10  h-[15vh]'>
                             <div className='flex justify-between'>
                                 <p className='text-xl font-semibold'>Chats</p>
@@ -34,8 +34,140 @@ const Chat = () => {
                         </div>
 
                         <div className='  mt-2 max-h-[80vh] overflow-y-auto ' >
-                            <div className='mt-2  '>
+                            <div className='mt-2  mr-2'>
                                 <div className='flex-1 bg-gray-200 cursor-pointer my-2 rounded-xl p-2  flex space-x-3'>
+                                    <div className='bg-[red] rounded-full h-10 w-10'>
+                                        <img src="" alt="" />
+                                    </div>
+                                    <div>
+                                        <p className='font-semibold text-base'>Backbenchers</p>
+                                        <p className='text-[12px]'>sdjksbdjvsbvshd</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='mt-2  mr-2'>
+                                <div className='flex-1  cursor-pointer my-2 rounded-xl p-2  flex space-x-3'>
+                                    <div className='bg-[red] rounded-full h-10 w-10'>
+                                        <img src="" alt="" />
+                                    </div>
+                                    <div>
+                                        <p className='font-semibold text-base'>Backbenchers</p>
+                                        <p className='text-[12px]'>sdjksbdjvsbvshd</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='mt-2  mr-2'>
+                                <div className='flex-1  cursor-pointer my-2 rounded-xl p-2  flex space-x-3'>
+                                    <div className='bg-[red] rounded-full h-10 w-10'>
+                                        <img src="" alt="" />
+                                    </div>
+                                    <div>
+                                        <p className='font-semibold text-base'>Backbenchers</p>
+                                        <p className='text-[12px]'>sdjksbdjvsbvshd</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='mt-2  mr-2'>
+                                <div className='flex-1  cursor-pointer my-2 rounded-xl p-2  flex space-x-3'>
+                                    <div className='bg-[red] rounded-full h-10 w-10'>
+                                        <img src="" alt="" />
+                                    </div>
+                                    <div>
+                                        <p className='font-semibold text-base'>Backbenchers</p>
+                                        <p className='text-[12px]'>sdjksbdjvsbvshd</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='mt-2  mr-2'>
+                                <div className='flex-1  cursor-pointer my-2 rounded-xl p-2  flex space-x-3'>
+                                    <div className='bg-[red] rounded-full h-10 w-10'>
+                                        <img src="" alt="" />
+                                    </div>
+                                    <div>
+                                        <p className='font-semibold text-base'>Backbenchers</p>
+                                        <p className='text-[12px]'>sdjksbdjvsbvshd</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='mt-2  mr-2'>
+                                <div className='flex-1  cursor-pointer my-2 rounded-xl p-2  flex space-x-3'>
+                                    <div className='bg-[red] rounded-full h-10 w-10'>
+                                        <img src="" alt="" />
+                                    </div>
+                                    <div>
+                                        <p className='font-semibold text-base'>Backbenchers</p>
+                                        <p className='text-[12px]'>sdjksbdjvsbvshd</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='mt-2  mr-2'>
+                                <div className='flex-1  cursor-pointer my-2 rounded-xl p-2  flex space-x-3'>
+                                    <div className='bg-[red] rounded-full h-10 w-10'>
+                                        <img src="" alt="" />
+                                    </div>
+                                    <div>
+                                        <p className='font-semibold text-base'>Backbenchers</p>
+                                        <p className='text-[12px]'>sdjksbdjvsbvshd</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='mt-2  mr-2'>
+                                <div className='flex-1  cursor-pointer my-2 rounded-xl p-2  flex space-x-3'>
+                                    <div className='bg-[red] rounded-full h-10 w-10'>
+                                        <img src="" alt="" />
+                                    </div>
+                                    <div>
+                                        <p className='font-semibold text-base'>Backbenchers</p>
+                                        <p className='text-[12px]'>sdjksbdjvsbvshd</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='mt-2  mr-2'>
+                                <div className='flex-1  cursor-pointer my-2 rounded-xl p-2  flex space-x-3'>
+                                    <div className='bg-[red] rounded-full h-10 w-10'>
+                                        <img src="" alt="" />
+                                    </div>
+                                    <div>
+                                        <p className='font-semibold text-base'>Backbenchers</p>
+                                        <p className='text-[12px]'>sdjksbdjvsbvshd</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='mt-2  mr-2'>
+                                <div className='flex-1  cursor-pointer my-2 rounded-xl p-2  flex space-x-3'>
+                                    <div className='bg-[red] rounded-full h-10 w-10'>
+                                        <img src="" alt="" />
+                                    </div>
+                                    <div>
+                                        <p className='font-semibold text-base'>Backbenchers</p>
+                                        <p className='text-[12px]'>sdjksbdjvsbvshd</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='mt-2  mr-2'>
+                                <div className='flex-1  cursor-pointer my-2 rounded-xl p-2  flex space-x-3'>
+                                    <div className='bg-[red] rounded-full h-10 w-10'>
+                                        <img src="" alt="" />
+                                    </div>
+                                    <div>
+                                        <p className='font-semibold text-base'>Backbenchers</p>
+                                        <p className='text-[12px]'>sdjksbdjvsbvshd</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='mt-2  mr-2'>
+                                <div className='flex-1  cursor-pointer my-2 rounded-xl p-2  flex space-x-3'>
+                                    <div className='bg-[red] rounded-full h-10 w-10'>
+                                        <img src="" alt="" />
+                                    </div>
+                                    <div>
+                                        <p className='font-semibold text-base'>Backbenchers</p>
+                                        <p className='text-[12px]'>sdjksbdjvsbvshd</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='mt-2  mr-2'>
+                                <div className='flex-1  cursor-pointer my-2 rounded-xl p-2  flex space-x-3'>
                                     <div className='bg-[red] rounded-full h-10 w-10'>
                                         <img src="" alt="" />
                                     </div>
@@ -48,10 +180,11 @@ const Chat = () => {
 
 
 
+
                         </div>
 
                     </div>
-                    <div className='  w-[75%]  fixed left-[25%] h-full'>
+                    <div className='  w-[75%]  fixed left-[25%] h-full '>
                         <div className='bg-[white] shadow-xl p-4 flex items-center justify-between mr-8 w-full'>
                             <div className='flex space-x-4'>
                                 <div className='bg-[red] rounded-full h-12 w-12'>
@@ -67,6 +200,23 @@ const Chat = () => {
                                 <FaVideo size={24} />
                                 <BsThreeDots size={24} />
                             </div>
+                        </div>
+                        <div className=' max-h-[75vh] overflow-y-auto '>
+                            <div className='p-4 my-1'>
+                                <div className='flex space-x-3 items-center'>
+                                    <div className='bg-[red] rounded-full h-8 w-8'>
+                                        <img src="" alt="" />
+                                    </div>
+                                    <div className='flex flex-col'>
+                                        <p className='text-sm text-gray-500'>Sumit</p>
+                                        <p className=' '>K cha saathi</p>
+                                    </div>
+                                </div>
+                                <div className='flex  justify-between  '><p></p>
+                                    <p className=' bg-[#29BEFF] rounded-xl px-5 py-1 text-[white]  my-2'>Thikx khate</p></div>
+                            </div>
+
+
                         </div>
                         <div style={{ boxShadow: '0 -5px 10px rgba(0, 0, 0, 0.1)' }} className='  absolute bottom-0 bg-[white] w-full  p-4  flex items-center  justify-between  space-x-5 mr-5'>
                             <div className='flex space-x-4 text-[#00B2FF] w-[15%] cursor-pointer'>
