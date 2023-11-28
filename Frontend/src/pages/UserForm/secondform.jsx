@@ -61,7 +61,6 @@ function SecondForm({
   });
 
   const onSubmit = (data) => {
-    console.log(data);
     setSecondFormValues(data);
     setCurrentFormCount((prev) => prev + 1);
   };

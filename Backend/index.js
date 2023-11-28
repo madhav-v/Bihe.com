@@ -5,6 +5,8 @@ const routes = require("./src/routes");
 const cors = require("cors");
 require("./src/config/mongoose.config");
 
+
+
 app.use(express.json());
 app.use(
   express.urlencoded({

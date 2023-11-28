@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
@@ -89,10 +89,9 @@ const FirstForm = ({
   const handleNextClick = async (data) => {
     const formattedData = {
       ...data,
-      dateOfBirth: format(data.dateOfBirth, "dd/MM/yyyy"),
+      dateOfBirth: format(new Date(data.dateOfBirth), "yyyy-MM-dd"),
     };
     setFirstFormValues(formattedData);
-    console.log("Form submitted with values:", formattedData);
     setCurrentFormCount((prev) => prev + 1);
   };
 
@@ -136,6 +135,7 @@ const FirstForm = ({
                 options={genderOptions}
                 error={errors.sex?.message}
                 setValue={setValue}
+                value={firstFormValues.sex}
               />
             )}
           />
@@ -154,6 +154,7 @@ const FirstForm = ({
                 options={religionOptions}
                 error={errors.religion?.message}
                 setValue={setValue}
+                value={firstFormValues.religion}
               />
             )}
           />
@@ -223,6 +224,7 @@ const FirstForm = ({
                 options={maritalStatusOptions}
                 error={errors.marital_status?.message}
                 setValue={setValue}
+                value={firstFormValues.marital_status}
               />
             )}
           />
@@ -238,6 +240,7 @@ const FirstForm = ({
                 options={heightOptions}
                 error={errors.height?.message}
                 setValue={setValue}
+                value={firstFormValues.height}
               />
             )}
           />

@@ -38,7 +38,6 @@ function ThirdForm({
   });
 
   const onSubmit = (data) => {
-    console.log(data);
     setThirdFormValues(data);
     setCurrentFormCount((prev) => prev + 1);
   };

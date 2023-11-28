@@ -15,6 +15,7 @@ import FourthForm from "./fourthform";
 import FifthForm from "./fifthform";
 import NewHeader from "../../components/ProfileFormComp/NewHeader";
 import NewProgressBar from "../../components/ProfileFormComp/progressbar";
+import Button from "../../components/ProfileForm/profilebutton";
 
 const Form = () => {
   const [currentFormCount, setCurrentFormCount] = useState(0);
@@ -52,24 +53,17 @@ const Form = () => {
   });
 
   const [fourthFormValues, setFourthFormValues] = useState({
-    ageWight: "",
-    heightWeight: "",
-    religionWeight: "",
-    casteWeight: "",
-    educational_degreeWeight: "",
-    annualIncomeWeight: "",
-    marital_statusWeight: "",
-    motherTongeWeight: "",
+    ageWeight: 0,
+    heightWeight: 0,
+    religionWeight: 0,
+    casteWeight: 0,
+    educational_degreeWeight: 0,
+    annualIncomeWeight: 0,
+    marital_statusWeight: 0,
+    motherTongeWeight: 0,
   });
   const [fifthFormValues, setFifthFormValues] = useState({
-    ageWight: "",
-    heightWeight: "",
-    religionWeight: "",
-    casteWeight: "",
-    educational_degreeWeight: "",
-    annualIncomeWeight: "",
-    marital_statusWeight: "",
-    motherTongeWeight: "",
+    bio: "",
   });
 
   const allForms = [
@@ -93,17 +87,27 @@ const Form = () => {
     />,
     <FourthForm
       fourthFormValues={fourthFormValues}
-      setFormValues={setFourthFormValues}
+      setFourthFormValues={setFourthFormValues}
       currentFormCount={currentFormCount}
       setCurrentFormCount={setCurrentFormCount}
     />,
     <FifthForm
       fifthFormValues={fifthFormValues}
-      setFormValues={setFifthFormValues}
+      setFifthFormValues={setFifthFormValues}
       currentFormCount={currentFormCount}
       setCurrentFormCount={setCurrentFormCount}
     />,
   ];
+
+  const submitAllForms = () => {
+    console.log("All form values:", {
+      ...firstFormValues,
+      ...secondFormValues,
+      ...thirdFormValues,
+      ...fourthFormValues,
+      ...fifthFormValues,
+    });
+  };
 
   return (
     <>
@@ -114,6 +118,15 @@ const Form = () => {
           setCurrentFormCount={setCurrentFormCount}
         />
         {allForms[currentFormCount]}
+        {currentFormCount === 4 && (
+          <Button
+            type="button"
+            label="Submit"
+            onClick={submitAllForms}
+            classes="px-16 py-3 rounded-xl btnnext text-white"
+            classes2="w-full flex justify-center py-4"
+          />
+        )}
         {/* <Footer />  */}
       </div>
     </>

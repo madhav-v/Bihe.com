@@ -7,6 +7,7 @@ const InputSelect = ({
   name,
   options,
   setValue,
+  value,
   error,
   classes1,
   classes2,
@@ -34,6 +35,7 @@ const InputSelect = ({
           components={animatedComponents}
           options={options}
           onChange={handleChange}
+          value={options.find((option) => option.value === value)}
           styles={{
             control: (baseStyles, state) => ({
               ...baseStyles,

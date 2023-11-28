@@ -23,7 +23,7 @@ const Input = (props) => {
           type={props.type && props.type}
           placeholder={props.placeholder && props.placeholder}
           onChange={handleChange}
-          value={props.value && props.value}
+          value={props.value || ""}
         />
         {props.error && <p className="text-red-500 text-sm">{props.error}</p>}
       </div>
