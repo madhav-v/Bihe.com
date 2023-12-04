@@ -9,11 +9,18 @@ import Button from "../../components/Button";
 import authSvc from "../../services/auth.service";
 import { toast } from "react-toastify";
 import Loading from "../error/loading";
+import { FaFacebook, FaGoogle } from "react-icons/fa";
 
 const LoginPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const googleAuth = () => {
+    window.open(
+      `${import.meta.env.VITE_API_URL}/v1/oauth/google/callback`,
+      "_self"
+    );
+  };
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -86,6 +93,23 @@ const LoginPage = () => {
           </div>
           <Button text="Login" />
         </form>
+        <div>
+          <button
+            onClick={googleAuth}
+            className="bg-gray-200 rounded-md p-1 mr-1 w-full mt-2"
+          >
+            <span>
+              <FaGoogle size={20} />
+              Sign in with Google
+            </span>
+          </button>
+          <button className="bg-gray-200 rounded-md p-2 mr-1 w-full mt-2">
+            <span>
+              <FaFacebook size={20} />
+              Sign in with Facebook
+            </span>
+          </button>
+        </div>
         <div>
           Dont have an account?{" "}
           <NavLink to={"/register"} className="text-blue-500 hover:underline">

@@ -1,52 +1,12 @@
 const mongoose = require("mongoose");
 
-const WeightedCriteriaSchema = new mongoose.Schema({
-  ageWeight: {
-    type: Number,
-    default: 0,
-    min: 0,
-    max: 1,
-  },
-  heightWeight: {
-    type: Number,
-    default: 0,
-    min: 0,
-    max: 1,
-  },
-  religionWeight: {
-    type: Number,
-    default: 0,
-    min: 0,
-    max: 1,
-  },
-  casteWeight: {
-    type: Number,
-    default: 0,
-    min: 0,
-    max: 1,
-  },
-  smokeOrDrinkWeight: {
-    type: Number,
-    default: 0,
-    min: 0,
-    max: 1,
-  },
-  annualIncomeWeight: {
-    type: Number,
-    default: 0,
-    min: 0,
-    max: 1,
-  },
-});
-
 const ProfileSchema = new mongoose.Schema(
   {
     // Personal Details
-    fullName: {
+    fullname: {
       type: String,
       required: true,
     },
-
     height: {
       type: String,
       required: true,
@@ -59,11 +19,7 @@ const ProfileSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    caste: {
-      type: String,
-      required: true,
-    },
-    maritalStatus: {
+    marital_status: {
       type: String,
       required: true,
     },
@@ -71,19 +27,19 @@ const ProfileSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    physicalDisability: {
-      type: String,
-      required: true,
-    },
     address: {
       type: String,
       required: true,
     },
-    smokeOrDrink: {
+    motherTongue: {
       type: String,
       required: true,
     },
-    image: {
+    caste: {
+      type: String,
+      required: true,
+    },
+    smokeOrDrink: {
       type: String,
       required: true,
     },
@@ -93,41 +49,15 @@ const ProfileSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    numberOfSiblings: {
-      type: Number,
-      required: true,
-    },
-    numberOfFamilyMembers: {
-      type: Number,
+    physicalDisability: {
+      type: String,
       required: true,
     },
     gotra: {
       type: String,
       required: true,
     },
-    parentalStatus: {
-      type: String,
-      required: true,
-    },
-    familyAddress: {
-      type: String,
-      required: true,
-    },
-    familyValue: {
-      type: String,
-      required: true,
-    },
-    motherTongue: {
-      type: String,
-      required: true,
-    },
-
-    // Educational Details
-    educationalDegree: {
-      type: String,
-      required: true,
-    },
-    college: {
+    familyValues: {
       type: String,
       required: true,
     },
@@ -135,34 +65,26 @@ const ProfileSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    sector: {
+    highestEducation: {
       type: String,
       required: true,
     },
-    annualIncome: {
+    employedIn: {
       type: String,
       required: true,
     },
-    companyName: {
+    income: {
       type: String,
       required: true,
     },
 
     // User Preferences
 
-    minAge: {
-      type: Number,
-      required: true,
-    },
-    maxAge: {
-      type: Number,
-      required: true,
-    },
-    minHeight: {
+    preferredAge: {
       type: String,
       required: true,
     },
-    maxHeight: {
+    preferredHeight: {
       type: String,
       required: true,
     },
@@ -186,11 +108,7 @@ const ProfileSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    preferredAnnualIncome: {
-      type: String,
-      required: true,
-    },
-    preferredSector: {
+    preferredIncome: {
       type: String,
       required: true,
     },
@@ -199,18 +117,57 @@ const ProfileSchema = new mongoose.Schema(
       required: true,
     },
 
-    createdAt: {
-      type: Date,
-      default: Date.now,
-      required: true,
+    ageWeight: {
+      type: Number,
+      default: 0,
+      min: 0,
+      max: 1,
     },
-    updatedAt: {
-      type: Date,
-      default: Date.now,
-      required: true,
+    heightWeight: {
+      type: Number,
+      default: 0,
+      min: 0,
+      max: 1,
     },
-
-    weightedCriteria: WeightedCriteriaSchema,
+    religionWeight: {
+      type: Number,
+      default: 0,
+      min: 0,
+      max: 1,
+    },
+    casteWeight: {
+      type: Number,
+      default: 0,
+      min: 0,
+      max: 1,
+    },
+    annualIncomeWeight: {
+      type: Number,
+      default: 0,
+      min: 0,
+      max: 1,
+    },
+    marital_statusWeight: {
+      type: Number,
+      default: 0,
+      min: 0,
+      max: 1,
+    },
+    motherTongueWeight: {
+      type: Number,
+      default: 0,
+      min: 0,
+      max: 1,
+    },
+    education_degreeWeight: {
+      type: Number,
+      default: 0,
+      min: 0,
+      max: 1,
+    },
+    bio: {
+      type: String,
+    },
   },
   {
     createdAt: {

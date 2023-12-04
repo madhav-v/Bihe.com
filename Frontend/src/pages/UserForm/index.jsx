@@ -15,79 +15,60 @@ import FourthForm from "./fourthform";
 import FifthForm from "./fifthform";
 import NewHeader from "../../components/ProfileFormComp/NewHeader";
 import NewProgressBar from "../../components/ProfileFormComp/progressbar";
-
+import Button from "../../components/ProfileForm/profilebutton";
 
 const Form = () => {
   const [currentFormCount, setCurrentFormCount] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const [firstFormValues, setFirstFormValues] = useState({
     fullname: "",
     height: "",
     religion: "",
     sex: "",
-    caste: "",
     marital_status: "",
     dateOfBirth: "",
-    physicalDisability: "",
     address: "",
-    smokeOrDrink: '',
+    motherTongue: "",
+    smokeOrDrink: "",
+    caste: "",
   });
 
   const [secondFormValues, setSecondFormValues] = useState({
     familyType: "",
-    noOfSiblings: "",
-    noOfFamilyMember: "",
-    noOfUnmarried: "",
-    liveWithFamily: "",
+    physicalDisability: "",
     familyValues: "",
     gotra: "",
-    parentStatus: "",
-    familyAddress: "",
-    nativePlace: "",
-    motherTongue: "",
+    occupation: "",
+    highestEducation: "",
+    employedIn: "",
+    income: "",
   });
 
   const [thirdFormValues, setThirdFormValues] = useState({
-    education_degree: "",
-    subject: "",
-    college: "",
-    occupation: "",
-    sector: "",
-    annualIncome: "",
-    companyName: "",
+    preferredAge: "",
+    preferredEducation: "",
+    preferredFamilyValues: "",
+    preferredHeight: "",
+    preferredIncome: "",
+    preferredMaritalStatus: "",
+    preferredOccupation: "",
+    preferredReligion: "",
   });
 
   const [fourthFormValues, setFourthFormValues] = useState({
-    minAge: "",
-    maxAge: "",
-    minHeight: "",
-    maxHeight: "",
-    maritalStatus: "",
-    religion: "",
-    caste: "",
-    subcaste: "",
-    education: "",
-    // occupation: '',
-    subject: "",
-    annualIncome: "",
-    sector: "",
-    motherTongue: "",
+    ageWeight: 0,
+    heightWeight: 0,
+    religionWeight: 0,
+    casteWeight: 0,
+    educational_degreeWeight: 0,
+    annualIncomeWeight: 0,
+    marital_statusWeight: 0,
+    motherTongeWeight: 0,
   });
   const [fifthFormValues, setFifthFormValues] = useState({
-    minAge: "",
-    maxAge: "",
-    minHeight: "",
-    maxHeight: "",
-    maritalStatus: "",
-    religion: "",
-    caste: "",
-    subcaste: "",
-    education: "",
-    // occupation: '',
-    subject: "",
-    annualIncome: "",
-    sector: "",
-    motherTongue: "",
+    bio: "",
   });
 
   const allForms = [
@@ -123,15 +104,58 @@ const Form = () => {
     />,
   ];
 
+  const submitAllForms = async () => {
+    console.log("All form values:", {
+      ...firstFormValues,
+      ...secondFormValues,
+      ...thirdFormValues,
+      ...fourthFormValues,
+      ...fifthFormValues,
+    });
+    const combinedFormValues = {
+      ...firstFormValues,
+      ...secondFormValues,
+      ...thirdFormValues,
+      ...fourthFormValues,
+      ...fifthFormValues,
+    };
+
+    setIsLoading(true);
+    try {
+      const res = await profileSvc.createProfile(combinedFormValues);
+
+      if (res.status) {
+        toast.success("Profile Created Successfully");
+        navigate("/user");
+      } else {
+        toast.error(res.message);
+      }
+    } catch (exception) {
+      setIsLoading(false);
+      toast.error("Cannot Create Profile at this moment");
+      console.log(exception);
+    }
+  };
+
   return (
     <>
       <div className="w-full min-h-[100vh] bg-screen">
+        {isLoading && <Loading />}
         {/* <NewHeader /> */}
         <NewProgressBar
           currentFormCount={currentFormCount}
           setCurrentFormCount={setCurrentFormCount}
         />
         {allForms[currentFormCount]}
+        {currentFormCount === 4 && (
+          <Button
+            type="button"
+            label="Submit"
+            onClick={submitAllForms}
+            classes="px-16 py-3 rounded-xl btnnext text-white"
+            classes2="w-full flex justify-center py-4 mt-[-8rem] ml-[8rem]"
+          />
+        )}
         {/* <Footer />  */}
       </div>
     </>
