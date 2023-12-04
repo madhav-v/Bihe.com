@@ -19,6 +19,7 @@ import ChatProvider from "./Context/chatProvider.jsx";
 import ChatPage from "./pages/chat/index.jsx";
 import FourthForm from "./pages/UserForm/fourthform.jsx";
 import FirstForm from "./pages/UserForm/firstform.jsx";
+import ViewProfile from "./pages/Profle/ViewProfile.jsx";
 // import ChatPanel from "./pages/chat/index.jsx";
 
 function App() {
@@ -55,6 +56,7 @@ function App() {
               <CheckPermission accessBy={"user"} Component={<FormEdit />} />
             }
           />
+          <Route path="/profile" element={<ViewProfile />} />
 
           <Route path="*" element={<ErrorPage />} />
         </Routes>

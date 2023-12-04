@@ -11,10 +11,7 @@ class ProfileController {
       }
 
       let data = req.body;
-      if (req.file) {
-        data.image = req.file.filename;
-      }
-      await profileSvc.validateProfile(data);
+      // await profileSvc.validateProfile(data);
       let response = await profileSvc.createProfile(data);
       await UserModel.findByIdAndUpdate(userId, { profile: response._id });
       res.json({
@@ -27,6 +24,7 @@ class ProfileController {
       next(exception);
     }
   };
+  
   updateProfile = async (req, res, next) => {
     try {
       let data = req.body;

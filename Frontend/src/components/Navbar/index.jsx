@@ -3,14 +3,17 @@ import { BsPersonAdd } from "react-icons/bs";
 import { MdNotificationsNone } from "react-icons/md";
 import { RiMessengerLine } from "react-icons/ri";
 import { FaRegUser } from "react-icons/fa";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import logo from "/logo1.png";
 import { useEffect, useState } from "react";
 import authSvc from "../../services/auth.service";
+import { toast } from "react-toastify";
 
 const NavBar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [profileDetails, setProfileDetails] = useState();
+
+  const navigate = useNavigate();
 
   const profileData = async () => {
     try {
@@ -20,6 +23,12 @@ const NavBar = () => {
       console.log(exception);
       throw exception;
     }
+  };
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    toast.success("Thanks for using our service.");
+    navigate("/login");
   };
   useEffect(() => {
     profileData();
@@ -32,7 +41,7 @@ const NavBar = () => {
     <>
       <header className="Navbar bg-[#e83868] z-50 shadow-sm flex justify-between items-center md:fixed w-full left-0 top-0 h-20">
         <div className="basis-1/2 flex justify-start items-center">
-          <NavLink className="navbar-logo basis-1/3" to="/">
+          <NavLink className="navbar-logo basis-1/3" to="/user">
             <img src={logo} alt="logo" className="w-20 ml-7 rounded-[40%]" />
           </NavLink>
           <div className="ml-auto basis-1/2 text-white text-lg font-bold">
@@ -95,8 +104,9 @@ const NavBar = () => {
                       </li>
                       <li>
                         <Link
-                          href="/logout"
+                          to="/login"
                           className="block px-4 py-2 text-black hover:bg-gray-200"
+                          onClick={handleLogout}
                         >
                           Logout
                         </Link>

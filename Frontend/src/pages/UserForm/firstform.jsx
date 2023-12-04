@@ -65,6 +65,21 @@ const FirstForm = ({
     { value: "6ft 4in - 192cm", label: "6ft 4in - 192cm" },
   ];
 
+  const casteOptions = [
+    { value: "brahmin", label: "Brahmin" },
+    { value: "chhetri", label: "chhetri" },
+    { value: "thakuri", label: "Thakuri" },
+    { value: "magar", label: "Magar" },
+    { value: "tamang", label: "Tamang" },
+    { value: "sherpa", label: "Sherpa" },
+    { value: "newar", label: "Newar" },
+  ];
+
+  const smokeorDrinkOptions = [
+    { value: "yes", label: "Yes" },
+    { value: "no", label: "No" },
+  ];
+
   const FORM_VALIDATION = Yup.object().shape({
     fullname: Yup.string().required("Full Name is required"),
     sex: Yup.string().required("Gender is required"),
@@ -74,6 +89,7 @@ const FirstForm = ({
     address: Yup.string().required("Address is required"),
     marital_status: Yup.string().required("Marital Status is required"),
     height: Yup.string().required("Height is required"),
+    caste: Yup.string().required("Caste is required"),
   });
 
   const {
@@ -158,19 +174,19 @@ const FirstForm = ({
               />
             )}
           />
-          <Controller
-            name="motherTongue"
+           <Controller
+            name="caste"
             control={control}
             render={({ field }) => (
-              <Input
+              <InputSelect
                 {...field}
-                label="Mother Tongue"
-                classes3="w-[40%]"
-                classes="px-2"
-                classes2="block lg:text-lg xl:text-xl"
-                type="text"
-                placeholder="Enter your mother tongue"
-                error={errors.motherTongue?.message}
+                label="Caste "
+                classes1="block text-md lg:text-lg xl:text-xl my-2"
+                classes2="xl:w-[70%] basis-[40%]"
+                options={casteOptions}
+                error={errors.caste?.message}
+                setValue={setValue}
+                value={firstFormValues.religion}
               />
             )}
           />
@@ -204,7 +220,7 @@ const FirstForm = ({
                 classes="px-2"
                 classes2="block xl:text-xl xl:text-xl lg:text-lg"
                 type="text"
-                placeholder="Enter your current address"
+                placeholder="Enter your current city"
                 error={errors.address?.message}
               />
             )}
@@ -241,6 +257,40 @@ const FirstForm = ({
                 error={errors.height?.message}
                 setValue={setValue}
                 value={firstFormValues.height}
+              />
+            )}
+          />
+        </div>
+        <div className="w-full flex  justify-around items-center">
+          <Controller
+            name="smokeOrDrink"
+            control={control}
+            render={({ field }) => (
+              <InputSelect
+                {...field}
+                label="Smoke or Drink ? "
+                classes1="block text-md lg:text-lg xl:text-xl my-2"
+                classes2="xl:w-[70%] basis-[40%]"
+                options={smokeorDrinkOptions}
+                error={errors.smokeorDrink?.message}
+                setValue={setValue}
+                value={firstFormValues.religion}
+              />
+            )}
+          />
+          <Controller
+            name="motherTongue"
+            control={control}
+            render={({ field }) => (
+              <Input
+                {...field}
+                label="Mother Tongue"
+                classes3="w-[40%]"
+                classes="px-2"
+                classes2="block lg:text-lg xl:text-xl"
+                type="text"
+                placeholder="Enter your mother tongue"
+                error={errors.motherTongue?.message}
               />
             )}
           />

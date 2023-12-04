@@ -19,6 +19,8 @@ import Button from "../../components/ProfileForm/profilebutton";
 
 const Form = () => {
   const [currentFormCount, setCurrentFormCount] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const [firstFormValues, setFirstFormValues] = useState({
     fullname: "",
@@ -28,6 +30,9 @@ const Form = () => {
     marital_status: "",
     dateOfBirth: "",
     address: "",
+    motherTongue: "",
+    smokeOrDrink: "",
+    caste: "",
   });
 
   const [secondFormValues, setSecondFormValues] = useState({
@@ -99,7 +104,7 @@ const Form = () => {
     />,
   ];
 
-  const submitAllForms = () => {
+  const submitAllForms = async () => {
     console.log("All form values:", {
       ...firstFormValues,
       ...secondFormValues,
@@ -107,11 +112,35 @@ const Form = () => {
       ...fourthFormValues,
       ...fifthFormValues,
     });
+    const combinedFormValues = {
+      ...firstFormValues,
+      ...secondFormValues,
+      ...thirdFormValues,
+      ...fourthFormValues,
+      ...fifthFormValues,
+    };
+
+    setIsLoading(true);
+    try {
+      const res = await profileSvc.createProfile(combinedFormValues);
+
+      if (res.status) {
+        toast.success("Profile Created Successfully");
+        navigate("/user");
+      } else {
+        toast.error(res.message);
+      }
+    } catch (exception) {
+      setIsLoading(false);
+      toast.error("Cannot Create Profile at this moment");
+      console.log(exception);
+    }
   };
 
   return (
     <>
       <div className="w-full min-h-[100vh] bg-screen">
+        {isLoading && <Loading />}
         {/* <NewHeader /> */}
         <NewProgressBar
           currentFormCount={currentFormCount}
@@ -124,7 +153,7 @@ const Form = () => {
             label="Submit"
             onClick={submitAllForms}
             classes="px-16 py-3 rounded-xl btnnext text-white"
-            classes2="w-full flex justify-center py-4"
+            classes2="w-full flex justify-center py-4 mt-[-8rem] ml-[8rem]"
           />
         )}
         {/* <Footer />  */}

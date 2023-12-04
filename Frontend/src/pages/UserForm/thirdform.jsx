@@ -4,6 +4,7 @@ import InputSelect from "../../components/ProfileForm/select";
 import Button from "../../components/ProfileForm/profilebutton";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
+import Input from "../../components/ProfileForm/input";
 
 const FORM_VALIDATION = Yup.object().shape({
   preferredReligion: Yup.string().required("Preferred Religion is required"),
@@ -20,6 +21,10 @@ const FORM_VALIDATION = Yup.object().shape({
     "Preferred Occupation is required"
   ),
   preferredIncome: Yup.string().required("Preferred Income is required"),
+  preferredCaste: Yup.string().required("Preferred Caste is required"),
+  preferredMotherTongue: Yup.string().required(
+    "Preferred Mother Tongue is required"
+  ),
 });
 
 function ThirdForm({
@@ -41,7 +46,15 @@ function ThirdForm({
     setThirdFormValues(data);
     setCurrentFormCount((prev) => prev + 1);
   };
-
+  const casteOptions = [
+    { value: "brahmin", label: "Brahmin" },
+    { value: "chhetri", label: "chhetri" },
+    { value: "thakuri", label: "Thakuri" },
+    { value: "magar", label: "Magar" },
+    { value: "tamang", label: "Tamang" },
+    { value: "sherpa", label: "Sherpa" },
+    { value: "newar", label: "Newar" },
+  ];
   const religionOptions = [
     { value: "hindu", label: "Hinduism" },
     { value: "buddhist", label: "Buddhism" },
@@ -173,6 +186,39 @@ function ThirdForm({
                 setValue={setValue}
                 error={errors.preferredHeight?.message}
                 options={heightOptions}
+              />
+            )}
+          />
+        </div>
+        <div className="w-full flex justify-around items-center">
+          <Controller
+            name="preferredCaste"
+            control={control}
+            render={({ field }) => (
+              <InputSelect
+                {...field}
+                label="Preferred Caste"
+                classes1="block text-md lg:text-lg xl:text-xl my-2"
+                classes2="xl:w-[40%] basis-[40%]"
+                setValue={setValue}
+                error={errors.preferredCaste?.message}
+                options={casteOptions}
+              />
+            )}
+          />
+          <Controller
+            name="preferredMotherTongue"
+            control={control}
+            render={({ field }) => (
+              <Input
+                {...field}
+                label="Preferred Mother Tongue"
+                classes3="w-[40%]"
+                classes="px-2"
+                classes2="block lg:text-lg xl:text-xl"
+                type="text"
+                placeholder="Enter your preferred mother tongue"
+                error={errors.preferredMotherTongue?.message}
               />
             )}
           />

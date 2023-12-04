@@ -13,21 +13,23 @@ function FifthForm({
     setCurrentFormCount((prev) => prev - 1);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setFifthFormValues({ bio })
-  };
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   setFifthFormValues({ bio })
+  // };
 
   const handleBioChange = (e) => {
     const value = e.target.value;
     if (value.length <= maxCharacters) {
       setBio(value);
+      setFifthFormValues({ bio });
+      console.log(fifthFormValues);
     }
   };
 
   return (
     <div className="mt-16 min-h-full mb-8 px-2 py-4 w-[90%] md:w-[80%] lg:w-[70%] xl:w-[65%] bg-white rounded-lg mx-auto">
-      <form className="mx-auto" onSubmit={handleSubmit}>
+      <form className="mx-auto">
         <h1 className="text-2xl w-[90%] mx-auto mb-1 font-bold">
           Write Something about you
         </h1>
@@ -48,15 +50,15 @@ function FifthForm({
           <Button
             label="Go Back"
             classes="px-16 py-3 rounded-xl btnnext text-white"
-            classes2="w-full flex justify-center py-4"
+            classes2="w-full ml-[10rem] justify-center py-4"
             onClick={handlePrevClick}
           />
-          <Button
+          {/* <Button
             type="submit"
             label="Submit"
             classes="px-16 py-3 rounded-xl btnnext text-white"
             classes2="w-full flex justify-center py-4"
-          />
+          /> */}
         </div>
       </form>
     </div>
