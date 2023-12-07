@@ -13,13 +13,18 @@ import Form from "./pages/UserForm";
 import CheckPermission from "./config/rbsc.config";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { getLoggedInUser, setLoggedInUser } from "./reducers/user.reducer";
+import {
+  getLoggedInUser,
+  getLoggedInUserWithProfile,
+  setLoggedInUser,
+} from "./reducers/user.reducer";
 import FormEdit from "./pages/UserForm/edit";
 import ChatProvider from "./Context/chatProvider.jsx";
 import ChatPage from "./pages/chat/index.jsx";
 import FourthForm from "./pages/UserForm/fourthform.jsx";
 import FirstForm from "./pages/UserForm/firstform.jsx";
 import ViewProfile from "./pages/Profle/ViewProfile.jsx";
+import Chat from "./components/Chat/index.jsx";
 // import ChatPanel from "./pages/chat/index.jsx";
 
 function App() {
@@ -27,6 +32,7 @@ function App() {
   useEffect(() => {
     dispatch(getLoggedInUser());
     dispatch(setLoggedInUser());
+    dispatch(getLoggedInUserWithProfile());
   }, []);
   return (
     <>
@@ -39,7 +45,7 @@ function App() {
           <Route path="/forgetPassword" element={<ResetPassword />} />
           <Route path="/setPassword/:token" element={<SetPassword />} />
           <Route path="/terms" element={<TermsAndConditions />} />
-          <Route path="/chat" element={<ChatPage />} />
+          <Route path="/chat" element={<Chat />} />
           <Route
             path="/user"
             element={

@@ -5,12 +5,11 @@ import Chat from "../../components/Chat";
 const UserDashboard = () => {
   return (
     <>
-      
       <NavBar />
-      <Chat />
-      {/* <div className="mt-[15vh] ml-10 bg-red-500 inline-block">
-        <Link to="/user/form">Create Profile</Link>
-      </div> */}
+      <div className="mt-[15vh] ml-10 bg-red-500 inline-block">
+        <Link to="/profile/info">Create Profile</Link>
+      </div>
+      {/* <Chat /> */}
     </>
   );
 };

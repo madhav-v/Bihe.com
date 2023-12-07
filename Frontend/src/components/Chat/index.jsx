@@ -5,10 +5,12 @@ import { FaGift, FaVideo } from "react-icons/fa";
 import { FiMessageCircle, FiPhoneCall } from "react-icons/fi";
 import { MdInsertEmoticon, MdInsertPhoto, MdMessage } from "react-icons/md";
 import { IoMdSend } from "react-icons/io";
+import NavBar from "../Navbar";
 
 const Chat = () => {
   return (
     <>
+      <NavBar />
       <div className="realtive">
         <div className=" flex max-h-screen  w-screen fixed  top-[80px] left-0 bottom-0 ">
           {/* <div className='w-1/4 p-4  '>

@@ -18,6 +18,7 @@ const NavBar = () => {
   const profileData = async () => {
     try {
       let response = await authSvc.getUserWithProfile();
+      console.log("res", response);
       setProfileDetails(response.result.profile);
     } catch (exception) {
       console.log(exception);
@@ -65,7 +66,7 @@ const NavBar = () => {
               </NavLink>
             </li>
             <li className="navbar-item mt-2 hover:bg-screen py-2 px-3 rounded-xl hover:bg-[#e86f6f]">
-              <NavLink className="navbar-link cool-link" to="/user">
+              <NavLink className="navbar-link cool-link" to="/chat">
                 <RiMessengerLine size={30} color="white" />
               </NavLink>
             </li>
@@ -88,7 +89,7 @@ const NavBar = () => {
                     <ul>
                       <li>
                         <NavLink
-                          to="/my-profile"
+                          to="/profile"
                           className="block px-4 py-2 text-black hover:bg-gray-200"
                         >
                           My Profile
@@ -96,7 +97,7 @@ const NavBar = () => {
                       </li>
                       <li>
                         <NavLink
-                          to={`/profile/info/${profileDetails._id}`}
+                          // to={`/profile/info/${profileDetails._id}`}
                           className="block px-4 py-2 text-black hover:bg-gray-200"
                         >
                           Edit Profile

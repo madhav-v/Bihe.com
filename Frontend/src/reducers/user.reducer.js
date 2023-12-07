@@ -7,6 +7,23 @@ export const getLoggedInUser = createAsyncThunk(
     try {
       let userData = await authSvc.getLoggedInUser();
       if (userData.status) {
+        // console.log(userData);
+        return userData.result;
+      } else {
+        throw userData;
+      }
+    } catch (exception) {
+      throw exception;
+    }
+  }
+);
+export const getLoggedInUserWithProfile = createAsyncThunk(
+  "user/getLoggedInUser",
+  async (data = null, thunkAPI) => {
+    try {
+      let userData = await authSvc.getUserWithProfile();
+      if (userData.status) {
+        // console.log(userData);
         return userData.result;
       } else {
         throw userData;
@@ -19,7 +36,9 @@ export const getLoggedInUser = createAsyncThunk(
 
 const UserSlicer = createSlice({
   name: "user",
-  initialState: {},
+  initialState: {
+    loggedInUser: null,
+  },
   reducers: {
     setLoggedInUser: (state, action) => {
       state.loggedInUser = action.payload;
