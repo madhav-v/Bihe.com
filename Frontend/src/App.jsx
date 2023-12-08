@@ -25,6 +25,7 @@ import FourthForm from "./pages/UserForm/fourthform.jsx";
 import FirstForm from "./pages/UserForm/firstform.jsx";
 import ViewProfile from "./pages/Profle/ViewProfile.jsx";
 import Chat from "./components/Chat/index.jsx";
+import EditProfile from "./pages/Profle/EditProfile/EditProfile.jsx";
 // import ChatPanel from "./pages/chat/index.jsx";
 
 function App() {
@@ -63,6 +64,7 @@ function App() {
             }
           />
           <Route path="/profile" element={<ViewProfile />} />
+          <Route path="/profile/:id" element={<EditProfile />} />
 
           <Route path="*" element={<ErrorPage />} />
         </Routes>

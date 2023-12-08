@@ -1,3 +1,4 @@
+import { BsTrophy } from "react-icons/bs";
 import HttpService from "./http.service";
 class ProfileService extends HttpService {
   createProfile = async (data) => {
@@ -29,6 +30,16 @@ class ProfileService extends HttpService {
       });
       return response;
     } catch {
+      throw exception;
+    }
+  };
+  createBio = async (bio) => {
+    try {
+      let response = await this.postRequest("/v1/profile/createBio", bio, {
+        auth: true,
+      });
+      return response;
+    } catch (exception) {
       throw exception;
     }
   };
