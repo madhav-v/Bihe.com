@@ -1,5 +1,6 @@
 const profileSvc = require("../services/profile.service");
 const UserModel = require("../model/user.model");
+const ProfileModel = require("../model/profile.model");
 class ProfileController {
   createProfile = async (req, res, next) => {
     try {
@@ -24,7 +25,7 @@ class ProfileController {
       next(exception);
     }
   };
-  
+
   updateProfile = async (req, res, next) => {
     try {
       let data = req.body;
@@ -81,6 +82,35 @@ class ProfileController {
       res.json({
         result: response,
         msg: "Profile Fetched",
+        status: true,
+        meta: null,
+      });
+    } catch (exception) {
+      next(exception);
+    }
+  };
+
+  createBio = async (req, res, next) => {
+    try {
+      const bio = req.body.bioData.bio;
+      const id = req.user?.id;
+      const user = await UserModel.findById(id);
+      const profile = await ProfileModel.findById(user.profile);
+      if (!bio) {
+        throw { status: 404, msg: "Please provide Bio" };
+      }
+      if (!user.profile) {
+        throw { status: 400, msg: "User does not have a profile." };
+      }
+      if (user.profile) {
+        (profile.bio = bio), await profile?.save();
+      }
+
+      // const response = await profileSvc.createBio(bio);
+      await ProfileModel.findByIdAndUpdate(profile.id, { bio: response._id });
+      res.json({
+        result: response,
+        msg: "Bio Created",
         status: true,
         meta: null,
       });

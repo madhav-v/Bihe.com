@@ -29,4 +29,5 @@ router
   .delete(authCheck, profileCtrl.deleteProfile)
   .get(authCheck, profileCtrl.getProfileById);
 
+router.post("/createBio", authCheck, profileCtrl.createBio);
 module.exports = router;
