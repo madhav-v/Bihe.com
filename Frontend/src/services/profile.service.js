@@ -43,6 +43,17 @@ class ProfileService extends HttpService {
       throw exception;
     }
   };
+
+  firstEdit = async (data) => {
+    try {
+      let response = await this.postRequest("/v1/profile/firstEdit", data, {
+        auth: true,
+      });
+      return response;
+    } catch (exception) {
+      throw exception;
+    }
+  };
 }
 
 const profileSvc = new ProfileService();

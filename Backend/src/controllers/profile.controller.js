@@ -92,7 +92,7 @@ class ProfileController {
 
   createBio = async (req, res, next) => {
     try {
-      const bio = req.body.bioData.bio;
+      const bio = req.body.bio;
       const id = req.user?.id;
       const user = await UserModel.findById(id);
       const profile = await ProfileModel.findById(user.profile);
@@ -103,14 +103,45 @@ class ProfileController {
         throw { status: 400, msg: "User does not have a profile." };
       }
       if (user.profile) {
-        (profile.bio = bio), await profile?.save();
+        profile.bio = bio;
+        await profile?.save();
       }
-
-      // const response = await profileSvc.createBio(bio);
-      await ProfileModel.findByIdAndUpdate(profile.id, { bio: response._id });
       res.json({
-        result: response,
+        result: user,
         msg: "Bio Created",
+        status: true,
+        meta: null,
+      });
+    } catch (exception) {
+      next(exception);
+    }
+  };
+
+  firstEdit = async (req, res, next) => {
+    try {
+      const id = req.user?.id;
+      const data = req.body;
+      const user = await UserModel.findById(id);
+      console.log(user);
+      const profile = await ProfileModel.findById(user.profile);
+      if (!user.profile) {
+        throw { status: 400, msg: "User does not have a profile." };
+      }
+      if (user.profile) {
+        profile.fullname = data.fullname;
+        profile.sex = data.sex;
+        profile.dateOfBirth = data.dateOfBirth;
+        profile.marital_status = data.marital_status;
+        profile.motherTongue = data.motherTongue;
+        profile.smokeOrDrink = data.smokeOrDrink;
+        profile.caste = data.caste;
+        profile.religion = data.religion;
+        profile.address = data.address;
+        await profile?.save();
+      }
+      res.json({
+        result: profile,
+        msg: "First Edit",
         status: true,
         meta: null,
       });
