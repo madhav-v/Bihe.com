@@ -6,6 +6,7 @@ import Input from "../../../../components/ProfileForm/input";
 import InputSelect from "../../../../components/ProfileForm/select";
 import { useForm, Controller } from "react-hook-form";
 import profileSvc from "../../../../services/profile.service";
+import { setLoggedInUser } from "../../../../reducers/user.reducer";
 
 const EducationalInfo = () => {
   const dispatch = useDispatch();
@@ -83,19 +84,18 @@ const EducationalInfo = () => {
     { value: "softwareDeveloper", label: "Software Developer" },
     { value: "entrepreneur", label: "Entrepreneur" },
   ];
-  const getProfile = useCallback(async () => {
+  const getProfile = async () => {
     try {
-      if (loggedInUser.profile) {
+      if (loggedInUser) {
         const response = await profileSvc.getProfileById(
           loggedInUser?.profile?._id
         );
-        console.log("responseis", response);
         setDetail(response.result);
       }
     } catch (exception) {
       throw exception;
     }
-  }, []);
+  };
   const handleEdit = () => {
     setEditMode(true);
   };
@@ -113,12 +113,26 @@ const EducationalInfo = () => {
   };
 
   const handleSav = async (data) => {
-    console.log(data);
+    try {
+      let submit = await profileSvc.thirdEdit(data);
+      if (submit) {
+        dispatch(setLoggedInUser(submit.result));
+        toast.success("Profile Updated Successfully");
+        setDetail(submit.result);
+        setEditMode(false);
+      } else {
+        toast.error("Something went wrong");
+        setEditMode(false);
+      }
+    } catch (exception) {
+      throw exception;
+    }
   };
-  console.log(loggedInUser);
   useEffect(() => {
-    getProfile();
-  }, []);
+    if (loggedInUser) {
+      getProfile();
+    }
+  }, [loggedInUser]);
 
   useEffect(() => {
     if (detail) {

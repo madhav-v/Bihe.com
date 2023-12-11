@@ -2,32 +2,51 @@ import NavBar from "../../components/Navbar";
 import img from "../../../public/background.jpg";
 import { useDispatch, useSelector } from "react-redux";
 import { getLoggedInUserWithProfile } from "../../reducers/user.reducer";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Loading from "../error/loading";
+import profileSvc from "../../services/profile.service";
 
 const calculateAge = (dateOfBirth) => {
   const birthDate = new Date(dateOfBirth);
   const today = new Date();
   let age = today.getFullYear() - birthDate.getFullYear();
   const monthDiff = today.getMonth() - birthDate.getMonth();
-
   if (
     monthDiff < 0 ||
     (monthDiff === 0 && today.getDate() < birthDate.getDate())
   ) {
     age--;
   }
-
   return age;
 };
 
 const ViewProfile = () => {
   const dispatch = useDispatch();
   const loggedInUser = useSelector((state) => state.User.loggedInUser);
+  const [detail, setDetail] = useState();
+  const [image, setImage] = useState();
+  const getProfile = async () => {
+    try {
+      if (loggedInUser) {
+        const response = await profileSvc.getProfileById(
+          loggedInUser?.profile?._id
+        );
+        setDetail(response.result);
+        console.log("detail is ", detail);
+      }
+    } catch (exception) {
+      throw exception;
+    }
+  };
+  useEffect(() => {
+    if (loggedInUser) {
+      getProfile();
+    }
+  }, [loggedInUser]);
   useEffect(() => {
     dispatch(getLoggedInUserWithProfile());
   }, [dispatch]);
-  console.log("loggedInUser:", loggedInUser);
+
   return (
     <>
       <NavBar />
@@ -39,7 +58,13 @@ const ViewProfile = () => {
                 <div className="flex">
                   <div className="p-5">
                     <img
-                      src={img}
+                      src={
+                        loggedInUser && loggedInUser?.profile
+                          ? import.meta.env.VITE_IMAGE_URL +
+                            "/profile/" +
+                            detail?.image
+                          : img
+                      }
                       alt="Profile"
                       className="w-[11rem] h-[11rem] object-cover rounded-full"
                     />

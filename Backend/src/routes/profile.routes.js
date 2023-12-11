@@ -30,6 +30,15 @@ router
   .get(authCheck, profileCtrl.getProfileById);
 
 router.post("/firstEdit", authCheck, profileCtrl.firstEdit);
+router.post("/secondEdit", authCheck, profileCtrl.secondEdit);
+router.post("/thirdEdit", authCheck, profileCtrl.thirdEdit);
+router.post(
+  "/photo",
+  authCheck,
+  uploadPath,
+  uploader.single("image"),
+  profileCtrl.addPhoto
+);
 
 router.post("/createBio", authCheck, profileCtrl.createBio);
 module.exports = router;

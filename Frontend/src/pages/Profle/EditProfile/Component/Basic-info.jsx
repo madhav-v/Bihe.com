@@ -6,6 +6,7 @@ import Input from "../../../../components/ProfileForm/input";
 import InputSelect from "../../../../components/ProfileForm/select";
 import { useForm, Controller } from "react-hook-form";
 import profileSvc from "../../../../services/profile.service";
+import { setLoggedInUser } from "../../../../reducers/user.reducer";
 
 const BasicInfo = () => {
   const dispatch = useDispatch();
@@ -13,19 +14,18 @@ const BasicInfo = () => {
   const [editMode, setEditMode] = useState(false);
   const [detail, setDetail] = useState();
 
-  const getProfile = useCallback(async () => {
+  const getProfile = async () => {
     try {
-      if (loggedInUser.profile) {
+      if (loggedInUser) {
         const response = await profileSvc.getProfileById(
           loggedInUser?.profile?._id
         );
-        console.log("responseis", response);
         setDetail(response.result);
       }
     } catch (exception) {
       throw exception;
     }
-  }, []);
+  };
   const handleEdit = () => {
     setEditMode(true);
   };
@@ -110,15 +110,25 @@ const BasicInfo = () => {
   const handleSav = async (data) => {
     try {
       let submit = await profileSvc.firstEdit(data);
-      console.log(submit);
+      if (submit) {
+        console.log("submit us ", submit);
+        dispatch(setLoggedInUser(submit.result));
+        toast.success("Profile Updated Successfully");
+        setDetail(submit.result);
+        setEditMode(false);
+      } else {
+        toast.error("Something went wrong");
+        setEditMode(false);
+      }
     } catch (exception) {
       throw exception;
     }
   };
-  console.log(loggedInUser);
   useEffect(() => {
-    getProfile();
-  }, []);
+    if (loggedInUser) {
+      getProfile();
+    }
+  }, [loggedInUser]);
 
   useEffect(() => {
     if (detail) {
@@ -146,20 +156,17 @@ const BasicInfo = () => {
                 <>
                   {" "}
                   <p>Name: {loggedInUser?.profile?.fullname}</p>
+                  <p>Sex: {loggedInUser?.profile?.sex}</p>
                   {/* <p>Age: {calculateAge(loggedInUser.profile.dateOfBirth)}</p> */}
-                  <p>Height: {loggedInUser.profile.height}</p>
-                  <p>Marital Status: {loggedInUser.profile.marital_status}</p>
-                  <p>Mother Tongue: {loggedInUser.profile.motherTongue}</p>
-                  <p>Religion: {loggedInUser.profile.religion}</p>
-                  <p>Caste: {loggedInUser.profile.caste}</p>
-                  <p>Address: {loggedInUser.profile.address}</p>
+                  {/* <p>Height: {loggedInUser.profile.height}</p>   */}
+                  <p>Marital Status: {loggedInUser?.profile?.marital_status}</p>
+                  <p>Mother Tongue: {loggedInUser?.profile?.motherTongue}</p>
+                  <p>Religion: {loggedInUser?.profile?.religion}</p>
+                  <p>Caste: {loggedInUser?.profile?.caste}</p>
+                  <p>Address: {loggedInUser?.profile?.address}</p>
                   <p>
                     Smoking or Drinking Habits:{" "}
-                    {loggedInUser.profile.smokeOrDrink}
-                  </p>
-                  <p>
-                    Physical Disability:{" "}
-                    {loggedInUser.profile.physicalDisability}
+                    {loggedInUser?.profile?.smokeOrDrink}
                   </p>
                 </>
               ) : (
@@ -169,191 +176,198 @@ const BasicInfo = () => {
           </>
         ) : (
           <>
-            <div className="mt-5 min-h-full mb-8 px-2 py-4 border w-[910%] md:w-[80%] lg:w-[70%] xl:w-[65%] bg-white rounded-lg mx-auto">
-              <form onSubmit={handleSubmit(handleSav)}>
-                <div className="w-full flex  justify-around items-center">
-                  <Controller
-                    name="fullname"
-                    control={control}
-                    render={({ field }) => (
-                      <Input
-                        {...field}
-                        label="Full Name"
-                        classes3="w-[40%]"
-                        classes="px-2"
-                        classes2="block lg:text-lg xl:text-xl"
-                        type="text"
-                        placeholder="Enter full Name"
-                        error={errors.fullname?.message}
+            {detail ? (
+              <>
+                {" "}
+                <div className="mt-5 min-h-full mb-8 px-2 py-4 border w-[910%] md:w-[80%] lg:w-[70%] xl:w-[65%] bg-white rounded-lg mx-auto">
+                  <form onSubmit={handleSubmit(handleSav)}>
+                    <div className="w-full flex  justify-around items-center">
+                      <Controller
+                        name="fullname"
+                        control={control}
+                        render={({ field }) => (
+                          <Input
+                            {...field}
+                            label="Full Name"
+                            classes3="w-[40%]"
+                            classes="px-2"
+                            classes2="block lg:text-lg xl:text-xl"
+                            type="text"
+                            placeholder="Enter full Name"
+                            error={errors.fullname?.message}
+                          />
+                        )}
                       />
-                    )}
-                  />
-                  <Controller
-                    name="sex"
-                    control={control}
-                    render={({ field }) => (
-                      <InputSelect
-                        {...field}
-                        label="Gender "
-                        classes1="block text-xl my-2"
-                        classes2="xl:w-[40%] basis-[40%]"
-                        options={genderOptions}
-                        error={errors.sex?.message}
-                        setValue={setValue}
+                      <Controller
+                        name="sex"
+                        control={control}
+                        render={({ field }) => (
+                          <InputSelect
+                            {...field}
+                            label="Gender "
+                            classes1="block text-xl my-2"
+                            classes2="xl:w-[40%] basis-[40%]"
+                            options={genderOptions}
+                            error={errors.sex?.message}
+                            setValue={setValue}
+                          />
+                        )}
                       />
-                    )}
-                  />
-                </div>
-                <div className="w-full flex  justify-around items-center">
-                  <Controller
-                    name="religion"
-                    control={control}
-                    render={({ field }) => (
-                      <InputSelect
-                        {...field}
-                        label="Religion "
-                        classes1="block text-md lg:text-lg xl:text-xl my-2"
-                        classes2="xl:w-[70%] basis-[40%]"
-                        options={religionOptions}
-                        error={errors.religion?.message}
-                        setValue={setValue}
+                    </div>
+                    <div className="w-full flex  justify-around items-center">
+                      <Controller
+                        name="religion"
+                        control={control}
+                        render={({ field }) => (
+                          <InputSelect
+                            {...field}
+                            label="Religion "
+                            classes1="block text-md lg:text-lg xl:text-xl my-2"
+                            classes2="xl:w-[70%] basis-[40%]"
+                            options={religionOptions}
+                            error={errors.religion?.message}
+                            setValue={setValue}
+                          />
+                        )}
                       />
-                    )}
-                  />
-                  <Controller
-                    name="caste"
-                    control={control}
-                    render={({ field }) => (
-                      <InputSelect
-                        {...field}
-                        label="Caste "
-                        classes1="block text-md lg:text-lg xl:text-xl my-2"
-                        classes2="xl:w-[70%] basis-[40%]"
-                        options={casteOptions}
-                        error={errors.caste?.message}
-                        setValue={setValue}
+                      <Controller
+                        name="caste"
+                        control={control}
+                        render={({ field }) => (
+                          <InputSelect
+                            {...field}
+                            label="Caste "
+                            classes1="block text-md lg:text-lg xl:text-xl my-2"
+                            classes2="xl:w-[70%] basis-[40%]"
+                            options={casteOptions}
+                            error={errors.caste?.message}
+                            setValue={setValue}
+                          />
+                        )}
                       />
-                    )}
-                  />
-                </div>
+                    </div>
 
-                <div className="w-full flex justify-around  items-center">
-                  <Controller
-                    name="dateOfBirth"
-                    control={control}
-                    render={({ field }) => (
-                      <Input
-                        {...field}
-                        label="Date of Birth"
-                        classes3="w-[40%]"
-                        classes="px-2"
-                        classes2="block lg:text-lg xl:text-xl"
-                        type="date"
-                        placeholder="Select Date of Birth"
-                        error={errors.dateOfBirth?.message}
+                    <div className="w-full flex justify-around  items-center">
+                      <Controller
+                        name="dateOfBirth"
+                        control={control}
+                        render={({ field }) => (
+                          <Input
+                            {...field}
+                            label="Date of Birth"
+                            classes3="w-[40%]"
+                            classes="px-2"
+                            classes2="block lg:text-lg xl:text-xl"
+                            type="date"
+                            placeholder="Select Date of Birth"
+                            error={errors.dateOfBirth?.message}
+                          />
+                        )}
                       />
-                    )}
-                  />
-                  <Controller
-                    name="address"
-                    control={control}
-                    render={({ field }) => (
-                      <Input
-                        {...field}
-                        label="Where do you live ?"
-                        classes3="w-[40%]"
-                        classes="px-2"
-                        classes2="block xl:text-xl xl:text-xl lg:text-lg"
-                        type="text"
-                        placeholder="Enter your current city"
-                        error={errors.address?.message}
+                      <Controller
+                        name="address"
+                        control={control}
+                        render={({ field }) => (
+                          <Input
+                            {...field}
+                            label="Where do you live ?"
+                            classes3="w-[40%]"
+                            classes="px-2"
+                            classes2="block xl:text-xl xl:text-xl lg:text-lg"
+                            type="text"
+                            placeholder="Enter your current city"
+                            error={errors.address?.message}
+                          />
+                        )}
                       />
-                    )}
-                  />
-                </div>
+                    </div>
 
-                <div className="w-full flex justify-around  items-center">
-                  <Controller
-                    name="marital_status"
-                    control={control}
-                    render={({ field }) => (
-                      <InputSelect
-                        {...field}
-                        label="Marital Status"
-                        classes1="block text-md lg:text-lg xl:text-xl my-2"
-                        classes2="xl:w-[40%] basis-[40%]"
-                        options={maritalStatusOptions}
-                        error={errors.marital_status?.message}
-                        setValue={setValue}
+                    <div className="w-full flex justify-around  items-center">
+                      <Controller
+                        name="marital_status"
+                        control={control}
+                        render={({ field }) => (
+                          <InputSelect
+                            {...field}
+                            label="Marital Status"
+                            classes1="block text-md lg:text-lg xl:text-xl my-2"
+                            classes2="xl:w-[40%] basis-[40%]"
+                            options={maritalStatusOptions}
+                            error={errors.marital_status?.message}
+                            setValue={setValue}
+                          />
+                        )}
                       />
-                    )}
-                  />
-                  <Controller
-                    name="height"
-                    control={control}
-                    render={({ field }) => (
-                      <InputSelect
-                        {...field}
-                        label="Your Height "
-                        classes1="block text-md lg:text-lg xl:text-xl my-2"
-                        classes2="xl:w-[40%] basis-[40%]"
-                        options={heightOptions}
-                        error={errors.height?.message}
-                        setValue={setValue}
+                      <Controller
+                        name="height"
+                        control={control}
+                        render={({ field }) => (
+                          <InputSelect
+                            {...field}
+                            label="Your Height "
+                            classes1="block text-md lg:text-lg xl:text-xl my-2"
+                            classes2="xl:w-[40%] basis-[40%]"
+                            options={heightOptions}
+                            error={errors.height?.message}
+                            setValue={setValue}
+                          />
+                        )}
                       />
-                    )}
-                  />
+                    </div>
+                    <div className="w-full flex  justify-around items-center">
+                      <Controller
+                        name="smokeOrDrink"
+                        control={control}
+                        render={({ field }) => (
+                          <InputSelect
+                            {...field}
+                            label="Smoke or Drink ? "
+                            classes1="block text-md lg:text-lg xl:text-xl my-2"
+                            classes2="xl:w-[70%] basis-[40%]"
+                            options={smokeorDrinkOptions}
+                            error={errors.smokeorDrink?.message}
+                            setValue={setValue}
+                          />
+                        )}
+                      />
+                      <Controller
+                        name="motherTongue"
+                        control={control}
+                        render={({ field }) => (
+                          <Input
+                            {...field}
+                            label="Mother Tongue"
+                            classes3="w-[40%]"
+                            classes="px-2"
+                            classes2="block lg:text-lg xl:text-xl"
+                            type="text"
+                            placeholder="Enter your mother tongue"
+                            error={errors.motherTongue?.message}
+                          />
+                        )}
+                      />
+                    </div>
+                    <div className="">
+                      <button
+                        className="bg-yellow-500 text-white px-4 py-2 rounded mt-2 mr-2"
+                        // onClick={handleSave}
+                        type="submit"
+                      >
+                        Save
+                      </button>
+                      <button
+                        className="bg-red-500 text-white px-4 py-2 rounded"
+                        onClick={handleCancel}
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </form>
                 </div>
-                <div className="w-full flex  justify-around items-center">
-                  <Controller
-                    name="smokeOrDrink"
-                    control={control}
-                    render={({ field }) => (
-                      <InputSelect
-                        {...field}
-                        label="Smoke or Drink ? "
-                        classes1="block text-md lg:text-lg xl:text-xl my-2"
-                        classes2="xl:w-[70%] basis-[40%]"
-                        options={smokeorDrinkOptions}
-                        error={errors.smokeorDrink?.message}
-                        setValue={setValue}
-                      />
-                    )}
-                  />
-                  <Controller
-                    name="motherTongue"
-                    control={control}
-                    render={({ field }) => (
-                      <Input
-                        {...field}
-                        label="Mother Tongue"
-                        classes3="w-[40%]"
-                        classes="px-2"
-                        classes2="block lg:text-lg xl:text-xl"
-                        type="text"
-                        placeholder="Enter your mother tongue"
-                        error={errors.motherTongue?.message}
-                      />
-                    )}
-                  />
-                </div>
-                <div className="">
-                  <button
-                    className="bg-yellow-500 text-white px-4 py-2 rounded mt-2 mr-2"
-                    // onClick={handleSave}
-                    type="submit"
-                  >
-                    Save
-                  </button>
-                  <button
-                    className="bg-red-500 text-white px-4 py-2 rounded"
-                    onClick={handleCancel}
-                  >
-                    Cancel
-                  </button>
-                </div>
-              </form>
-            </div>
+              </>
+            ) : (
+              <>Loading</>
+            )}
           </>
         )}
 

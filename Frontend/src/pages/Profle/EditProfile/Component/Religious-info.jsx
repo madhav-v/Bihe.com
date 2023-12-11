@@ -6,6 +6,7 @@ import Input from "../../../../components/ProfileForm/input";
 import InputSelect from "../../../../components/ProfileForm/select";
 import { useForm, Controller } from "react-hook-form";
 import profileSvc from "../../../../services/profile.service";
+import { setLoggedInUser } from "../../../../reducers/user.reducer";
 
 const ReligiousInfo = () => {
   const dispatch = useDispatch();
@@ -13,19 +14,18 @@ const ReligiousInfo = () => {
   const [editMode, setEditMode] = useState(false);
   const [detail, setDetail] = useState();
 
-  const getProfile = useCallback(async () => {
+  const getProfile = async () => {
     try {
-      if (loggedInUser.profile) {
+      if (loggedInUser) {
         const response = await profileSvc.getProfileById(
           loggedInUser?.profile?._id
         );
-        console.log("responseis", response);
         setDetail(response.result);
       }
     } catch (exception) {
       throw exception;
     }
-  }, []);
+  };
   const handleEdit = () => {
     setEditMode(true);
   };
@@ -70,12 +70,26 @@ const ReligiousInfo = () => {
   };
 
   const handleSav = async (data) => {
-    console.log(data);
+    try {
+      let submit = await profileSvc.secondEdit(data);
+      if (submit) {
+        dispatch(setLoggedInUser(submit.result));
+        toast.success("Profile Updated Successfully");
+        setDetail(submit.result);
+        setEditMode(false);
+      } else {
+        toast.error("Something went wrong");
+        setEditMode(false);
+      }
+    } catch (exception) {
+      throw exception;
+    }
   };
-  console.log(loggedInUser);
   useEffect(() => {
-    getProfile();
-  }, []);
+    if (loggedInUser) {
+      getProfile();
+    }
+  }, [loggedInUser]);
 
   useEffect(() => {
     if (detail) {
@@ -88,7 +102,6 @@ const ReligiousInfo = () => {
       setValue("familyType", detail.familyType);
       setValue("familyValues", detail.familyValues);
       setValue("religion", detail.religion);
-      setValue("address", detail.address);
     }
   }, [detail]);
 
