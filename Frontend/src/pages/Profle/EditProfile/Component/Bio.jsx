@@ -14,26 +14,25 @@ const Bio = () => {
     const value = e.target.value;
     if (value.length <= maxCharacters) {
       setBio(value);
-      console.log(bio);
     }
   };
 
   const handleEdit = () => {
-    console.log(edit);
     setEdit(true);
   };
 
   const handleCancel = () => {
-    console.log(edit);
     setEdit(false);
   };
 
   const handleSave = async () => {
     const bioData = { bio };
-    const response = await profileSvc.createBio({ bioData });
-    if (response.success) {
-      dispatch(loggedInUser(response.user));
+    const response = await profileSvc.createBio(bioData);
+    if (response.status) {
       toast.success("Bio updated Successfully");
+      setEdit(false);
+      console.log(response);
+      dispatch(loggedInUser(response.user));
     } else {
       toast.error("Error in updating Bio");
     }
@@ -42,13 +41,13 @@ const Bio = () => {
   useEffect(() => {
     setBio(loggedInUser?.profile?.bio || "");
   }, [loggedInUser]);
-  console.log(loggedInUser);
+
   return (
     <>
       {loggedInUser?.profile?.bio ? (
-        <div className="mt-4">
-          <div className="flex">
-            <div>
+        <div className="capitalize bg-slate-300 p-5 mb-5 max-w-2xl mx-auto flex justify-between rounded-md shadow-md">
+          <div className="capitalize bg-slate-300 p-5 mb-5 max-w-2xl mx-auto">
+            <div className="w-full">
               {edit ? (
                 <>
                   <textarea
@@ -57,28 +56,44 @@ const Bio = () => {
                     value={bio}
                     onChange={handleBioChange}
                   />
-                  <div className="text-gray-500 text-right">
+                  <div className="text-gray-500 text-right mt-2">
                     Characters left: {maxCharacters - bio.length}
                   </div>
-                  )
                 </>
               ) : (
-                <div className="bg-red-500">{bio}</div>
+                <>
+                  <div className="flex"></div>
+                  <div className="border border-black-300 p-2 rounded-md break-all whitespace-normal">
+                    {bio}
+                  </div>
+                </>
               )}
             </div>
-            <div>
-              <button onClick={handleEdit}>Edit</button>
-            </div>
-            {edit ? (
-              <>
-                <div>
-                  <button onClick={handleSave}>Save</button>
-                  <button onClick={handleCancel}>Cancel</button>
+            <div className="flex flex-col items-start ml-4">
+              {edit ? (
+                <div className="flex">
+                  <button
+                    className="bg-yellow-500 text-white px-4 py-2 rounded mr-2"
+                    onClick={handleSave}
+                  >
+                    Save
+                  </button>
+                  <button
+                    className="bg-red-500 text-white px-4 py-2 rounded"
+                    onClick={handleCancel}
+                  >
+                    Cancel
+                  </button>
                 </div>
-              </>
-            ) : (
-              <></>
-            )}
+              ) : (
+                <button
+                  className="bg-blue-500 text-white px-4 py-2 rounded mb-2 mt-2"
+                  onClick={handleEdit}
+                >
+                  Edit
+                </button>
+              )}
+            </div>
           </div>
         </div>
       ) : (

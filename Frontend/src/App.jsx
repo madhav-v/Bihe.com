@@ -56,15 +56,22 @@ function App() {
               />
             }
           />
-          <Route path="/profile/info" element={<Form />} />
           <Route
-            path="/profile/info/:id"
+            path="/profile/info"
+            element={<CheckPermission accessBy={"user"} Component={<Form />} />}
+          />
+          <Route
+            path="/profile"
             element={
-              <CheckPermission accessBy={"user"} Component={<FormEdit />} />
+              <CheckPermission accessBy={"user"} Component={<ViewProfile />} />
             }
           />
-          <Route path="/profile" element={<ViewProfile />} />
-          <Route path="/profile/:id" element={<EditProfile />} />
+          <Route
+            path="/editProfile"
+            element={
+              <CheckPermission accessBy={"user"} Component={<EditProfile />} />
+            }
+          />
 
           <Route path="*" element={<ErrorPage />} />
         </Routes>
