@@ -92,9 +92,21 @@ const ViewProfile = () => {
           </div>
           <div className="container mx-auto mt-5">
             <div className="capitalize bg-pink-300 p-5 mb-5 max-w-2xl mx-auto">
-              <p className="font-bold text-lg">About Myself:</p>
-              <br />
-              <p>{loggedInUser?.profile?.bio}</p>
+              <div>
+                <p className="font-bold text-lg">About Myself:</p>
+                <br />
+                <p>{loggedInUser?.profile?.bio}</p>
+              </div>
+              <div>
+                <p className="font-bold text-lg mt-5">Message to my partner:</p>
+                <br />
+                <p>{loggedInUser?.profile?.partnerMessage}</p>
+              </div>
+              <div>
+                <p className="font-bold text-lg mt-5">Hobbies:</p>
+                <br />
+                <p>{loggedInUser?.profile?.hobbies}</p>
+              </div>
             </div>
           </div>
           <div className="container mx-auto mt-5">
@@ -129,16 +141,31 @@ const ViewProfile = () => {
             </div>
             <div className="capitalize p-5 bg-purple-500 mt-5 max-w-2xl mx-auto mb-5">
               <h3 className="text-lg font-bold mb-3">Family Details</h3>
-              <p>Familty Type: {loggedInUser.profile.highestEducation}</p>
-              <p>Family Values: {loggedInUser?.profile?.occupation}</p>
+              <p>Familty Type: {loggedInUser.profile.familyType}</p>
+              <p>Family Values: {loggedInUser?.profile?.familyValues}</p>
               <p>
-                Number of Family Members: {loggedInUser?.profile?.employedIn}
+                Number of Family Members:{" "}
+                {loggedInUser?.profile?.noOfFamilyMembers ? (
+                  <>{loggedInUser?.profile?.noOfFamilyMembers}</>
+                ) : (
+                  <>N/A</>
+                )}
               </p>
               <p>
-                Number of Siblings: NPR {loggedInUser?.profile?.income} Lakhs
+                Number of Siblings:{" "}
+                {loggedInUser?.profile?.noOfSiblings ? (
+                  <>{loggedInUser?.profile?.noOfSiblings}</>
+                ) : (
+                  <>N/A</>
+                )}
               </p>
               <p>
-                Live with Family?: NPR {loggedInUser?.profile?.income} Lakhs
+                Live with Family?:{" "}
+                {loggedInUser?.profile?.liveWithFamily ? (
+                  <>{loggedInUser?.profile?.liveWithFamily}</>
+                ) : (
+                  <>N/A</>
+                )}
               </p>
             </div>
           </div>

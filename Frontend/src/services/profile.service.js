@@ -85,6 +85,30 @@ class ProfileService extends HttpService {
       throw exception;
     }
   };
+  addHobbies = async (data) => {
+    try {
+      let response = await this.postRequest("/v1/profile/hobbies", data, {
+        auth: true,
+      });
+      return response;
+    } catch (exception) {
+      throw exception;
+    }
+  };
+  partnerMessage = async (data) => {
+    try {
+      let response = await this.postRequest(
+        "/v1/profile/partnerMessage",
+        data,
+        {
+          auth: true,
+        }
+      );
+      return response;
+    } catch (exception) {
+      throw exception;
+    }
+  };
 }
 
 const profileSvc = new ProfileService();

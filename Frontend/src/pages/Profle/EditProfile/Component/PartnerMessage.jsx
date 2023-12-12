@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import profileSvc from "../../../../services/profile.service";
 import { toast } from "react-toastify";
 
-const Bio = () => {
-  const [bio, setBio] = useState("");
+const PartnerMessage = () => {
+  const [partnerMessage, setPartnerMessage] = useState("");
   const [edit, setEdit] = useState(false);
   const maxCharacters = 500;
   const dispatch = useDispatch();
@@ -13,7 +13,7 @@ const Bio = () => {
   const handleBioChange = (e) => {
     const value = e.target.value;
     if (value.length <= maxCharacters) {
-      setBio(value);
+      setPartnerMessage(value);
     }
   };
 
@@ -26,10 +26,10 @@ const Bio = () => {
   };
 
   const handleSave = async () => {
-    const bioData = { bio };
-    const response = await profileSvc.createBio(bioData);
+    const bioData = { partnerMessage };
+    const response = await profileSvc.partnerMessage(bioData);
     if (response.status) {
-      toast.success("Bio updated Successfully");
+      toast.success("Partner Message updated Successfully");
       setEdit(false);
       console.log(response);
       dispatch(loggedInUser(response.user));
@@ -39,9 +39,8 @@ const Bio = () => {
   };
 
   useEffect(() => {
-    setBio(loggedInUser?.profile?.bio || "");
+    setPartnerMessage(loggedInUser?.profile?.partnerMessage || "");
   }, [loggedInUser]);
-
   return (
     <>
       {loggedInUser?.profile?.bio ? (
@@ -53,20 +52,22 @@ const Bio = () => {
                   <textarea
                     className="w-full h-40 p-2 border border-gray-300 rounded-md"
                     placeholder="Write your bio here..."
-                    value={bio}
+                    value={partnerMessage}
                     onChange={handleBioChange}
                   />
                   <div className="text-gray-500 text-right mt-2">
-                    Characters left: {maxCharacters - bio.length}
+                    Characters left: {maxCharacters - partnerMessage.length}
                   </div>
                 </>
               ) : (
                 <>
                   <div className="flex">
-                    <h3 className="text-lg font-bold mb-3">Your Bio</h3>
+                    <h3 className="text-lg font-bold mb-3">
+                      Message to your partner
+                    </h3>
                   </div>
                   <div className="border border-black-300 p-2 rounded-md break-all whitespace-normal">
-                    {bio}
+                    {partnerMessage ? <>{partnerMessage}</> : <>N/A</>}
                   </div>
                 </>
               )}
@@ -105,4 +106,4 @@ const Bio = () => {
   );
 };
 
-export default Bio;
+export default PartnerMessage;

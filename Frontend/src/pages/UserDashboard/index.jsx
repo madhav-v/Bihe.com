@@ -6,9 +6,7 @@ const UserDashboard = () => {
   return (
     <>
       <NavBar />
-      <div className="mt-[15vh] ml-10 bg-red-500 inline-block">
-        <Link to="/profile/info">Create Profile</Link>
-      </div>
+    
       {/* <Chat /> */}
     </>
   );
