@@ -32,6 +32,8 @@ router
 router.post("/firstEdit", authCheck, profileCtrl.firstEdit);
 router.post("/secondEdit", authCheck, profileCtrl.secondEdit);
 router.post("/thirdEdit", authCheck, profileCtrl.thirdEdit);
+router.post("/hobbies", authCheck, profileCtrl.addHobbies);
+router.post("/partnerMessage", authCheck, profileCtrl.partnerMessage);
 router.post(
   "/photo",
   authCheck,

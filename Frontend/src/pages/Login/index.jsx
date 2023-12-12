@@ -1,8 +1,7 @@
-import { useFormik } from "formik";
+import { useForm, Controller } from "react-hook-form";
 import { NavLink, useNavigate } from "react-router-dom";
 import login from "/login.png";
-import * as Yup from "yup";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TextField from "../../components/TextField";
 import PasswordField from "../../components/PasswordField";
 import Button from "../../components/Button";
@@ -13,47 +12,63 @@ import { FaFacebook, FaGoogle } from "react-icons/fa";
 
 const LoginPage = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [userInfo, setUserInfo] = useState();
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const {
+    handleSubmit,
+    control,
+    setValue,
+    formState: { errors },
+  } = useForm();
+
   const googleAuth = () => {
     window.open(
       `${import.meta.env.VITE_API_URL}/v1/oauth/google/callback`,
       "_self"
     );
   };
-  const formik = useFormik({
-    initialValues: {
-      email: "",
-      password: "",
-    },
-    validationSchema: Yup.object({
-      email: Yup.string().email("Invalid email address").required("Required"),
-      password: Yup.string().min(6).required("Required"),
-    }),
-    onSubmit: async (values) => {
-      setIsLoading(true);
-      try {
-        let response = await authSvc.login(values);
-        if (response.status) {
-          let formattedData = {
-            id: response.user._id,
-            name: response.user.name,
-            email: response.user.email,
-          };
-          localStorage.setItem("token", response.token);
-          localStorage.setItem("user", JSON.stringify(formattedData));
-          toast.success("Login Successful");
+
+  const getLoggedInUser = async () => {
+    try {
+      let user = await authSvc.getUserWithProfile();
+      console.log(user);
+      setUserInfo(user.result);
+    } catch (exception) {
+      throw exception;
+    }
+  };
+  const onSubmit = async (data) => {
+    setIsLoading(true);
+    try {
+      let response = await authSvc.login(data);
+      if (response.status) {
+        let formattedData = {
+          id: response.user._id,
+          name: response.user.name,
+          email: response.user.email,
+        };
+        localStorage.setItem("token", response.token);
+        localStorage.setItem("user", JSON.stringify(formattedData));
+        toast.success("Login Successful");
+        if (userInfo.profile) {
           navigate("/user");
         } else {
-          toast.error(response.msg);
+          navigate("/profile/info");
         }
-      } catch (exception) {
-        setIsLoading(false);
-        toast.error("Invalid Credentials");
-        console.log(exception);
+      } else {
+        toast.error(response.msg);
       }
-    },
-  });
+    } catch (exception) {
+      setIsLoading(false);
+      toast.error("Invalid Credentials");
+      console.log(exception);
+    }
+  };
+
+  useEffect(() => {
+    getLoggedInUser();
+  }, []);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -64,24 +79,56 @@ const LoginPage = () => {
       {isLoading && <Loading />}
       <div className="bg-white p-8 rounded-lg flex flex-col items-center w-full md:w-3/5 lg:w-1/2 xl:w-1/3">
         <h1 className="text-4xl font-semibold mb-6">Welcome Back</h1>
-        <form className="w-full max-w-sm" onSubmit={formik.handleSubmit}>
-          <TextField
-            label="Email Address"
-            id="email"
+        <form className="w-full max-w-sm" onSubmit={handleSubmit(onSubmit)}>
+          <Controller
             name="email"
-            type="text"
-            value={formik.values.email}
-            onChange={formik.handleChange}
-            error={formik.errors.email}
+            control={control}
+            defaultValue=""
+            render={({ field }) => (
+              <TextField
+                label="Email Address"
+                id="email"
+                type="text"
+                value={field.value}
+                onChange={(e) => {
+                  setValue("email", e.target.value);
+                  field.onChange(e);
+                }}
+                error={errors.email?.message}
+              />
+            )}
+            rules={{
+              required: "Required",
+              pattern: {
+                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                message: "Invalid email address",
+              },
+            }}
           />
-          <PasswordField
-            id="password"
+          <Controller
             name="password"
-            value={formik.values.password}
-            onChange={formik.handleChange}
-            showPassword={showPassword}
-            onTogglePassword={togglePasswordVisibility}
-            error={formik.errors.password}
+            control={control}
+            defaultValue=""
+            render={({ field }) => (
+              <PasswordField
+                id="password"
+                value={field.value}
+                onChange={(e) => {
+                  setValue("password", e.target.value);
+                  field.onChange(e);
+                }}
+                showPassword={showPassword}
+                onTogglePassword={togglePasswordVisibility}
+                error={errors.password?.message}
+              />
+            )}
+            rules={{
+              required: "Required",
+              minLength: {
+                value: 6,
+                message: "Password must be at least 6 characters",
+              },
+            }}
           />
           <div className="mt-2">
             <NavLink

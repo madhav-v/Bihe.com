@@ -11,6 +11,7 @@ const InputSelect = ({
   error,
   classes1,
   classes2,
+  isMulti,
 }) => {
   const animatedComponents = makeAnimated();
 
@@ -36,6 +37,7 @@ const InputSelect = ({
           options={options}
           onChange={handleChange}
           value={options.find((option) => option.value === value)}
+          isMulti={isMulti}
           styles={{
             control: (baseStyles, state) => ({
               ...baseStyles,

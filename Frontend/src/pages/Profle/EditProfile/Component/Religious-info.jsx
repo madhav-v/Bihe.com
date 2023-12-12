@@ -57,6 +57,12 @@ const ReligiousInfo = () => {
     { value: "business-owner", label: "Business Owner" },
     { value: "student", label: "Student" },
   ];
+
+  const liveWithFamilyOptions = [
+    { value: "yes", label: "Yes" },
+    { value: "no", label: "No" },
+  ];
+
   const {
     handleSubmit,
     control,
@@ -71,6 +77,7 @@ const ReligiousInfo = () => {
 
   const handleSav = async (data) => {
     try {
+      console.log("data is", data);
       let submit = await profileSvc.secondEdit(data);
       if (submit) {
         dispatch(setLoggedInUser(submit.result));
@@ -101,7 +108,9 @@ const ReligiousInfo = () => {
       setValue("gotra", detail.gotra);
       setValue("familyType", detail.familyType);
       setValue("familyValues", detail.familyValues);
-      setValue("religion", detail.religion);
+      setValue("noOfFamilyMembers", detail.noOfFamilyMembers);
+      setValue("noOfSiblings", detail.noOfSiblings);
+      setValue("liveWithFamily", detail.liveWithFamily);
     }
   }, [detail]);
 
@@ -129,6 +138,12 @@ const ReligiousInfo = () => {
                   <p>Employed In: {loggedInUser.profile.employedIn}</p>
                   <p>Occupation: {loggedInUser.profile.occupation}</p>
                   <p>Income: {loggedInUser.profile.income}</p>
+                  <p>
+                    Number of Family Members:{" "}
+                    {loggedInUser.profile.noOfFamilyMembers}
+                  </p>
+                  <p>Number of Siblings: {loggedInUser.profile.noOfSiblings}</p>
+                  <p>Live With Family: {loggedInUser.profile.liveWithFamily}</p>
                 </>
               ) : (
                 <>Loading</>
@@ -280,10 +295,58 @@ const ReligiousInfo = () => {
                     )}
                   />
                 </div>
+                <div className="w-full flex justify-around items-center">
+                  <Controller
+                    name="noOfFamilyMembers"
+                    control={control}
+                    render={({ field }) => (
+                      <Input
+                        {...field}
+                        label="Number of Family Members"
+                        classes3="w-[40%]"
+                        classes="px-2"
+                        classes2="block text-md lg:text-lg xl:text-xl"
+                        type="number"
+                        placeholder="Enter number of your family members"
+                      />
+                    )}
+                  />
+                  <Controller
+                    name="noOfSiblings"
+                    control={control}
+                    render={({ field }) => (
+                      <Input
+                        {...field}
+                        label="Number of Siblings"
+                        classes3="w-[40%]"
+                        classes="px-2"
+                        classes2="block text-md lg:text-lg xl:text-xl"
+                        type="number"
+                        placeholder="Enter number of siblings"
+                      />
+                    )}
+                  />
+                </div>
+                <div className="w-full flex justify-around items-center">
+                  <Controller
+                    name="liveWithFamily"
+                    control={control}
+                    render={({ field }) => (
+                      <InputSelect
+                        {...field}
+                        label="Do you live with family?"
+                        classes1="block text-md lg:text-lg xl:text-xl my-2"
+                        classes2="xl:w-[40%] basis-[40%]"
+                        setValue={setValue}
+                        error={errors.liveWithFamily?.message}
+                        options={liveWithFamilyOptions}
+                      />
+                    )}
+                  />
+                </div>
                 <div className="">
                   <button
                     className="bg-yellow-500 text-white px-4 py-2 rounded mt-2 mr-2"
-                    // onClick={handleSave}
                     type="submit"
                   >
                     Save

@@ -45,6 +45,7 @@ class ProfileController {
       next(exception);
     }
   };
+
   deleteProfile = async (req, res, next) => {
     try {
       let id = req.params.id;
@@ -59,6 +60,7 @@ class ProfileController {
       next(exception);
     }
   };
+
   listAllProfile = async (req, res, next) => {
     try {
       let response = await profileSvc.getAllProfiles();
@@ -72,6 +74,7 @@ class ProfileController {
       next(exception);
     }
   };
+
   getProfileById = async (req, res, next) => {
     try {
       let id = req.params.id;
@@ -147,6 +150,7 @@ class ProfileController {
       next(exception);
     }
   };
+
   secondEdit = async (req, res, next) => {
     try {
       const id = req.user?.id;
@@ -164,7 +168,10 @@ class ProfileController {
       profile.employedIn = data.employedIn;
       profile.gotra = data.gotra;
       profile.familyType = data.familyType;
-      profile.religion = data.religion;
+      profile.familyValues = data.familyValues;
+      profile.noOfFamilyMembers = data.noOfFamilyMembers;
+      profile.noOfSiblings = data.noOfSiblings;
+      profile.liveWithFamily = data.liveWithFamily;
 
       await profile?.save();
       const updatedUser = await UserModel.findById(id).populate("profile");
@@ -179,6 +186,7 @@ class ProfileController {
       next(exception);
     }
   };
+
   thirdEdit = async (req, res, next) => {
     try {
       const id = req.user?.id;
@@ -226,6 +234,56 @@ class ProfileController {
       };
       const profile = user.profile;
       profile.image = data.filename;
+      await profile?.save();
+      const updatedUser = await UserModel.findById(id).populate("profile");
+
+      res.json({
+        result: updatedUser,
+        msg: "Profile Updated",
+        status: true,
+        meta: null,
+      });
+    } catch (exception) {
+      next(exception);
+    }
+  };
+
+  addHobbies = async (req, res, next) => {
+    try {
+      const id = req.user?.id;
+      const data = req.body;
+      const user = await UserModel.findById(id).populate("profile");
+      if (!user.profile) {
+        throw { status: 400, msg: "User does not have a profile." };
+      }
+
+      const profile = user.profile;
+      profile.hobbies = data.hobbies;
+      await profile?.save();
+      const updatedUser = await UserModel.findById(id).populate("profile");
+
+      res.json({
+        result: updatedUser,
+        msg: "Profile Updated",
+        status: true,
+        meta: null,
+      });
+    } catch (exception) {
+      next(exception);
+    }
+  };
+
+  partnerMessage = async (req, res, next) => {
+    try {
+      const id = req.user?.id;
+      const data = req.body;
+      const user = await UserModel.findById(id).populate("profile");
+      if (!user.profile) {
+        throw { status: 400, msg: "User does not have a profile." };
+      }
+
+      const profile = user.profile;
+      profile.partnerMessage = data.partnerMessage;
       await profile?.save();
       const updatedUser = await UserModel.findById(id).populate("profile");
 
