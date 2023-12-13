@@ -9,7 +9,6 @@ import authSvc from "../../services/auth.service";
 import { toast } from "react-toastify";
 import Loading from "../error/loading";
 import { FaFacebook, FaGoogle } from "react-icons/fa";
-import SignInWithGoogle from "../../components/SignInWithGoogle";
 
 const LoginPage = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -51,12 +50,11 @@ const LoginPage = () => {
         };
         localStorage.setItem("token", response.token);
         localStorage.setItem("user", JSON.stringify(formattedData));
-        if (!userInfo || !userInfo.profile) {
-          navigate("/profile/info");
-          toast.success("Login Successful");
-        } else {
+        toast.success("Login Successful");
+        if (userInfo.profile) {
           navigate("/user");
-          toast.success("Login Successful");
+        } else {
+          navigate("/profile/info");
         }
       } else {
         toast.error(response.msg);
@@ -143,8 +141,21 @@ const LoginPage = () => {
           <Button text="Login" />
         </form>
         <div>
-          <SignInWithGoogle />
-          {/* </button> */}
+          <button
+            onClick={googleAuth}
+            className="bg-gray-200 rounded-md p-1 mr-1 w-full mt-2"
+          >
+            <span>
+              <FaGoogle size={20} />
+              Sign in with Google
+            </span>
+          </button>
+          <button className="bg-gray-200 rounded-md p-2 mr-1 w-full mt-2">
+            <span>
+              <FaFacebook size={20} />
+              Sign in with Facebook
+            </span>
+          </button>
         </div>
         <div>
           Dont have an account?{" "}
