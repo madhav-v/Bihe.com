@@ -30,6 +30,7 @@ const RegisterPage = () => {
         toast.error("You must agree to terms");
       }
       const { agreeToTerms, ...requestData } = data;
+      requestData.role = "user";
       let response = await authSvc.register(requestData);
       if (response.status) {
         toast.success("Registration Successful. Login to continue");

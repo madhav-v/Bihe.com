@@ -1,4 +1,3 @@
-import { BsTrophy } from "react-icons/bs";
 import HttpService from "./http.service";
 class ProfileService extends HttpService {
   createProfile = async (data) => {
