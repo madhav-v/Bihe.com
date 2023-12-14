@@ -3,9 +3,10 @@ const express = require("express");
 const app = express();
 const routes = require("./src/routes");
 const cors = require("cors");
+const expressSession = require("express-session");
+const passport = require("passport");
+const passportInitialize = require("./src/middleware/passport.middleware");
 require("./src/config/mongoose.config");
-
-
 
 app.use(express.json());
 app.use(
@@ -19,9 +20,21 @@ app.use(
     credentials: true,
   })
 );
+app.use(
+  expressSession({
+    secret: "test123#",
+    resave: true,
+    saveUninitialized: true,
+    cookie: { secure: true },
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
+passportInitialize();
 
 app.use("/assets/", express.static(process.cwd() + "/public/"));
 app.use("/api/v1", routes);
+// app.use("/auth",oAu)
 app.use("/", (req, res) => {
   res.send("Hello World");
 });

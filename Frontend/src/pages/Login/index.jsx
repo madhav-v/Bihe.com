@@ -29,15 +29,6 @@ const LoginPage = () => {
     );
   };
 
-  const getLoggedInUser = async () => {
-    try {
-      let user = await authSvc.getUserWithProfile();
-      console.log(user);
-      setUserInfo(user.result);
-    } catch (exception) {
-      throw exception;
-    }
-  };
   const onSubmit = async (data) => {
     setIsLoading(true);
     try {
@@ -51,11 +42,15 @@ const LoginPage = () => {
         localStorage.setItem("token", response.token);
         localStorage.setItem("user", JSON.stringify(formattedData));
         toast.success("Login Successful");
-        if (userInfo.profile) {
-          navigate("/user");
-        } else {
-          navigate("/profile/info");
-        }
+        const user = await authSvc.getLoggedInUser();
+        console.log("user is", user);
+        setUserInfo(user.result);
+        console.log(userInfo);
+        // if (!user && !user.profile) {
+        //   navigate("/profile/info");
+        // } else {
+        //   navigate("/user");
+        // }
       } else {
         toast.error(response.msg);
       }
@@ -67,8 +62,14 @@ const LoginPage = () => {
   };
 
   useEffect(() => {
-    getLoggedInUser();
-  }, []);
+    if (userInfo) {
+      if (!userInfo.profile) {
+        navigate("/profile/info");
+      } else {
+        navigate("/user");
+      }
+    }
+  }, [userInfo]);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
